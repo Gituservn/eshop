@@ -1,8 +1,12 @@
 import React from 'react';
 import './Home.module.scss'
+import brian from '../../assets/brian.png'
 const Home=()=> {
+    const stylesBrian={
+        width:'100%'
+    }
     return (
-        <div><h1>Home</h1></div>
+        <div><img style={stylesBrian} src={brian} alt=""/></div>
     );
 }
 
