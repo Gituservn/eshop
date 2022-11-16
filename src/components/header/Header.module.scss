@@ -36,6 +36,7 @@ header {
     width: 75%;
     display: flex;
     justify-content: space-between;
+    padding-bottom: 10px;
     ul {
       display: flex;
       justify-content: space-between;
@@ -48,6 +49,7 @@ header {
       li {
         margin: 0 5px;
         a {
+          text-transform: uppercase;
           color: #fff;
           &:hover {
             color: orangered;
@@ -64,6 +66,7 @@ header {
       display: flex;
       color: #fff;
       position: relative;
+
       &:hover {
         color: orangered;
       }
@@ -182,6 +185,7 @@ header {
     .cart {
       display: block;
       padding: 5px 0;
+
       // border-bottom: 1px solid #333;
       a {
         color: #fff;
@@ -190,6 +194,7 @@ header {
           color: orangered;
         }
         p {
+          transform: translate(15px, -2px);
           position: absolute;
           top: -1rem;
           left: 5rem;
@@ -206,6 +211,7 @@ header {
     }
     .menu-icon {
       display: flex;
+      align-items: center;
       > * {
         margin-left: 2rem;
       }
