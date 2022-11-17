@@ -1,28 +1,34 @@
 import React from "react";
 import styles from './Header.module.scss';
-import {Link} from "react-router-dom";
-import {FaShoppingCart} from 'react-icons/fa';
+import {Link,NavLink} from "react-router-dom";
+import {FaShoppingCart, FaTimes} from 'react-icons/fa';
 import {HiMenuAlt3} from "react-icons/hi";
 import {useState} from "react";
 const spanStyle = {
     color: 'orangered'
 };
+const logoStyle={
+    color:'white'
+}
 
 const logo = (
     <div className="logo">
         <Link to="/">
-            <h2>
-                <span style={spanStyle}>W</span>illow.
+            <h2 style={logoStyle}>
+                <span style={spanStyle}>W</span>illow<span style={spanStyle}>.</span>
             </h2>
         </Link>
     </div>
 );
 
+const activeLink=(({isActive})=>(isActive ? `${styles.active}`:''))
+
 const cart = (
     <span className={styles.cart}>
-                        <Link to="/cart">Кошик <FaShoppingCart
-                            size={20}/> <p>0</p> </Link>
+                        <NavLink to="/cart" className={activeLink}>Кошик <FaShoppingCart
+                            size={20}/> <p>0</p> </NavLink>
                     </span>);
+
 
 
 const Header = () => {
@@ -46,18 +52,23 @@ const Header = () => {
                     >
                     </div>
                         <ul onClick={hideMenu}>
+                            <li className={styles['logo-mobile']}>
+                                {logo}
+                                <FaTimes size={22} color={'white'} onClick={hideMenu}/>
+                            </li>
+
                             <li>
-                                <Link to="/">Головна</Link>
+                                <NavLink to="/" className={activeLink}>Головна</NavLink>
                             </li>
                             <li>
-                                <Link to="/contact">зв'яжіться з нами</Link>
+                                <NavLink to="/contact" className={activeLink}>зв'яжіться з нами</NavLink>
                             </li>
                         </ul>
-                        <div className={styles["header-right"]}>
+                        <div className={styles["header-right"]} onClick={hideMenu}>
                         <span className={styles.links}>
-                            <Link to="/login">Увійти</Link>
-                            <Link to="/register">Реєстрація</Link>
-                            <Link to="/orderHistory">Мої замовлення</Link>
+                            <NavLink to="/login" className={activeLink}>Увійти</NavLink>
+                            <NavLink to="/register" className={activeLink}>Реєстрація</NavLink>
+                            <NavLink to="/orderHistory" className={activeLink}>Мої замовлення</NavLink>
                         </span>
                             {cart}
                         </div>

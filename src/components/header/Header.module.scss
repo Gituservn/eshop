@@ -118,7 +118,7 @@ header {
       padding: 1rem;
       z-index: 999;
       transform: translateX(-200%);
-      transition: all 0.3s;
+      transition: all 0.5s;
 
       .nav-wrapper {
         position: absolute;
@@ -128,7 +128,7 @@ header {
         height: 100vh;
         background-color: rgba(0, 0, 0, 0.5);
         transform: translateX();
-        transition: all 0.3s;
+        transition: all 0.5s;
       }
 
       .show-nav-wrapper {
@@ -140,7 +140,7 @@ header {
         .logo-mobile {
           display: flex;
           justify-content: space-between;
-          align-items: center;
+          align-items: flex-start;
           > * {
             cursor: pointer;
           }
@@ -160,15 +160,14 @@ header {
           // display: block;
           // padding: 5px 0;
           border-bottom: 1px solid #333;
-          // a {
-          //   position: relative;
-          //   p {
-          //     position: absolute;
-          //     top: -1rem;
-          //     left: 5rem;
-          //     font-weight: 500;
-          //   }
-          // }
+           a {
+             position: relative;
+             p {
+               position: absolute;
+               transform: translate(10px, 4px);
+               font-weight: 500;
+             }
+           }
         }
 
         .links {
@@ -220,6 +219,7 @@ header {
 }
 
 .active {
+  transition: all 0.3s;
   position: relative;
   color: var(--color-danger);
 }
@@ -231,5 +231,5 @@ header {
   bottom: -3px;
   width: 100%;
   height: 2px;
-  background-color: #fff;
+  background-color: orangered;
 }
