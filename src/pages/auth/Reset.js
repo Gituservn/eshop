@@ -7,7 +7,7 @@ function Reset() {
     return (
         <section className={`container ${styles.auth}`}>
             <div className={styles.img}>
-                <img src={resetImg} alt="login" width="400"/>
+                <img src={resetImg} alt="reset" width="400"/>
             </div>
             <div className={styles.form}>
                 <h2>Відновити пароль</h2>
