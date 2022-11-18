@@ -1,13 +1,13 @@
 import React from 'react';
 import styles from "./auth.module.scss";
-import resetImg from "../../assets/forgot.png"
+import brian from '../../assets/brian.png'
 import {Link} from "react-router-dom";
 
 function Reset() {
     return (
         <section className={`container ${styles.auth}`}>
             <div className={styles.img}>
-                <img src={resetImg} alt="reset" width="400"/>
+                <img src={brian} alt="reset" width="400"/>
             </div>
             <div className={styles.form}>
                 <h2>Відновити пароль</h2>
