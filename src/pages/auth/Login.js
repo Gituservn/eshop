@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './auth.module.scss';
-import loginImg from './login.png'
+import login from '../../assets/auth.png'
 import {Link} from 'react-router-dom'
 import {FaGoogle} from 'react-icons/fa'
 
@@ -8,7 +8,7 @@ function Login() {
     return (
         <section className={`container ${styles.auth}`}>
             <div className={styles.img}>
-                <img src={loginImg} alt="login" width="400"/>
+                <img src={login} alt="login" width="400"/>
             </div>
             <div className={styles.form}>
                 <h2>Авторизація</h2>
