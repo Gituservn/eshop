@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './auth.module.scss';
-import loginImg from '../../assets/login.png'
+import loginImg from './login.png'
 import {Link} from 'react-router-dom'
 import {FaGoogle} from 'react-icons/fa'
 
