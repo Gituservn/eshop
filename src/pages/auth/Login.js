@@ -5,6 +5,8 @@ import {Link} from 'react-router-dom'
 import {FaGoogle} from 'react-icons/fa'
 import Card from "../../components/card/Card";
 
+
+
 function Login() {
     return (
         <section className={`container ${styles.auth}`}>
