@@ -1,10 +1,11 @@
 import React from "react";
+import {useEffect} from "react";
 import styles from './Header.module.scss';
 import {Link, NavLink, useNavigate} from "react-router-dom";
-import {FaShoppingCart, FaTimes} from 'react-icons/fa';
+import {FaShoppingCart, FaTimes,FaUserCircle} from 'react-icons/fa';
 import {HiMenuAlt3} from "react-icons/hi";
 import {useState} from "react";
-import {signOut} from 'firebase/auth';
+import {signOut, onAuthStateChanged} from 'firebase/auth';
 import {auth} from "../../firebase/Config";
 import {toast, ToastContainer} from "react-toastify";
 import Loader from "../loader/Loader";
@@ -41,6 +42,8 @@ const cart = (
 const Header = () => {
     const [showMenu, setShowMenu] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [displayName, setDisplayName] = useState('');
+
     const toggleMenu = () => {
         setShowMenu(!showMenu);
     };
@@ -51,16 +54,31 @@ const Header = () => {
     const navigate = useNavigate();
 
     const logoutUser = () => {
-        setIsLoading(true)
+        setIsLoading(true);
         signOut(auth).then(() => {
             toast.success('Ви вийшли з кабінету');
-            setIsLoading(false)
+            setIsLoading(false);
             navigate('/login');
         }).catch((error) => {
             toast.error(error.message);
-            setIsLoading(false)
+            setIsLoading(false);
         });
     };
+
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+
+                const uid = user.uid;
+                console.log(user.displayName);
+                setDisplayName(user.displayName);
+            } else {
+                setDisplayName('');
+            }
+        });
+    },[]);
+
+
     return (
         <>
             {isLoading && <Loader/>}
@@ -83,8 +101,7 @@ const Header = () => {
                             </li>
 
                             <li>
-                                <NavLink to="/"
-                                         className={activeLink}>Головна</NavLink>
+                                <NavLink to="/" className={activeLink}>Головна</NavLink>
                             </li>
                             <li>
                                 <NavLink to="/contact" className={activeLink}>зв'яжіться
@@ -98,6 +115,10 @@ const Header = () => {
                                      className={activeLink}>Увійти</NavLink>
                             <NavLink to="/register"
                                      className={activeLink}>Реєстрація</NavLink>
+                            <a href="#">
+                            <FaUserCircle size={16}/>
+                                Вітаємо,{displayName}
+                            </a>
                             <NavLink to="/orderHistory" className={activeLink}>Мої замовлення</NavLink>
                             <NavLink to="/" onClick={logoutUser}>Вийти</NavLink>
                         </span>
