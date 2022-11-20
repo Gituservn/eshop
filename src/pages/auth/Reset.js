@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from "./auth.module.scss";
-import forgot from '../../assets/forgot.svg'
+import forgot from '../../assets/forgot.png'
 import {Link} from "react-router-dom";
 import Card from "../../components/card/Card";
 
