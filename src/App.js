@@ -3,13 +3,15 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 import {Footer,Header} from "./components/index";
 //Pages
 import {Home,Contact,Login,Register,Reset} from './pages/index'
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
 
     return (
         <>
+            <ToastContainer/>
             <BrowserRouter>
                 <Header/>
                 <Routes>
