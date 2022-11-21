@@ -6,6 +6,11 @@
   z-index: 9;
 }
 
+.userCircle {
+  transform: translate(-1px, 3px
+  );
+}
+
 header {
   width: 100%;
   background-color: var(--dark-blue);
@@ -27,16 +32,18 @@ header {
     width: 25%;
     color: #fff;
     cursor: pointer;
+
     span {
       color: orangered;
     }
   }
 
   nav {
-    width: 75%;
+    width: 85%;
     display: flex;
     justify-content: space-between;
     padding-bottom: 10px;
+
     ul {
       display: flex;
       justify-content: space-between;
@@ -48,9 +55,11 @@ header {
 
       li {
         margin: 0 5px;
+
         a {
           text-transform: uppercase;
           color: #fff;
+
           &:hover {
             color: orangered;
           }
@@ -70,9 +79,11 @@ header {
       &:hover {
         color: orangered;
       }
+
       &.active {
         color: var(--color-danger);
       }
+
       p {
         position: absolute;
         top: -1rem;
@@ -92,9 +103,11 @@ header {
     .links a {
       margin: 0 5px;
       color: #fff;
+
       &:hover {
         color: orangered;
       }
+
       &.active {
         color: var(--color-danger);
       }
@@ -127,7 +140,6 @@ header {
         width: 100%;
         height: 100vh;
         background-color: rgba(0, 0, 0, 0.5);
-        transform: translateX();
         transition: all 0.5s;
       }
 
@@ -137,17 +149,21 @@ header {
 
       ul {
         display: block;
+
         .logo-mobile {
           display: flex;
           justify-content: space-between;
           align-items: flex-start;
+
           > * {
             cursor: pointer;
           }
         }
+
         li {
           padding: 5px 0;
           border-bottom: 1px solid #333;
+
           a {
             display: block;
           }
@@ -156,22 +172,26 @@ header {
 
       .header-right {
         display: block;
+
         .cart {
           // display: block;
           // padding: 5px 0;
           border-bottom: 1px solid #333;
-           a {
-             position: relative;
-             p {
-               position: absolute;
-               transform: translate(10px, 4px);
-               font-weight: 500;
-             }
-           }
+
+          a {
+            position: relative;
+
+            p {
+              position: absolute;
+              transform: translate(12px, 6px);
+              font-weight: 500;
+            }
+          }
         }
 
         .links {
           display: block;
+
           a {
             display: block;
             margin: 0;
@@ -189,9 +209,11 @@ header {
       a {
         color: #fff;
         position: relative;
+
         &:hover {
           color: orangered;
         }
+
         p {
           transform: translate(15px, -2px);
           position: absolute;
@@ -211,6 +233,7 @@ header {
     .menu-icon {
       display: flex;
       align-items: center;
+
       > * {
         margin-left: 2rem;
       }

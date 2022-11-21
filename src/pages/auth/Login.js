@@ -7,7 +7,7 @@ import {FaGoogle} from 'react-icons/fa';
 import Card from "../../components/card/Card";
 import {signInWithEmailAndPassword,signInWithPopup,GoogleAuthProvider} from "firebase/auth";
 import {auth} from "../../firebase/Config";
-import {toast, ToastContainer} from "react-toastify";
+import {toast, } from "react-toastify";
 import {useNavigate} from "react-router-dom";
 import Loader from "../../components/loader/Loader";
 
@@ -55,7 +55,7 @@ const Login = () => {
     return (
         <>
             {isLoading && <Loader/>}
-            <ToastContainer/>
+
             <section className={`container ${styles.auth}`}>
                 <div className={styles.img}>
                     <img src={loginImage} alt="login" width="400"/>

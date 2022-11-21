@@ -2,13 +2,15 @@ import React from "react";
 import {useEffect} from "react";
 import styles from './Header.module.scss';
 import {Link, NavLink, useNavigate} from "react-router-dom";
-import {FaShoppingCart, FaTimes,FaUserCircle} from 'react-icons/fa';
+import {FaShoppingCart, FaTimes, FaUserCircle} from 'react-icons/fa';
 import {HiMenuAlt3} from "react-icons/hi";
 import {useState} from "react";
 import {signOut, onAuthStateChanged} from 'firebase/auth';
 import {auth} from "../../firebase/Config";
-import {toast, ToastContainer} from "react-toastify";
+import {toast,} from "react-toastify";
 import Loader from "../loader/Loader";
+import {useDispatch} from "react-redux";
+import {SET_ACTIVE_USER} from "../../redux/slice/authSlice";
 
 const spanStyle = {
     color: 'orangered'
@@ -44,6 +46,8 @@ const Header = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [displayName, setDisplayName] = useState('');
 
+    const dispatch = useDispatch();
+
     const toggleMenu = () => {
         setShowMenu(!showMenu);
     };
@@ -68,21 +72,36 @@ const Header = () => {
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
+                console.log(user);
+                // const uid = user.uid;
+                // console.log(user.displayName);
+                if (user.displayName == null) {
+                    const ul = user.email.slice(0, user.email.indexOf("@"));
+                    const uName = ul.charAt(0).toUpperCase() + ul.slice(1);
+                    console.log(uName);
+                    setDisplayName(uName);
+                } else {
+                    setDisplayName(user.displayName);
+                }
 
-                const uid = user.uid;
-                console.log(user.displayName);
-                setDisplayName(user.displayName);
+
+                dispatch(SET_ACTIVE_USER({
+                    email: user.email,
+                    userName: user.displayName ? user.displayName : displayName,
+                    userId: user.uid,
+
+                }));
             } else {
                 setDisplayName('');
             }
-        });
-    },[]);
+        })
+    }, []);
 
 
     return (
         <>
             {isLoading && <Loader/>}
-            <ToastContainer/>
+
             <header>
                 <div className={styles.header}>
                     {logo}
@@ -101,7 +120,8 @@ const Header = () => {
                             </li>
 
                             <li>
-                                <NavLink to="/" className={activeLink}>Головна</NavLink>
+                                <NavLink to="/"
+                                         className={activeLink}>Головна</NavLink>
                             </li>
                             <li>
                                 <NavLink to="/contact" className={activeLink}>зв'яжіться
@@ -116,7 +136,8 @@ const Header = () => {
                             <NavLink to="/register"
                                      className={activeLink}>Реєстрація</NavLink>
                             <a href="#">
-                            <FaUserCircle size={16}/>
+                            <FaUserCircle className={styles.userCircle}
+                                          size={16}/>
                                 Вітаємо,{displayName}
                             </a>
                             <NavLink to="/orderHistory" className={activeLink}>Мої замовлення</NavLink>
