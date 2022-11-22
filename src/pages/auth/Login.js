@@ -25,7 +25,7 @@ const Login = () => {
         setIsLoading(true);
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
-                const user = userCredential.user;
+                // const user = userCredential.user;
                 setIsLoading(false);
                 toast.success('Ви вдало зайшли у особистий кабінет');
                 navigate('/');
@@ -42,7 +42,7 @@ const Login = () => {
         setIsLoading(true);
         signInWithPopup(auth, provider)
             .then((result) => {
-                const user = result.user;
+                // const user = result.user;
                 toast.success('Ви вдало зайшли у особистий кабінет')
                 navigate('/');
                 setIsLoading(false);

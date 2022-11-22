@@ -10,7 +10,10 @@ import {auth} from "../../firebase/Config";
 import {toast,} from "react-toastify";
 import Loader from "../loader/Loader";
 import {useDispatch} from "react-redux";
-import {SET_ACTIVE_USER} from "../../redux/slice/authSlice";
+import {SET_ACTIVE_USER,} from "../../redux/slice/authSlice";
+import {REMOVE_ACTIVE_USER} from '../../redux/slice/authSlice';
+import ShowOnLogin from "../hiddenLink/hiddenLink";
+import {ShowOnLogout} from "../hiddenLink/hiddenLink";
 
 const spanStyle = {
     color: 'orangered'
@@ -34,11 +37,15 @@ const logo = (
 const activeLink = (({isActive}) => (isActive ? `${styles.active}` : ''));
 
 const cart = (
-    <span className={styles.cart}>
-                        <NavLink to="/cart"
-                                 className={activeLink}>Кошик <FaShoppingCart
-                            size={20}/> <p>0</p> </NavLink>
-                    </span>);
+    <ShowOnLogin>
+        <span className={styles.cart}>
+            <NavLink
+                to="/cart"
+                className={activeLink}>Кошик <FaShoppingCart
+                size={20}/> <p>0</p> </NavLink>
+        </span>
+    </ShowOnLogin>
+);
 
 
 const Header = () => {
@@ -72,13 +79,11 @@ const Header = () => {
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                console.log(user);
-                // const uid = user.uid;
-                // console.log(user.displayName);
+
                 if (user.displayName == null) {
                     const ul = user.email.slice(0, user.email.indexOf("@"));
                     const uName = ul.charAt(0).toUpperCase() + ul.slice(1);
-                    console.log(uName);
+
                     setDisplayName(uName);
                 } else {
                     setDisplayName(user.displayName);
@@ -93,9 +98,10 @@ const Header = () => {
                 }));
             } else {
                 setDisplayName('');
+                dispatch(REMOVE_ACTIVE_USER());
             }
-        })
-    }, []);
+        });
+    }, [dispatch, displayName]);
 
 
     return (
@@ -131,17 +137,35 @@ const Header = () => {
                         <div className={styles["header-right"]}
                              onClick={hideMenu}>
                         <span className={styles.links}>
-                            <NavLink to="/login"
-                                     className={activeLink}>Увійти</NavLink>
+                            <ShowOnLogout>
+                                <NavLink to="/login"
+                                         className={activeLink}>Увійти</NavLink>
                             <NavLink to="/register"
                                      className={activeLink}>Реєстрація</NavLink>
-                            <a href="#">
-                            <FaUserCircle className={styles.userCircle}
-                                          size={16}/>
+                            </ShowOnLogout>
+
+
+                            <ShowOnLogin>
+                                <a href="#">
+                            <FaUserCircle
+                                className={styles.userCircle}
+                                size={16}
+                            />
                                 Вітаємо,{displayName}
                             </a>
-                            <NavLink to="/orderHistory" className={activeLink}>Мої замовлення</NavLink>
-                            <NavLink to="/" onClick={logoutUser}>Вийти</NavLink>
+                            </ShowOnLogin>
+
+                            <ShowOnLogin>
+                                <NavLink
+                                    to="/orderHistory"
+                                    className={activeLink}>Мої замовлення</NavLink>
+                            </ShowOnLogin>
+
+                            <ShowOnLogin>
+                                <NavLink to="/"
+                                         onClick={logoutUser}>Вийти</NavLink>
+                            </ShowOnLogin>
+
                         </span>
                             {cart}
                         </div>
