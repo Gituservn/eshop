@@ -1,24 +1,53 @@
 import React from 'react';
-import {useState} from "react";
+import {useState,useEffect} from "react";
 import './Slider.scss';
 import {AiOutlineArrowLeft, AiOutlineArrowRight} from "react-icons/ai";
 import {sliderData} from "./slider-data";
+import {useSwipeable} from "react-swipeable";
 
 const Slider = () => {
 
 
     const [currentSlide, setCurrentSlide] = useState(1);
-    const slideLenght = sliderData.length
-    const nextSlide = ()=>{
-        setCurrentSlide(currentSlide===slideLenght -1 ? 0 : currentSlide +1)
+    const slideLength = sliderData.length
 
+    const autoScroll = true
+    let slideInterval;
+    let intervalTime = 5000;
+
+    const nextSlide = ()=>{
+        setCurrentSlide(currentSlide===slideLength -1 ? 0 : currentSlide +1)
     }
 
     const prevSlide = ()=>{
-        setCurrentSlide(currentSlide=== 0 ? slideLenght -1 : currentSlide -1)
+        setCurrentSlide(currentSlide=== 0 ? slideLength -1 : currentSlide -1)
     }
+
+    function auto() {
+            slideInterval = setInterval(nextSlide,intervalTime)
+
+    }
+
+    useEffect(() => {
+        setCurrentSlide(0)
+
+    }, []);
+
+    useEffect(() => {
+       if(autoScroll){
+           auto()
+       }
+       return ()=>clearInterval(slideInterval)
+    }, [currentSlide]);
+
+    const handlers =useSwipeable({
+        onSwipedLeft:()=>nextSlide(),
+        onSwipedRight:()=>prevSlide(),
+    })
+
+
     return (
-        <div className="slider">
+        <div className="slider"{...handlers}>
 
             <AiOutlineArrowLeft className="arrow prev" onClick={prevSlide}/>
             <AiOutlineArrowRight className="arrow next" onClick={nextSlide}/>
