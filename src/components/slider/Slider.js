@@ -23,10 +23,9 @@ const Slider = () => {
         setCurrentSlide(currentSlide=== 0 ? slideLength -1 : currentSlide -1)
     }
 
-    function auto() {
-            slideInterval = setInterval(nextSlide,intervalTime)
-
-    }
+    // function auto() {
+    //         slideInterval = setInterval(nextSlide,intervalTime)
+    // }
 
     useEffect(() => {
         setCurrentSlide(0)
@@ -35,10 +34,13 @@ const Slider = () => {
 
     useEffect(() => {
        if(autoScroll){
+           const auto =()=> {
+               slideInterval = setInterval(nextSlide,intervalTime)
+           }
            auto()
        }
        return ()=>clearInterval(slideInterval)
-    }, [currentSlide]);
+    }, [currentSlide,slideInterval,autoScroll]);
 
     const handlers =useSwipeable({
         onSwipedLeft:()=>nextSlide(),

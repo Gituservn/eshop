@@ -14,6 +14,7 @@ import {SET_ACTIVE_USER,} from "../../redux/slice/authSlice";
 import {REMOVE_ACTIVE_USER} from '../../redux/slice/authSlice';
 import ShowOnLogin from "../hiddenLink/hiddenLink";
 import {ShowOnLogout} from "../hiddenLink/hiddenLink";
+import AdminOnlyRoute, {AdminOnlyLink} from "../adminOnlyRoute/adminOnlyRoute";
 
 const spanStyle = {
     color: 'orangered'
@@ -43,6 +44,7 @@ const cart = (
                 to="/cart"
                 className={activeLink}>Кошик <FaShoppingCart
                 size={20}/> <p>0</p> </NavLink>
+
         </span>
     </ShowOnLogin>
 );
@@ -124,6 +126,17 @@ const Header = () => {
                                 <FaTimes size={22} color={'white'}
                                          onClick={hideMenu}/>
                             </li>
+                            <AdminOnlyLink>
+                                <li>
+                                    <Link to="/admin/home">
+                                        <button
+                                            className="--btn --btn-primary">Адміністратор
+                                        </button>
+                                    </Link>
+
+                                </li>
+                            </AdminOnlyLink>
+
 
                             <li>
                                 <NavLink to="/"
