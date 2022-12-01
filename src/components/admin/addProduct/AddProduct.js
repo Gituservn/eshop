@@ -1,7 +1,12 @@
 import React from 'react';
-import {useState} from "react";
+import {useState,} from "react";
+import {storage,} from "../../../firebase/Config";
+import {uploadBytesResumable, ref, getDownloadURL} from 'firebase/storage'
+
 import styles from './AddProduct.module.scss';
 import Card from "../../card/Card";
+import {toast} from "react-toastify";
+
 
 const categories = [
     {id: 1, name: 'Постільна білизна'},
@@ -15,59 +20,105 @@ const brands = [
     {id: 3, name: 'Billerbeck'}
 ];
 
-const sizes = [
-    {id: 1, name: 'Євро', availability: false},
-    {id: 2, name: 'Півтораспальний', availability: false},
-    {id: 3, name: 'Двоспальний', availability: false},
-
+const material = [
+    {id: 1, name: "Сатин однотонний премім"},
+    {id: 2, name: "Сатин однотонний люкс"},
+    {id: 3, name: 'Страйп сатин преміум'},
+    {id: 4, name: 'Страйп сатин люкс'},
+    {id: 5, name: 'Страйп сатин еліт'},
 ];
 
-const pillow = [
-    {id: 1, name: '50/70', availability: false},
-    {id: 2, name: '70/70', availability: false},
-    {id: 3, name: '40/60', availability: false},
-];
 
 const AddProduct = () => {
     const [product, setProduct] = useState({
         name: '',
         imageURL: '',
-        price: null,
+        price: 0,
         category: '',
         brand: '',
+        size: [
+            {id: 1, name: 'Євро',},
+            {id: 2, name: 'Півтораспальний',},
+            {id: 3, name: 'Двоспальний',},
+        ],
         material: '',
+        pillow: [
+            {id: 1, name: '50/70',},
+            {id: 2, name: '70/70',},
+            {id: 3, name: '40/60',},
+        ],
         desc: '',
-        size: [],
-        elastic: [],
-        pillowcases: []
+
     });
+
+
+    const [uploadProgress, setUploadProgress] = useState(0);
+
+
     const handleInputChange = (e) => {
+        const {name, value} = e.target
+        setProduct({...product, [name]: value})
     };
     const handleImageChange = (e) => {
+        const file = e.target.files[0]
+        console.log(file)
+
+        const storageRef = ref(storage, `willow/${Date.now()}${file.name}`);
+
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+
+        uploadTask.on('state_changed',
+            (snapshot) => {
+
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                setUploadProgress(progress)
+            },
+            (error) => {
+                toast.error(error.message)
+            },
+            () => {
+
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    setProduct({...product, imageURL: downloadURL})
+                    toast.success('Зображення успышно завантажено.')
+                });
+            }
+        );
     };
+
+
+    const addProduct = (e) => {
+        e.preventDefault()
+        console.log(product)
+    }
     return (
         <div className={styles.product}>
             <h1>Добавити новий товар</h1>
             <Card cardClass={styles.card}>
-                <form>
+                <form onSubmit={addProduct}>
                     <label>Назва продукту</label>
                     <input
                         type="text"
                         placeholder="назва продукту"
                         name="name"
                         required
-                        value={product.name}
+                        defaultValue={product.name}
                         onChange={(e) => handleInputChange(e)}
                     />
 
                     <label>Зображення продукту</label>
                     <Card cardClass={styles.group}>
-                        <div className={styles.progress}>
-                            <div className={styles["progress-bar"]}
-                                 style={{width: '50%'}}>
-                                50%
+                        {uploadProgress === 0 ? null : (
+                            <div className={styles.progress}>
+                                <div className={styles["progress-bar"]}
+                                     style={{width: `${uploadProgress}%`}}>
+                                    {uploadProgress < 100 ? `Завантаження ${uploadProgress}%` : `Завантаження завершено ${uploadProgress}%`}
+                                </div>
                             </div>
-                        </div>
+                        )}
+
+
                         <input
                             type="file"
                             placeholder="Зображення товару"
@@ -75,8 +126,15 @@ const AddProduct = () => {
                             name="image"
                             onChange={(e) => handleImageChange(e)}
                         />
-                        <input type="text" required name="imageURL" disabled
-                               value={product.imageURL}/>
+                        {product.imageURL === '' ? null : (
+                            <input type="text"
+                                // required
+                                   name="imageURL"
+                                   disabled
+                                   value={product.imageURL}
+                            />)
+                        }
+
                     </Card>
                     <label>Ціна продукту</label>
                     <input
@@ -114,7 +172,7 @@ const AddProduct = () => {
                     <label>Бренд</label>
                     <select
                         required
-                        name="Brand"
+                        name="brand"
                         value={product.brand}
                         onChange={(e => handleInputChange(e))}>
                         <option
@@ -136,38 +194,39 @@ const AddProduct = () => {
                     </select>
 
 
-                    <label htmlFor="">Розмір &nbsp;</label>
-                    {sizes.map((size) => {
-                        return (
-                            <label htmlFor="">
-                                <input
-                                    type="checkbox"
-                                    id={size.id}
-                                    name={size.name}
-                                    value={size.name}
-                                />
-                                {size.name}
-                            </label>
+                    <label>Матеріл</label>
+                    <select
+                        required
+                        name="material"
+                        value={product.material}
+                        onChange={(e => handleInputChange(e))}>
+                        <option
+                            value=""
+                            disabled>
+                            --Виберіть матеріал--
+                        </option>
+                        {material.map((materials) => {
+                            return (
+                                <option
+                                    key={materials.id}
+                                    value={materials.name}
+                                >
+                                    {materials.name}
+                                </option>
+                            );
+                        })}
 
+                    </select>
+                    <textarea
+                        name="desc"
+                        id=""
+                        cols="30" rows="10"
+                        value={product.desc}
+                    onChange={(e=>handleInputChange(e))}></textarea>
 
-                        );
-                    })}
-                    <label htmlFor="">Наволочки &nbsp;</label>
-                    {pillow.map((pillow) => {
-                        return (
-                            <label htmlFor="">
-                                <input
-                                    type="checkbox"
-                                    id={pillow.id}
-                                    name={pillow.name}
-                                    value={pillow.name}
-                                />
-                                {pillow.name}
-                            </label>
-
-
-                        );
-                    })}
+                    <button className='--btn --btn-primary'>
+                        зберегти
+                    </button>
 
                 </form>
 
