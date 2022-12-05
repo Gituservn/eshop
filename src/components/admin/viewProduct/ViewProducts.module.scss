@@ -28,7 +28,9 @@
       text-align: left;
       padding: 8px;
       &.icons {
+        padding-top: 10px;
         > * {
+
           margin-right: 5px;
           cursor: pointer;
         }
