@@ -33,7 +33,7 @@ const ViewProducts = () => {
 
                 console.log(allProducts)
                 setProducts(allProducts)
-
+                setIsLoading(false)
 
             });
 

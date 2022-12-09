@@ -22,7 +22,7 @@ const AddProduct = () => {
 
     const navigate=useNavigate()
 
-    const handleInputChange = (e) => {
+    const handleInputChange = (e ) => {
         const {name, value} = e.target
         setProduct({...product, [name]: value})
     };
