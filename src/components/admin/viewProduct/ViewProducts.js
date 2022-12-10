@@ -6,7 +6,6 @@ import {db} from "../../../firebase/Config";
 import {Link} from "react-router-dom";
 import {FaEdit, FaTrash} from "react-icons/fa";
 
-
 const ViewProducts = () => {
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);

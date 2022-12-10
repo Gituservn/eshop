@@ -19,26 +19,26 @@ export const material = [
     {id: 6, name: 'Multi stripe'},
 ];
 
-export const statusSizes =[
-    {id:1, name:"В наявності", status:1},
-    {id:2,  name:"Відсутній",status:0},
+export const statusSizes = [
+    {id: 1, name: "В наявності", status: 1},
+    {id: 2, name: "Відсутній", status: 0},
 ]
 
 
-export const initialState ={
+export const initialState = {
     name: '',
     imageURL: '',
     price: 0,
     category: '',
     brand: '',
-    pillowSize40:'',
-    pillowSize50:'',
-    pillowSize70:'',
-    pillowSize50plus:'',
-    pillowSize40plus:'',
-    sizeOne:0,
-    sizeTwo:0,
-    sizeEuro:0,
+    pillowSize40: 0,
+    pillowSize50: 0,
+    pillowSize70: 0,
+    pillowSize50plus: 0,
+    pillowSize40plus: 0,
+    sizeOne: 0,
+    sizeTwo: 0,
+    sizeEuro: 0,
     material: '',
     desc: '',
 }
