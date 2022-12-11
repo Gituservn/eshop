@@ -50,7 +50,7 @@ const AddAdmin = () => {
         }
     }
 
-    const getAdmins = () => {
+      const getAdmins = () => {
         setIsLoading(true)
         try {
             const adminsRef = collection(db, 'admins');
@@ -63,7 +63,6 @@ const AddAdmin = () => {
                     id: doc.id,
                     ...doc.data()
                 }))
-                console.log(allAdmins)
                 setAdminView(allAdmins)
             })
         } catch (error) {
@@ -108,10 +107,8 @@ const AddAdmin = () => {
                                     </td>
                                     <td>{email}</td>
                                     <td className={style.icons}>
-                                        <Link to='/admin/all-product'>
-                                            <FaEdit color='green' size={20}/>
-                                        </Link>
-                                        <Link to='/admin/all-product'>
+
+                                        <Link to='/admin/add-Admins'>
                                             &nbsp;
                                             <FaTrash color='red' size={20} className={style.icons} onClick={()=>deleteAdmin(id)}/>
                                         </Link>
