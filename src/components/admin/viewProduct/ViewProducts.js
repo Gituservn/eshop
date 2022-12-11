@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import styles from './ViewProducts.module.scss'
 import {toast} from "react-toastify";
-import {collection, query, onSnapshot, orderBy,} from "firebase/firestore";
-import {db} from "../../../firebase/Config";
+import {collection, query, onSnapshot, orderBy, doc, deleteDoc} from "firebase/firestore";
+import {getStorage, ref, deleteObject} from "firebase/storage";
+import {db, storage} from "../../../firebase/Config";
 import {Link} from "react-router-dom";
 import {FaEdit, FaTrash} from "react-icons/fa";
 
@@ -42,8 +43,20 @@ const ViewProducts = () => {
         }
     }
 
+    const deleteProduct = async (id, imageURL) => {
+        try {
+            await deleteDoc(doc(db, "products", id));
+
+            const storageRef = ref(storage, imageURL);
+            await deleteObject(storageRef);
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
+
     return (
         <>
+
             <div className={styles.table}>
                 {products.length === 0 ? (
                     <p>Товар не знайдено</p>
@@ -78,13 +91,14 @@ const ViewProducts = () => {
                                     <td>{brand}</td>
                                     <td>{category}</td>
                                     <td>{price} грн</td>
-                                    <td>
+                                    <td className={styles.icons}>
                                         <Link to='/admin/all-product'>
                                             <FaEdit color='green' size={20}/>
                                         </Link>
                                         <Link to='/admin/all-product'>
                                             &nbsp;
-                                            <FaTrash color='red' size={20} className={styles.icons}/>
+                                            <FaTrash color='red' size={20} className={styles.icons}
+                                                     onClick={() => deleteProduct(id, imageURL)}/>
                                         </Link>
                                     </td>
 

@@ -2,12 +2,12 @@ import React, {useEffect} from 'react';
 import styles from '../addProduct/AddProduct.module.scss'
 import style from '../viewProduct/ViewProducts.module.scss'
 import {useState} from "react";
-import Loader from "../../loader/Loader";
 import Card from "../../card/Card";
-import {addDoc, collection, onSnapshot, orderBy, query,} from "firebase/firestore";
+import {addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query,} from "firebase/firestore";
 import {db} from "../../../firebase/Config";
 import {Link, useNavigate} from "react-router-dom";
 import {FaEdit, FaTrash} from "react-icons/fa";
+import {toast} from "react-toastify";
 
 const AddAdmin = () => {
     const [admin, setAdmin] = useState({
@@ -18,9 +18,12 @@ const AddAdmin = () => {
     const [adminView, setAdminView] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
-    useEffect(()=>{
+
+    const navigate = useNavigate()
+
+    useEffect(() => {
         getAdmins()
-    },[])
+    }, [])
 
     const handleInputChange = (e) => {
         const {name, value} = e.target
@@ -28,7 +31,6 @@ const AddAdmin = () => {
     }
 
 
-    const navigate = useNavigate()
     const addAdmin = (e) => {
         e.preventDefault()
         setIsLoading(true)
@@ -53,19 +55,28 @@ const AddAdmin = () => {
         try {
             const adminsRef = collection(db, 'admins');
 
-            const q = query(adminsRef,orderBy('email'))
+            const q = query(adminsRef, orderBy('email'))
 
-            onSnapshot(q,(snapshot)=>{
+            onSnapshot(q, (snapshot) => {
 
-                const allAdmins = snapshot.docs.map((doc)=>({
-                    id:doc.id,
+                const allAdmins = snapshot.docs.map((doc) => ({
+                    id: doc.id,
                     ...doc.data()
                 }))
                 console.log(allAdmins)
                 setAdminView(allAdmins)
             })
-        } catch (error){
+        } catch (error) {
             setIsLoading(false)
+        }
+    }
+
+    const deleteAdmin = async (id) => {
+        try {
+            await deleteDoc(doc(db, "admins", id))
+            navigate('/admin/add-Admins')
+        } catch (error) {
+            toast.error(error.message)
         }
     }
     return (
@@ -95,20 +106,17 @@ const AddAdmin = () => {
                                     <td>
                                         {name}
                                     </td>
-                                    <td>{email} грн</td>
-                                    <td>
+                                    <td>{email}</td>
+                                    <td className={style.icons}>
                                         <Link to='/admin/all-product'>
                                             <FaEdit color='green' size={20}/>
                                         </Link>
                                         <Link to='/admin/all-product'>
                                             &nbsp;
-                                            <FaTrash color='red' size={20} className={styles.icons}/>
+                                            <FaTrash color='red' size={20} className={style.icons} onClick={()=>deleteAdmin(id)}/>
                                         </Link>
                                     </td>
-
                                 </tr>
-
-
                             )
                         })}
                         </tbody>
