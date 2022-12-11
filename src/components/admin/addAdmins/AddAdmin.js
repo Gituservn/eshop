@@ -6,9 +6,9 @@ import Card from "../../card/Card";
 import {addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query,} from "firebase/firestore";
 import {db} from "../../../firebase/Config";
 import {Link, useNavigate} from "react-router-dom";
-import {FaEdit, FaTrash} from "react-icons/fa";
+import { FaTrash} from "react-icons/fa";
 import {toast} from "react-toastify";
-
+import Notiflix from "notiflix";
 const AddAdmin = () => {
     const [admin, setAdmin] = useState({
             email: '',
@@ -78,6 +78,33 @@ const AddAdmin = () => {
             toast.error(error.message)
         }
     }
+
+    const confirmDeleteAdmin = (id) => {
+        Notiflix.Confirm.show(
+            'Видалення адміністратора',
+            'Ви хочете видалити адміністратора?',
+            'видалити',
+            'ні',
+            function okCb() {
+                deleteAdmin(id)
+            },
+            function cancelCb() {
+
+            },
+            {
+                width: '320px',
+                borderRadius: '8px',
+                titleColor:'orangered',
+                okButtonBackground:'orangered',
+                cssAnimationStyle:'zoom',
+                cssAnimationDuration:'500'
+                // etc...
+            },
+        );
+    }
+
+
+
     return (
         <>
             <div className={style.table}>
@@ -110,7 +137,7 @@ const AddAdmin = () => {
 
                                         <Link to='/admin/add-Admins'>
                                             &nbsp;
-                                            <FaTrash color='red' size={20} className={style.icons} onClick={()=>deleteAdmin(id)}/>
+                                            <FaTrash color='red' size={20} className={style.icons} onClick={()=>confirmDeleteAdmin(id)}/>
                                         </Link>
                                     </td>
                                 </tr>
