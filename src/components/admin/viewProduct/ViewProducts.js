@@ -1,53 +1,59 @@
 import React, {useEffect, useState} from 'react';
 import styles from './ViewProducts.module.scss'
 import {toast} from "react-toastify";
-import {collection, query, onSnapshot, orderBy, doc, deleteDoc} from "firebase/firestore";
+import { doc, deleteDoc} from "firebase/firestore";
 import { ref, deleteObject} from "firebase/storage";
 import {db, storage} from "../../../firebase/Config";
 import {Link, } from "react-router-dom";
 import {FaEdit, FaTrash} from "react-icons/fa";
 import Notiflix from "notiflix";
-import {useDispatch} from "react-redux";
-import {STORE_PRODUCTS} from "../../../redux/slice/productSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {selectProducts, STORE_PRODUCTS} from "../../../redux/slice/productSlice";
+import useFetch from "../../../customHook/useFetch";
+
 
 
 const ViewProducts = () => {
-    const [products, setProducts] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
-
+    const{data,isLoading} = useFetch("products")
+    const products = useSelector(selectProducts)
     const dispatch = useDispatch()
 
     useEffect(() => {
-        getProducts()
-    }, [])
+        dispatch(
+                       STORE_PRODUCTS({
+                            products: data
+                        })
+                    )
+    }, [dispatch,data]);
+
 
     //Функція загрузки даних з firebase
-    const getProducts = () => {
-        setIsLoading(true)
-
-        try {
-            const productsRef = collection(db, "products");
-            const q = query(productsRef, orderBy("category", "desc"));
-            onSnapshot(q, (snapshot) => {
-
-                const allProducts = snapshot.docs.map((doc) => ({
-                    id: doc.id,
-                    ...doc.data()
-                }))
-                setProducts(allProducts)
-                setIsLoading(false)
-                dispatch(
-                    STORE_PRODUCTS({
-                        products: allProducts
-                    })
-                )
-            });
-
-        } catch (error) {
-            setIsLoading(false)
-            toast.error(error.message)
-        }
-    }
+    // const getProducts = () => {
+    //     setIsLoading(true)
+    //
+    //     try {
+    //         const productsRef = collection(db, "products");
+    //         const q = query(productsRef, orderBy("category", "desc"));
+    //         onSnapshot(q, (snapshot) => {
+    //
+    //             const allProducts = snapshot.docs.map((doc) => ({
+    //                 id: doc.id,
+    //                 ...doc.data()
+    //             }))
+    //             setProducts(allProducts)
+    //             setIsLoading(false)
+    //             dispatch(
+    //                 STORE_PRODUCTS({
+    //                     products: allProducts
+    //                 })
+    //             )
+    //         });
+    //
+    //     } catch (error) {
+    //         setIsLoading(false)
+    //         toast.error(error.message)
+    //     }
+    // }
 
     //Діалогова вікно підтвердження видалення товару
     const confirmDelete = (id, imageURL) => {
