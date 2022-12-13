@@ -1,3 +1,5 @@
+import {Timestamp} from "firebase/firestore";
+
 export const categories = [
     {id: 1, name: 'Постільна білизна'},
     {id: 2, name: 'Подушки'},

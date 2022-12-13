@@ -2,7 +2,7 @@ import React from 'react';
 import {categories, brands, material, initialState} from "./consts";
 import {useState,} from "react";
 import {storage, db} from "../../../firebase/Config";
-import {uploadBytesResumable, ref, getDownloadURL} from 'firebase/storage'
+import {uploadBytesResumable, ref, getDownloadURL, deleteObject} from 'firebase/storage'
 import {collection, addDoc, Timestamp, doc, setDoc,} from "firebase/firestore";
 import styles from './AddProduct.module.scss';
 import Card from "../../card/Card";
@@ -10,6 +10,7 @@ import {toast} from "react-toastify";
 import {useNavigate, useParams} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {selectProducts} from "../../../redux/slice/productSlice";
+import Loader from "../../loader/Loader";
 
 const AddProduct = () => {
     const {id} = useParams()
@@ -110,6 +111,11 @@ const AddProduct = () => {
         e.preventDefault()
         setIsLoading(true)
 
+        if (product.imageURL !==productEdit.imageURL){
+            const storageRef = ref(storage, productEdit.imageURL);
+            deleteObject(storageRef);
+        }
+
         try {
             setDoc(doc(db, "products", id), {
                 name: product.name,
@@ -129,15 +135,16 @@ const AddProduct = () => {
                 desc: product.desc,
                 createdAt: Timestamp.now().toDate()
             });
+            setIsLoading(false)
             navigate('/admin/all-product')
-
+            toast.success('Товар успішно змінено')
         } catch (error) {
             setIsLoading(false)
             toast.error(error.message)
         }
     }
     return (<>
-            {/* {isLoading && <Loader/>}*/}
+            {isLoading && <Loader/>}
             <div className={styles.product}>
                 <h1>{detectForm(id, "Добавити новий товар", "Редагування товару")}</h1>
                 <Card cardClass={styles.card}>
