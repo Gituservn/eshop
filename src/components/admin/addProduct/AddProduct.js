@@ -3,22 +3,38 @@ import {categories, brands, material, initialState} from "./consts";
 import {useState,} from "react";
 import {storage, db} from "../../../firebase/Config";
 import {uploadBytesResumable, ref, getDownloadURL} from 'firebase/storage'
-import {collection, addDoc, Timestamp} from "firebase/firestore";
+import {collection, addDoc, Timestamp, doc, setDoc,} from "firebase/firestore";
 import styles from './AddProduct.module.scss';
 import Card from "../../card/Card";
 import {toast} from "react-toastify";
-import {useNavigate} from "react-router-dom";
-import Loader from "../../loader/Loader";
-
+import {useNavigate, useParams} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {selectProducts} from "../../../redux/slice/productSlice";
 
 const AddProduct = () => {
-    const [product, setProduct] = useState({...initialState});
+    const {id} = useParams()
+    const products = useSelector(selectProducts)
+    const productEdit = products.find((item) => item.id === id)
+    console.log(productEdit)
 
-
+    const [product, setProduct] = useState(() => {
+        const newState = detectForm(
+            id, {...initialState}, productEdit
+        )
+        return newState
+    });
     const [uploadProgress, setUploadProgress] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
-
     const navigate = useNavigate()
+
+
+    //детектор форми для додавання або редагування продуксту
+    function detectForm(id, addProduct, editProduct) {
+        if (id === "ADD") {
+            return addProduct
+        }
+        return editProduct
+    }
 
     const handleInputChange = (e) => {
         const {name, value} = e.target
@@ -36,12 +52,8 @@ const AddProduct = () => {
 
     const handleImageChange = (e) => {
         const file = e.target.files[0]
-        console.log(file)
-
         const storageRef = ref(storage, `willow/${Date.now()}${file.name}`);
-
         const uploadTask = uploadBytesResumable(storageRef, file);
-
 
         uploadTask.on('state_changed', (snapshot) => {
 
@@ -64,7 +76,7 @@ const AddProduct = () => {
         setIsLoading(true)
 
         try {
-            const docRef = addDoc(collection(db, "products" ), {
+            const docRef = addDoc(collection(db, "products"), {
                 name: product.name,
                 imageURL: product.imageURL,
                 price: Number(product.price),
@@ -89,17 +101,47 @@ const AddProduct = () => {
             navigate('/admin/all-product')
         } catch (error) {
             toast.error(error.message)
-
-
             setIsLoading(false)
         }
     }
+
+    // редагування товару
+    const editProduct = (e) => {
+        e.preventDefault()
+        setIsLoading(true)
+
+        try {
+            setDoc(doc(db, "products", id), {
+                name: product.name,
+                imageURL: product.imageURL,
+                price: Number(product.price),
+                category: product.category,
+                brand: product.brand,
+                one: Boolean(product.sizeOne),
+                two: Boolean(product.sizeTwo),
+                euro: Boolean(product.sizeEuro),
+                pillowSize40: Boolean(product.pillowSize40),
+                pillowSize50: Boolean(product.pillowSize50),
+                pillowSize70: Boolean(product.pillowSize70),
+                pillowSize50plus: Boolean(product.pillowSize50plus),
+                pillowSize40plus: Boolean(product.sizeTwo),
+                material: product.material,
+                desc: product.desc,
+                createdAt: Timestamp.now().toDate()
+            });
+            navigate('/admin/all-product')
+
+        } catch (error) {
+            setIsLoading(false)
+            toast.error(error.message)
+        }
+    }
     return (<>
-            {isLoading && <Loader/>}
+            {/* {isLoading && <Loader/>}*/}
             <div className={styles.product}>
-                <h1>Добавити новий товар</h1>
+                <h1>{detectForm(id, "Добавити новий товар", "Редагування товару")}</h1>
                 <Card cardClass={styles.card}>
-                    <form onSubmit={addProduct}>
+                    <form onSubmit={detectForm(id, addProduct, editProduct)}>
                         <label>Назва продукту</label>
                         <input
                             type="text"
@@ -127,11 +169,12 @@ const AddProduct = () => {
                                 name="image"
                                 onChange={(e) => handleImageChange(e)}
                             />
-                            {product.imageURL === '' ? null : (<input type="text"
+                            {product.imageURL === '' ? null : (<input
+                                type="text"
                                 // required
-                                                                      name="imageURL"
-                                                                      disabled
-                                                                      value={product.imageURL}
+                                name="imageURL"
+                                disabled
+                                value={product.imageURL}
                             />)}
 
                         </Card>
@@ -289,7 +332,7 @@ const AddProduct = () => {
                             onChange={(e => handleInputChange(e))}></textarea>
 
                         <button className='--btn --btn-primary'>
-                            зберегти
+                            {detectForm(id, 'Зберегти', 'Змінити')}
                         </button>
 
                     </form>

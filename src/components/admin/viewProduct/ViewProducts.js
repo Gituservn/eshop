@@ -2,9 +2,9 @@ import React, {useEffect, useState} from 'react';
 import styles from './ViewProducts.module.scss'
 import {toast} from "react-toastify";
 import {collection, query, onSnapshot, orderBy, doc, deleteDoc} from "firebase/firestore";
-import {getStorage, ref, deleteObject} from "firebase/storage";
+import { ref, deleteObject} from "firebase/storage";
 import {db, storage} from "../../../firebase/Config";
-import {Link} from "react-router-dom";
+import {Link, } from "react-router-dom";
 import {FaEdit, FaTrash} from "react-icons/fa";
 import Notiflix from "notiflix";
 import {useDispatch} from "react-redux";
@@ -41,7 +41,6 @@ const ViewProducts = () => {
                         products: allProducts
                     })
                 )
-                console.log(allProducts)
             });
 
         } catch (error) {
