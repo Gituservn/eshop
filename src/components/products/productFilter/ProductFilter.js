@@ -2,7 +2,7 @@ import React from 'react';
 
 const ProductFilter = () => {
     return (
-        <div>ProductFilter</div>
+        <div>тут буде фільтр</div>
     );
 }
 

@@ -9,7 +9,7 @@ const adminSlice = createSlice({
     initialState,
     reducers: {
         STORE_ADMINS(state, action) {
-             console.log(action.payload)
+
             state.admins = action.payload.admins
         }}
 })
