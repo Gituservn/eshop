@@ -4,7 +4,7 @@ import {toast} from "react-toastify";
 import {useEffect, useState} from "react";
 
 
-const useFetch = (collectionName) => {
+const useFetch = (collectionName,categoryName) => {
 
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -14,14 +14,13 @@ const useFetch = (collectionName) => {
 
         try {
             const docRef = collection(db, collectionName);
-            const q = query(docRef, orderBy("category", "desc"));
+            const q = query(docRef, orderBy(categoryName, "desc"));
             onSnapshot(q, (snapshot) => {
 
                 const allData = snapshot.docs.map((doc) => ({
                     id: doc.id,
                     ...doc.data()
                 }))
-                console.log(allData)
                 setData(allData)
                 setIsLoading(false)
             });

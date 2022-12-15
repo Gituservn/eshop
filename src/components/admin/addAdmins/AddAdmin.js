@@ -6,24 +6,35 @@ import Card from "../../card/Card";
 import {addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query,} from "firebase/firestore";
 import {db} from "../../../firebase/Config";
 import {Link, useNavigate} from "react-router-dom";
-import { FaTrash} from "react-icons/fa";
+import {FaTrash} from "react-icons/fa";
 import {toast} from "react-toastify";
 import Notiflix from "notiflix";
+import useFetch from "../../../customHook/useFetch";
+import {useDispatch, useSelector} from "react-redux";
+import {selectAdmins, STORE_ADMINS} from "../../../redux/slice/adminSlice";
+
 const AddAdmin = () => {
     const [admin, setAdmin] = useState({
             email: '',
             name: '',
         }
     );
-    const [adminView, setAdminView] = useState([]);
+    // const [adminView, setAdminView] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
+    const {data,} = useFetch("admins","email")
+    const admins = useSelector(selectAdmins)
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(
+            STORE_ADMINS({
+                admins:data}))
+    }, [dispatch,data]);
 
     const navigate = useNavigate()
 
-    useEffect(() => {
-        getAdmins()
-    }, [])
+
 
     const handleInputChange = (e) => {
         const {name, value} = e.target
@@ -50,25 +61,6 @@ const AddAdmin = () => {
         }
     }
 
-      const getAdmins = () => {
-        setIsLoading(true)
-        try {
-            const adminsRef = collection(db, 'admins');
-
-            const q = query(adminsRef, orderBy('email'))
-
-            onSnapshot(q, (snapshot) => {
-
-                const allAdmins = snapshot.docs.map((doc) => ({
-                    id: doc.id,
-                    ...doc.data()
-                }))
-                setAdminView(allAdmins)
-            })
-        } catch (error) {
-            setIsLoading(false)
-        }
-    }
 
     const deleteAdmin = async (id) => {
         try {
@@ -94,21 +86,20 @@ const AddAdmin = () => {
             {
                 width: '320px',
                 borderRadius: '8px',
-                titleColor:'orangered',
-                okButtonBackground:'orangered',
-                cssAnimationStyle:'zoom',
-                cssAnimationDuration:'500'
+                titleColor: 'orangered',
+                okButtonBackground: 'orangered',
+                cssAnimationStyle: 'zoom',
+                cssAnimationDuration: '500'
                 // etc...
             },
         );
     }
 
 
-
     return (
         <>
             <div className={style.table}>
-                {adminView.length === 0 ? (
+                {admins.length === 0 ? (
                     <p>Адміністраторів не найдено</p>
                 ) : (
                     <table>
@@ -120,7 +111,7 @@ const AddAdmin = () => {
                         </tr>
                         </thead>
                         <tbody>
-                        {adminView.map((product, index) => {
+                        {admins.map((product, index) => {
                             const {id, name, email} = product;
                             return (
 
@@ -137,7 +128,8 @@ const AddAdmin = () => {
 
                                         <Link to='/admin/add-Admins'>
                                             &nbsp;
-                                            <FaTrash color='red' size={20} className={style.icons} onClick={()=>confirmDeleteAdmin(id)}/>
+                                            <FaTrash color='red' size={20} className={style.icons}
+                                                     onClick={() => confirmDeleteAdmin(id)}/>
                                         </Link>
                                     </td>
                                 </tr>

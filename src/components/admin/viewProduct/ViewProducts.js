@@ -14,7 +14,7 @@ import useFetch from "../../../customHook/useFetch";
 
 
 const ViewProducts = () => {
-    const{data,isLoading} = useFetch("products")
+    const{data,isLoading} = useFetch("products","category")
     const products = useSelector(selectProducts)
     const dispatch = useDispatch()
 
@@ -27,33 +27,7 @@ const ViewProducts = () => {
     }, [dispatch,data]);
 
 
-    //Функція загрузки даних з firebase
-    // const getProducts = () => {
-    //     setIsLoading(true)
-    //
-    //     try {
-    //         const productsRef = collection(db, "products");
-    //         const q = query(productsRef, orderBy("category", "desc"));
-    //         onSnapshot(q, (snapshot) => {
-    //
-    //             const allProducts = snapshot.docs.map((doc) => ({
-    //                 id: doc.id,
-    //                 ...doc.data()
-    //             }))
-    //             setProducts(allProducts)
-    //             setIsLoading(false)
-    //             dispatch(
-    //                 STORE_PRODUCTS({
-    //                     products: allProducts
-    //                 })
-    //             )
-    //         });
-    //
-    //     } catch (error) {
-    //         setIsLoading(false)
-    //         toast.error(error.message)
-    //     }
-    // }
+
 
     //Діалогова вікно підтвердження видалення товару
     const confirmDelete = (id, imageURL) => {
