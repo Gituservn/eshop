@@ -14,7 +14,7 @@ import {SET_ACTIVE_USER,} from "../../redux/slice/authSlice";
 import {REMOVE_ACTIVE_USER} from '../../redux/slice/authSlice';
 import ShowOnLogin from "../hiddenLink/hiddenLink";
 import {ShowOnLogout} from "../hiddenLink/hiddenLink";
-import AdminOnlyRoute, {AdminOnlyLink} from "../adminOnlyRoute/adminOnlyRoute";
+import {AdminOnlyLink} from "../adminOnlyRoute/adminOnlyRoute";
 
 const spanStyle = {
     color: 'orangered'
@@ -24,21 +24,18 @@ const logoStyle = {
 };
 
 
-const logo = (
-    <div className="logo">
-        <Link to="/">
-            <h2 style={logoStyle}>
-                <span style={spanStyle}>W</span>illow<span
-                style={spanStyle}>.</span>
-            </h2>
-        </Link>
-    </div>
-);
+const logo = (<div className="logo">
+    <Link to="/">
+        <h2 style={logoStyle}>
+            <span style={spanStyle}>W</span>illow<span
+            style={spanStyle}>.</span>
+        </h2>
+    </Link>
+</div>);
 
 const activeLink = (({isActive}) => (isActive ? `${styles.active}` : ''));
 
-const cart = (
-    <ShowOnLogin>
+const cart = (<ShowOnLogin>
         <span className={styles.cart}>
             <NavLink
                 to="/cart"
@@ -46,8 +43,7 @@ const cart = (
                 size={20}/> <p>0</p> </NavLink>
 
         </span>
-    </ShowOnLogin>
-);
+</ShowOnLogin>);
 
 
 const Header = () => {
@@ -93,9 +89,7 @@ const Header = () => {
 
 
                 dispatch(SET_ACTIVE_USER({
-                    email: user.email,
-                    userName: user.displayName ? user.displayName : displayName,
-                    userId: user.uid,
+                    email: user.email, userName: user.displayName ? user.displayName : displayName, userId: user.uid,
 
                 }));
             } else {
@@ -106,49 +100,48 @@ const Header = () => {
     }, [dispatch, displayName]);
 
 
-    return (
-        <>
-            {isLoading && <Loader/>}
+    return (<>
+        {isLoading && <Loader/>}
 
-            <header>
-                <div className={styles.header}>
-                    {logo}
-                    <nav
-                        className={showMenu ? `${styles["show-nav"]}` : `${styles["hide-menu"]}`}>
-                        <div
-                            className={showMenu ? `${styles["nav-wrapper"]} ${styles['show-nav-wrapper']}` : `${styles["nav-wrapper"]}`}
-                            onClick={hideMenu}
-                        >
-                        </div>
-                        <ul onClick={hideMenu}>
-                            <li className={styles['logo-mobile']}>
-                                {logo}
-                                <FaTimes size={22} color={'white'}
-                                         onClick={hideMenu}/>
-                            </li>
-                            <AdminOnlyLink>
-                                <li>
-                                    <Link to="/admin/home">
-                                        <button
-                                            className="--btn --btn-primary">Адміністратор
-                                        </button>
-                                    </Link>
-
-                                </li>
-                            </AdminOnlyLink>
-
-
+        <header>
+            <div className={styles.header}>
+                {logo}
+                <nav
+                    className={showMenu ? `${styles["show-nav"]}` : `${styles["hide-menu"]}`}>
+                    <div
+                        className={showMenu ? `${styles["nav-wrapper"]} ${styles['show-nav-wrapper']}` : `${styles["nav-wrapper"]}`}
+                        onClick={hideMenu}
+                    >
+                    </div>
+                    <ul onClick={hideMenu}>
+                        <li className={styles['logo-mobile']}>
+                            {logo}
+                            <FaTimes size={22} color={'white'}
+                                     onClick={hideMenu}/>
+                        </li>
+                        <AdminOnlyLink>
                             <li>
-                                <NavLink to="/"
-                                         className={activeLink}>Головна</NavLink>
+                                <Link to="/admin/home">
+                                    <button
+                                        className="--btn --btn-primary">Адміністратор
+                                    </button>
+                                </Link>
+
                             </li>
-                            <li>
-                                <NavLink to="/contact" className={activeLink}>зв'яжіться
-                                    з нами</NavLink>
-                            </li>
-                        </ul>
-                        <div className={styles["header-right"]}
-                             onClick={hideMenu}>
+                        </AdminOnlyLink>
+
+
+                        <li>
+                            <NavLink to="/"
+                                     className={activeLink}>Головна</NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/contact" className={activeLink}>зв'яжіться
+                                з нами</NavLink>
+                        </li>
+                    </ul>
+                    <div className={styles["header-right"]}
+                         onClick={hideMenu}>
                         <span className={styles.links}>
                             <ShowOnLogout>
                                 <NavLink to="/login"
@@ -180,19 +173,18 @@ const Header = () => {
                             </ShowOnLogin>
 
                         </span>
-                            {cart}
-                        </div>
-
-
-                    </nav>
-                    <div className={styles['menu-icon']}>
                         {cart}
-                        <HiMenuAlt3 size={40} onClick={toggleMenu}/>
                     </div>
+
+
+                </nav>
+                <div className={styles['menu-icon']}>
+                    {cart}
+                    <HiMenuAlt3 size={40} onClick={toggleMenu}/>
                 </div>
-            </header>
-        </>
-    );
+            </div>
+        </header>
+    </>);
 };
 
 export default Header;

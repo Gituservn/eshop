@@ -2,20 +2,36 @@
   display: flex;
   flex-wrap: wrap;
 }
+.boxWrapper{
 
-.card {
-  border: 1px solid #ccc;
-  // border-bottom: 3px solid var(--light-blue);
-  padding: 5px;
-  background-color: #f5f6fa;
+}
+
+.box {
+  font-style: italic;
+  cursor: pointer;
+  text-align: center;
+  font-size: 15px;
+  padding: 60px;
+  border-radius: 10px;
+  background: #e8e8e8;
+  box-shadow: 8px 8px 16px #7d7d7d,
+  -8px -8px 16px #ffffff;
+  transition: 1s line-height;
+
+  &:hover {
+    transform: translateY(5%);
+  }
 }
 
 .card1 {
   border-bottom: 3px solid #b624ff;
 }
+
 .card2 {
   border-bottom: 3px solid #1f93ff;
 }
+
 .card3 {
   border-bottom: 3px solid orangered;
 }
+
