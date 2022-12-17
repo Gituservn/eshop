@@ -1,0 +1,16 @@
+.errorBlock {
+  .h1{
+    font-style: italic;
+  }
+  align-items: center;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.link {
+  background-color: #1f93ff;
+  padding: 15px;
+  border-radius: 15%;
+}
+
