@@ -6,6 +6,7 @@ import {Home,Contact,Login,Register,Reset,Admin} from './pages/index'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AdminOnlyRoute from "./components/adminOnlyRoute/adminOnlyRoute";
+import ProductDetails from "./components/products/productDetails/ProductDetails";
 
 
 
@@ -23,10 +24,13 @@ function App() {
                     <Route path="/register" element={<Register/>}/>
                     <Route path="/reset" element={<Reset/>}/>
 
+
                     <Route path="/admin/*" element={
                         <AdminOnlyRoute>
                             <Admin/>
                         </AdminOnlyRoute>}/>
+
+                    <Route path="/product-details/:id" element={<ProductDetails/>}/>
                 </Routes>
                 <Footer/>
             </BrowserRouter>
