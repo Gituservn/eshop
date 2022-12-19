@@ -1,12 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState} from 'react';
 import styles from './ProductList.module.scss'
 import {BsFillGridFill,} from "react-icons/bs";
 import {FaList} from "react-icons/fa";
-import useFetch from "../../../customHook/useFetch";
-import {useDispatch, useSelector} from "react-redux";
-import {selectProducts, STORE_PRODUCTS} from "../../../redux/slice/productSlice";
 import Search from "../../search/Search";
-import Product from "../Product";
 import ProductItem from "../productItem/ProductItem";
 
 const ProductList = ({products}) => {
