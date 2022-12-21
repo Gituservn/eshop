@@ -103,6 +103,7 @@ const ProductDetails = () => {
                                     </p>
                                     <button onClick={() => setCount(count + 1)} className="--btn">+</button>
                                 </div>
+                                <button className='--btn - --btn-danger'> добавити в корзину</button>
 
                                 <Accordion allowZeroExpanded>
                                     <AccordionItem>

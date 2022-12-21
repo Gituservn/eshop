@@ -25,7 +25,7 @@ const ProductItem = ({grid, products, id, name, price, desc, imageURL, brand}) =
                     <h4 title={name}>{shortenText(name,218)}</h4>
                 </div>
                 {!grid && <p className={styles.desc}>{shortenText(desc,300)}</p>}
-                <button className='--btn --btn-danger'>Добавити в кошик</button>
+                <button className='--btn --btn-danger'>Придбати</button>
             </div>
         </Card>
 
