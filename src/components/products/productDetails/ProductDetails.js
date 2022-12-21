@@ -1,38 +1,102 @@
+
 import React, {useEffect, useState} from 'react';
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {doc, getDoc} from "firebase/firestore";
 import {db} from "../../../firebase/Config";
+import {toast} from "react-toastify";
+import Spinner from '../../../assets/spinner.jpg';
+import styles from './ProductDetails.module.scss'
+import {
+    Accordion,
+    AccordionItem,
+    AccordionItemButton,
+    AccordionItemHeading,
+    AccordionItemPanel
+} from "react-accessible-accordion";
+import 'react-accessible-accordion/dist/fancy-example.css';
+
 
 const ProductDetails = () => {
-    const {id}=useParams()
-    console.log(id)
+    const {id} = useParams()
     const [product, setProduct] = useState(null);
-    useEffect(()=>{
+    const [count, setCount] = useState(1);
+    useEffect(() => {
         getProduct()
-    },[])
+    }, [])
 
     //https://firebase.google.com/docs/firestore/query-data/get-data
     const getProduct = async () => {
-        console.log('get product')
         const docRef = doc(db, "products", id);
-        const docSnap  = await  getDoc(docRef);
+        const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-            console.log("Document data:", docSnap.data());
+            const obj = {
+                id: id,
+                ...docSnap.data()
+            }
+
+            setProduct(obj)
         } else {
-            // doc.data() will be undefined in this case
-            console.log("No such document!");
+            toast.error('Товар не знайдено')
         }
     }
 
-
+    console.log(product)
 
     return (
-        <div><p>{id}</p></div>
+        <section>
+            <div className={`container ${styles.product}`}>
+                <h2>Про товар</h2>
+                <div><Link to='#/products'>Назад до товарів</Link></div>
+                {product === null ? (<img src={Spinner} alt="завантаження"/>) : (
+                    <>
+                        <div className={styles.details}>
+                            <div className={styles.img}>
+                                <img src={product.imageURL} alt={product.name}/>
+                            </div>
+                            <div className={styles.content}>
+                                <h3>{product.name}</h3>
+                                <p className={styles.price}>{`₴${product.price}`}</p>
+
+                                <p>
+                                    <b>SKU:</b>{product.id}
+                                </p>
+                                <p>
+                                    <b>Виробник:</b>{product.brand}
+                                </p>
+
+
+                                <div className={styles.count}>
+                                    <button onClick={() => setCount(count - 1)} className="--btn">-</button>
+                                    <p>
+                                        <b>
+                                            {count}
+                                        </b>
+                                    </p>
+                                    <button onClick={() => setCount(count + 1)} className="--btn">+</button>
+                                </div>
+
+                                <Accordion allowZeroExpanded>
+                                    <AccordionItem>
+                                        <AccordionItemHeading>
+                                            <AccordionItemButton style={{fontSize:'20px'}}>
+                                                Детальніше
+                                            </AccordionItemButton>
+                                        </AccordionItemHeading>
+                                        <AccordionItemPanel>
+                                            <p> {product.desc}</p>
+                                        </AccordionItemPanel>
+                                    </AccordionItem>
+                                </Accordion>
+
+                            </div>
+                        </div>
+                    </>
+                )}
+            </div>
+
+        </section>
     );
 }
-
-
-
 
 export default ProductDetails;
