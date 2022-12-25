@@ -46,7 +46,7 @@ const ProductDetails = () => {
         <section>
             <div className={`container ${styles.product}`}>
                 <h2>Про товар</h2>
-                <div><Link to='#/products'>Назад до товарів</Link></div>
+                <div><Link to='/#products'>Назад до товарів</Link></div>
                 {product === null ? (<img src={Spinner} alt="завантаження"/>) : (
                     <>
                         <div className={styles.details}>
@@ -63,35 +63,34 @@ const ProductDetails = () => {
                                 <p>
                                     <b>Виробник:</b>{product.brand}
                                 </p>
+
                                 <form style={{display:'flex'}}>
-                                    {product.pillowSize40 ?
-                                        <>
-                                            <label htmlFor="">40/70</label>
-                                            <input type="radio"/>
-                                        </> : null}
-                                    {product.pillowSize50 ?
-                                        <>
-                                            <label htmlFor="">50/70</label>
-                                            <input type="radio"/>
-                                        </> : null}
 
-                                    {product.pillowSize70 ?
-                                        <>
-                                            <label htmlFor="">70/70</label>
-                                            <input type="radio"/>
-                                        </>
-                                        : null}
-                                    {product.pillowSize40plus ?
-                                        <>
-                                            <label htmlFor="">50/70 +(борт)5см</label>
-                                            <input type="radio"/>
-                                        </> : null}
+                                    <label htmlFor="">Розмір виробу</label>
+                                    <select name="pillowSize" id="">
+                                        {product.euro ? <option value={product.euro}>Євро</option>:null}
+                                        {product.two ? <option value={product.two}>Двоспальний</option>:null}
 
-                                    {product.pillowSize50plus ?
-                                        <>
-                                            <label htmlFor="">40/60 +(борт)5см</label>
-                                            <input type="radio"/>
-                                        </> : null}
+                                        {product.one ? <option value={product.one}>Півтораспальний</option>:null}
+
+                                        {product.pillowSize40plus ? <option value={product.pillowSize40plus}>40/60+(борт 5см)</option>:null}
+
+                                        {product.pillowSize50plus ? <option value={product.pillowSize50plus}>50/70+(борт 5см)</option>:null}
+                                    </select>
+                                    <label htmlFor="">Розмір наволочок</label>
+                                    <select name="pillowSize" id="">
+                                        {product.pillowSize40 ? <option value={product.pillowSize40}>40/60</option>:null}
+                                        {product.pillowSize50 ? <option value={product.pillowSize50}>50/70</option>:null}
+
+                                        {product.pillowSize70 ? <option value={product.pillowSize70}>70/70</option>:null}
+
+                                        {product.pillowSize40plus ? <option value={product.pillowSize40plus}>40/60+(борт 5см)</option>:null}
+
+                                        {product.pillowSize50plus ? <option value={product.pillowSize50plus}>50/70+(борт 5см)</option>:null}
+                                    </select>
+
+
+
                                 </form>
 
                                 <div className={styles.count}>
