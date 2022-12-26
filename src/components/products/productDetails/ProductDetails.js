@@ -64,32 +64,33 @@ const ProductDetails = () => {
                                     <b>Виробник:</b>{product.brand}
                                 </p>
 
-                                <form style={{display:'flex'}}>
+                                <form style={{display: 'flex'}}>
+                                    {product.euro || product.one || product.two ? ( <>
+                                        <label htmlFor="">Розмір виробу</label>
+                                        <select name="pillowSize" id="">
 
-                                    <label htmlFor="">Розмір виробу</label>
-                                    <select name="pillowSize" id="">
-                                        {product.euro ? <option value={product.euro}>Євро</option>:null}
-                                        {product.two ? <option value={product.two}>Двоспальний</option>:null}
+                                            {product.euro ? <option value={product.euro}>Євро</option> : null}
+                                            {product.two ? <option value={product.two}>Двоспальний</option> : null}
+                                            {product.one ? <option value={product.one}>Півтораспальний</option> : null}
 
-                                        {product.one ? <option value={product.one}>Півтораспальний</option>:null}
+                                        </select>
+                                    </>):null}
 
-                                        {product.pillowSize40plus ? <option value={product.pillowSize40plus}>40/60+(борт 5см)</option>:null}
-
-                                        {product.pillowSize50plus ? <option value={product.pillowSize50plus}>50/70+(борт 5см)</option>:null}
-                                    </select>
-                                    <label htmlFor="">Розмір наволочок</label>
-                                    <select name="pillowSize" id="">
-                                        {product.pillowSize40 ? <option value={product.pillowSize40}>40/60</option>:null}
-                                        {product.pillowSize50 ? <option value={product.pillowSize50}>50/70</option>:null}
-
-                                        {product.pillowSize70 ? <option value={product.pillowSize70}>70/70</option>:null}
-
-                                        {product.pillowSize40plus ? <option value={product.pillowSize40plus}>40/60+(борт 5см)</option>:null}
-
-                                        {product.pillowSize50plus ? <option value={product.pillowSize50plus}>50/70+(борт 5см)</option>:null}
-                                    </select>
-
-
+                                    {product.pillowSize40 || product.pillowSize50 || product.pillowSize70 || product.pillowSize40plus || product.pillowSize50plus ?(<>
+                                        <label htmlFor="">Розмір наволочок</label>
+                                        <select name="pillowSize" id="">
+                                            {product.pillowSize40 ?
+                                                <option value={product.pillowSize40}>40/60</option> : null}
+                                            {product.pillowSize50 ?
+                                                <option value={product.pillowSize50}>50/70</option> : null}
+                                            {product.pillowSize70 ?
+                                                <option value={product.pillowSize70}>70/70</option> : null}
+                                            {product.pillowSize40plus ?
+                                                <option value={product.pillowSize40plus}>40/60+(борт 5см)</option> : null}
+                                            {product.pillowSize50plus ?
+                                                <option value={product.pillowSize50plus}>50/70+(борт 5см)</option> : null}
+                                        </select>
+                                    </>):null}
 
                                 </form>
 

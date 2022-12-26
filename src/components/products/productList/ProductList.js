@@ -5,15 +5,16 @@ import {FaList} from "react-icons/fa";
 import Search from "../../search/Search";
 import ProductItem from "../productItem/ProductItem";
 import {useDispatch, useSelector} from "react-redux";
-import {FILTER_BY_SEARCH, selectFilteredProduct} from "../../../redux/slice/filterSlice";
+import {FILTER_BY_SEARCH, selectFilteredProduct,SORT_PRODUCTS} from "../../../redux/slice/filterSlice";
 
 const ProductList = ({products}) => {
 
     const [search, setSearch] = useState('');
     const [grid, setGrid] = useState(true)
+    const [sort, setSort] = useState('latest');
     const filteredProducts = useSelector(selectFilteredProduct)
     const dispatch = useDispatch()
-
+    console.log(sort)
     useEffect(() => {
         dispatch(
             FILTER_BY_SEARCH({
@@ -21,6 +22,13 @@ const ProductList = ({products}) => {
             })
         )
     }, [dispatch,products,search]);
+    useEffect(() => {
+        dispatch(
+            SORT_PRODUCTS({
+                products,sort
+            })
+        )
+    }, [dispatch,products,sort]);
 
     return (
         <div className={styles["product-list"]} id="products">
@@ -48,11 +56,11 @@ const ProductList = ({products}) => {
                     <label htmlFor="">
                         Сортувати за:
                     </label>
-                    <select>
+                    <select value={sort} onChange={(e)=>setSort(e.target.value)}>
                         <option value="latest">Найновіші</option>
                         <option value="highest">Найдорощі</option>
                         <option value="lowest">Найдешевші</option>
-                        <option value="latest"></option>
+
                     </select>
                 </div>
             </div>

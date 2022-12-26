@@ -111,7 +111,7 @@ const AddProduct = () => {
         e.preventDefault()
         setIsLoading(true)
 
-        if (product.imageURL !==productEdit.imageURL){
+        if (product.imageURL !== productEdit.imageURL) {
             const storageRef = ref(storage, productEdit.imageURL);
             deleteObject(storageRef);
         }
@@ -143,6 +143,7 @@ const AddProduct = () => {
             toast.error(error.message)
         }
     }
+    console.log(categories[0])
     return (<>
             {isLoading && <Loader/>}
             <div className={styles.product}>
@@ -259,7 +260,10 @@ const AddProduct = () => {
                                 </option>);
                             })}
 
+                            {categories[0] || categories[2] || categories[3] ? (<></>) : null}
+
                         </select>
+
                         <div className={styles.select}>
                             <h2>Розміри</h2>
 
@@ -268,7 +272,8 @@ const AddProduct = () => {
                                 type={'checkbox'}
                                 name="sizeOne"
                                 value={product.sizeOne}
-                                onChange={(e => handleInputChange(e))}/>
+                                onChange={(e => handleInputChange(e))}
+                            />
 
 
                             <label>Двоспальний</label>
@@ -276,7 +281,8 @@ const AddProduct = () => {
                                 type={"checkbox"}
                                 name="sizeTwo"
                                 value={product.sizeTwo}
-                                onChange={(e => handleInputChange(e))}/>
+                                onChange={(e => handleInputChange(e))}
+                            />
 
                             <label>Євро</label>
                             <input
@@ -284,8 +290,8 @@ const AddProduct = () => {
                                 name="sizeEuro"
                                 value={product.sizeEuro}
                                 onChange={(e => handleInputChange(e))}/>
-
-
+                        </div>
+                        <div className={styles.select}>
                             <h2>Розміри подушок</h2>
 
                             <label>40/60</label>
@@ -331,6 +337,8 @@ const AddProduct = () => {
                                 value={product.pillowSize50plus}
                                 onChange={(e => handleInputChange(e))}/>
                         </div>
+
+
                         <textarea
                             name="desc"
                             id=""
