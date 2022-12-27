@@ -30,7 +30,6 @@ const filterSlice = createSlice({
                     return b.price - a.price
                 })
             }
-            console.log(tempProducts)
             state.filteredProducts = tempProducts
 
         }

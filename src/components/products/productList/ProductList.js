@@ -14,7 +14,6 @@ const ProductList = ({products}) => {
     const [sort, setSort] = useState('latest');
     const filteredProducts = useSelector(selectFilteredProduct)
     const dispatch = useDispatch()
-    console.log(sort)
     useEffect(() => {
         dispatch(
             FILTER_BY_SEARCH({

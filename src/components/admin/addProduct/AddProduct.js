@@ -16,7 +16,7 @@ const AddProduct = () => {
     const {id} = useParams()
     const products = useSelector(selectProducts)
     const productEdit = products.find((item) => item.id === id)
-    console.log(productEdit)
+
 
     const [product, setProduct] = useState(() => {
         const newState = detectForm(
@@ -24,6 +24,7 @@ const AddProduct = () => {
         )
         return newState
     });
+    console.log(product)
     const [uploadProgress, setUploadProgress] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate()
@@ -36,6 +37,7 @@ const AddProduct = () => {
         }
         return editProduct
     }
+
 
     const handleInputChange = (e) => {
         const {name, value} = e.target
@@ -143,7 +145,12 @@ const AddProduct = () => {
             toast.error(error.message)
         }
     }
-    console.log(categories[0])
+
+    const linens = (product.category === 'Постільна білизна')
+    const blankets = (product.category==='Ковдри')
+    const topper = (product.category==='Наматрацники')
+    const pillows = (product.category==='Подушки')
+
     return (<>
             {isLoading && <Loader/>}
             <div className={styles.product}>
@@ -238,33 +245,32 @@ const AddProduct = () => {
                             })}
 
                         </select>
+                        {linens ? <>
+                            <label>Матеріл</label>
+                            <select
+                                // required
+                                name="material"
+                                value={product.material}
+                                onChange={(e => handleInputChange(e))}>
+                                <option
+                                    value=""
+                                    disabled>
+                                    --Виберіть матеріал--
+                                </option>
+                                {material.map((materials) => {
+                                    return (<option
+                                        key={materials.id}
+                                        value={materials.name}
+                                    >
+                                        {materials.name}
+                                    </option>);
+                                })}
+                            </select>
+                        </> :null }
 
 
-                        <label>Матеріл</label>
-                        <select
-                            // required
-                            name="material"
-                            value={product.material}
-                            onChange={(e => handleInputChange(e))}>
-                            <option
-                                value=""
-                                disabled>
-                                --Виберіть матеріал--
-                            </option>
-                            {material.map((materials) => {
-                                return (<option
-                                    key={materials.id}
-                                    value={materials.name}
-                                >
-                                    {materials.name}
-                                </option>);
-                            })}
 
-                            {categories[0] || categories[2] || categories[3] ? (<></>) : null}
-
-                        </select>
-
-                        <div className={styles.select}>
+                        {linens || topper || blankets ? <div className={styles.select}>
                             <h2>Розміри</h2>
 
                             <label>Півтораспальний</label>
@@ -290,8 +296,8 @@ const AddProduct = () => {
                                 name="sizeEuro"
                                 value={product.sizeEuro}
                                 onChange={(e => handleInputChange(e))}/>
-                        </div>
-                        <div className={styles.select}>
+                        </div> :null }
+                        {linens || pillows ? <div className={styles.select}>
                             <h2>Розміри подушок</h2>
 
                             <label>40/60</label>
@@ -336,7 +342,8 @@ const AddProduct = () => {
                                 name="pillowSize50plus"
                                 value={product.pillowSize50plus}
                                 onChange={(e => handleInputChange(e))}/>
-                        </div>
+                        </div> : null }
+
 
 
                         <textarea

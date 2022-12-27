@@ -68,6 +68,9 @@ const ProductDetails = () => {
                                 <p>
                                     <b>Виробник:</b>{product.brand}
                                 </p>
+                                <p>
+                                    <b>Тканина:</b>{product.material}
+                                </p>
 
                                 <form style={{display: 'flex'}}>
                                     {product.euro || product.one || product.two ? (<>
