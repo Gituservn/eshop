@@ -5,6 +5,9 @@ import {db} from "../../../firebase/Config";
 import {toast} from "react-toastify";
 import Spinner from '../../../assets/spinner.jpg';
 import styles from './ProductDetails.module.scss'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+
 import {
     Accordion,
     AccordionItem,
@@ -51,7 +54,9 @@ const ProductDetails = () => {
                     <>
                         <div className={styles.details}>
                             <div className={styles.img}>
-                                <img src={product.imageURL} alt={product.name}/>
+                                <Zoom>
+                                    <img src={product.imageURL} width="300" alt={product.name}/>
+                                </Zoom>
                             </div>
                             <div className={styles.content}>
                                 <h3>{product.name}</h3>
@@ -65,7 +70,7 @@ const ProductDetails = () => {
                                 </p>
 
                                 <form style={{display: 'flex'}}>
-                                    {product.euro || product.one || product.two ? ( <>
+                                    {product.euro || product.one || product.two ? (<>
                                         <label htmlFor="">Розмір виробу</label>
                                         <select name="pillowSize" id="">
 
@@ -74,9 +79,9 @@ const ProductDetails = () => {
                                             {product.one ? <option value={product.one}>Півтораспальний</option> : null}
 
                                         </select>
-                                    </>):null}
+                                    </>) : null}
 
-                                    {product.pillowSize40 || product.pillowSize50 || product.pillowSize70 || product.pillowSize40plus || product.pillowSize50plus ?(<>
+                                    {product.pillowSize40 || product.pillowSize50 || product.pillowSize70 || product.pillowSize40plus || product.pillowSize50plus ? (<>
                                         <label htmlFor="">Розмір наволочок</label>
                                         <select name="pillowSize" id="">
                                             {product.pillowSize40 ?
@@ -86,22 +91,25 @@ const ProductDetails = () => {
                                             {product.pillowSize70 ?
                                                 <option value={product.pillowSize70}>70/70</option> : null}
                                             {product.pillowSize40plus ?
-                                                <option value={product.pillowSize40plus}>40/60+(борт 5см)</option> : null}
+                                                <option value={product.pillowSize40plus}>40/60+(борт
+                                                    5см)</option> : null}
                                             {product.pillowSize50plus ?
-                                                <option value={product.pillowSize50plus}>50/70+(борт 5см)</option> : null}
+                                                <option value={product.pillowSize50plus}>50/70+(борт
+                                                    5см)</option> : null}
                                         </select>
-                                    </>):null}
+                                    </>) : null}
 
                                 </form>
 
                                 <div className={styles.count}>
-                                    <button onClick={() => setCount(count - 1)} className="--btn">-</button>
+                                    <button onClick={() => count < 1 ? null : setCount(count - 1)}
+                                    className="--btn">-</button>
                                     <p>
                                         <b>
                                             {count}
                                         </b>
                                     </p>
-                                    <button onClick={() => setCount(count + 1)} className="--btn">+</button>
+                                    <button onClick={() => count > 9 ? null : setCount(count + 1)} className="--btn">+</button>
                                 </div>
                                 <button className='--btn - --btn-danger'> добавити в корзину</button>
 
