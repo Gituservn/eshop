@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect,  useState} from 'react';
 import {useSelector} from "react-redux";
 import {selectEmail} from "../../redux/slice/authSlice";
 import {Link} from 'react-router-dom'
@@ -9,12 +9,15 @@ import {toast} from "react-toastify";
 
 const AdminOnlyRoute = ({children}) => {
     const [admin, setAdmin] = useState([]);
+    const [findAdmin, setFindAdmin] = useState('');
     useEffect(() => {
         getAdmins()
     }, []);
 
 
-    const getAdmins = () => {
+
+
+    const getAdmins =  () => {
 
         try {
             const adminsRef = collection(db, 'admins');
@@ -34,16 +37,18 @@ const AdminOnlyRoute = ({children}) => {
             toast.error(error.message)
         }
     }
-         admin.map((admins, index) => {
-             const { email} = admins
-             console.log(email)
-         })
-
 
     const userEmail = useSelector(selectEmail)
 
+    setTimeout(()=>{
+        let findAdmins =  {email:userEmail}
+        let resultFindAdmins = admin.filter(email=>Object.keys(findAdmins).every(key=>email[key]===findAdmins[key]))
+        setFindAdmin(resultFindAdmins[0].email)
+    },1000)
 
-    if (userEmail === 'test@gmail.com') {
+
+
+    if (userEmail === findAdmin) {
         return children
     }
     return (
@@ -62,8 +67,40 @@ const AdminOnlyRoute = ({children}) => {
 };
 
 export const AdminOnlyLink = ({children}) => {
+    const [admin, setAdmin] = useState([]);
+    const [findAdmin, setFindAdmin] = useState('');
+    useEffect(() => {
+        getAdmins()
+    }, []);
+    const getAdmins =  () => {
+
+        try {
+            const adminsRef = collection(db, 'admins');
+
+            const q = query(adminsRef, orderBy('email'))
+
+            onSnapshot(q, (snapshot) => {
+
+                const allAdmins = snapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data(),
+                }))
+                setAdmin(allAdmins)
+
+            })
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
+
+    setTimeout(()=>{
+        let findAdmins =  {email:userEmail}
+        let resultFindAdmins = admin.filter(email=>Object.keys(findAdmins).every(key=>email[key]===findAdmins[key]))
+        setFindAdmin(resultFindAdmins[0].email)
+    },1000)
+
     const userEmail = useSelector(selectEmail)
-    if (userEmail === 'test@gmail.com') {
+    if (userEmail === findAdmin) {
         return children
     }
     return null
