@@ -9,7 +9,7 @@ export const categories = [
 export const brands = [
     {id: 1, name: "Комфорт-текстиль"},
     {id: 2, name: "Idea"},
-    {id: 3, name: 'Billerbeck'}
+    {id: 3, name: 'Billerbeck'},
 ];
 
 export const material = [
