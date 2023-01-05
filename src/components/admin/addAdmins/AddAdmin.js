@@ -3,7 +3,7 @@ import styles from '../addProduct/AddProduct.module.scss'
 import style from '../viewProduct/ViewProducts.module.scss'
 import {useState} from "react";
 import Card from "../../card/Card";
-import {addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query,} from "firebase/firestore";
+import {addDoc, collection, deleteDoc, doc, } from "firebase/firestore";
 import {db} from "../../../firebase/Config";
 import {Link, useNavigate} from "react-router-dom";
 import {FaTrash} from "react-icons/fa";
