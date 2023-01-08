@@ -29,7 +29,7 @@ const AddProduct = () => {
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate()
 
-
+    console.log(Math.floor(uploadProgress))
     //детектор форми для додавання або редагування продуксту
     function detectForm(id, addProduct, editProduct) {
         if (id === "ADD") {
@@ -43,10 +43,8 @@ const AddProduct = () => {
         const {name, value} = e.target
         if (e.target.checked) {
             // в селектах в лог виводить else блок - not checked, можна просто удалити лог і все гуд!
-            console.log('DONE/Checkbox IS checked')
             setProduct({...product, [name]: value})
         } else {
-            console.log('⛔️ Checkbox is NOT checked');
             setProduct(product)
         }
         setProduct({...product, [name]: value})
@@ -171,8 +169,8 @@ const AddProduct = () => {
                         <Card cardClass={styles.group}>
                             {uploadProgress === 0 ? null : (<div className={styles.progress}>
                                 <div className={styles["progress-bar"]}
-                                     style={{width: `${uploadProgress}%`}}>
-                                    {uploadProgress < 100 ? `Завантаження ${uploadProgress}%` : `Завантаження завершено ${uploadProgress}%`}
+                                     style={{width: `${Math.floor(uploadProgress)}%`}}>
+                                    {uploadProgress < 100 ? `Завантаження ${Math.floor(uploadProgress)}%` : `Завантаження завершено ${Math.floor(uploadProgress)}%`}
                                 </div>
                             </div>)}
 

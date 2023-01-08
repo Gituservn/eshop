@@ -6,6 +6,7 @@ import Search from "../../search/Search";
 import ProductItem from "../productItem/ProductItem";
 import {useDispatch, useSelector} from "react-redux";
 import {FILTER_BY_SEARCH, selectFilteredProduct,SORT_PRODUCTS} from "../../../redux/slice/filterSlice";
+import Pagination from "../../pagination/Pagination";
 
 const ProductList = ({products}) => {
 
@@ -13,6 +14,16 @@ const ProductList = ({products}) => {
     const [grid, setGrid] = useState(true)
     const [sort, setSort] = useState('latest');
     const filteredProducts = useSelector(selectFilteredProduct)
+
+    //стейти пагінації
+    const [currentPage, setCurrentPage] = useState(1);
+    const [productsPerPage, setProductsPerPage] = useState(1);
+    //отриманя поточних продуктів
+    const indexOfLastProducts = currentPage * productsPerPage
+    const indexOfFirstProduct = indexOfLastProducts - productsPerPage
+
+    const currentProducts = filteredProducts.slice(indexOfFirstProduct,indexOfLastProducts)
+
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(
@@ -65,7 +76,7 @@ const ProductList = ({products}) => {
             </div>
             <div className={grid ? `${styles.grid}` : `${styles.list}`}>
                 {products.length === 0 ? (<p>Товарів не знайдено</p>) : (
-                    <>{filteredProducts.map((product) => {
+                    <>{currentProducts.map((product) => {
 
                         return (
                             <div key={product.id}>
@@ -75,7 +86,15 @@ const ProductList = ({products}) => {
                     })}</>
                 )}
             </div>
+            <Pagination
+            productsPerPage={productsPerPage}
+            setCurrentPage={setCurrentPage}
+            currentPage={currentPage}
+            totalProducts={filteredProducts.length}
+
+            />
         </div>
+
     );
 }
 
