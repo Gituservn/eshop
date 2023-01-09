@@ -14,7 +14,18 @@ function App() {
 
     return (
         <>
-            <ToastContainer/>
+            <ToastContainer
+                position="bottom-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable
+                pauseOnHover
+                theme="light"
+            />
             <BrowserRouter>
                 <Header/>
                 <Routes>

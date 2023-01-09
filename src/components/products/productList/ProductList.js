@@ -17,7 +17,7 @@ const ProductList = ({products}) => {
 
     //стейти пагінації
     const [currentPage, setCurrentPage] = useState(1);
-    const [productsPerPage, setProductsPerPage] = useState(1);
+    const [productsPerPage, setProductsPerPage] = useState(9);
     //отриманя поточних продуктів
     const indexOfLastProducts = currentPage * productsPerPage
     const indexOfFirstProduct = indexOfLastProducts - productsPerPage

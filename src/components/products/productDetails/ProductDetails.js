@@ -16,12 +16,15 @@ import {
     AccordionItemPanel
 } from "react-accessible-accordion";
 import 'react-accessible-accordion/dist/fancy-example.css';
+import {ADD_TO_CART} from "../../../redux/slice/cartSlice";
+import {useDispatch} from "react-redux";
 
 
 const ProductDetails = () => {
     const {id} = useParams()
     const [product, setProduct] = useState(null);
     const [count, setCount] = useState(1);
+    const dispatch = useDispatch()
     useEffect(() => {
         getProduct()
     }, [])
@@ -45,6 +48,12 @@ const ProductDetails = () => {
 
     console.log(product)
 
+
+    const addToCart = (product) => {
+        dispatch(
+            ADD_TO_CART(product)
+        )
+    }
     return (
         <section>
             <div className={`container ${styles.product}`}>
@@ -114,7 +123,7 @@ const ProductDetails = () => {
                                     </p>
                                     <button onClick={() => count > 9 ? null : setCount(count + 1)} className="--btn">+</button>
                                 </div>
-                                <button className='--btn - --btn-danger'> добавити в корзину</button>
+                                <button className='--btn - --btn-danger' onClick={()=>addToCart(product)}> добавити в корзину</button>
 
                                 <Accordion allowZeroExpanded>
                                     <AccordionItem>
