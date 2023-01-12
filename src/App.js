@@ -2,11 +2,12 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 //Components
 import {Footer,Header} from "./components/index";
 //Pages
-import {Home,Contact,Login,Register,Reset,Admin} from './pages/index'
+import {Home,Contact,Login,Register,Reset,Admin,Cart} from './pages/index'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AdminOnlyRoute from "./components/adminOnlyRoute/adminOnlyRoute";
 import ProductDetails from "./components/products/productDetails/ProductDetails";
+
 
 
 
@@ -42,6 +43,7 @@ function App() {
                         </AdminOnlyRoute>}/>
 
                     <Route path="/product-details/:id" element={<ProductDetails/>}/>
+                    <Route path="/cart" element={<Cart/>}/>
                 </Routes>
                 <Footer/>
             </BrowserRouter>

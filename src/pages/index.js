@@ -3,4 +3,6 @@ export {default as Contact} from './contact/Contact'
 export {default as Login} from '../pages/auth/Login'
 export {default as Register} from '../pages/auth/Register'
 export {default as Reset} from '../pages/auth/Reset'
+export {default as Cart} from '../pages/cart/Cart'
 export {default as Admin} from '../pages/admin/Admin'
+
