@@ -1,7 +1,12 @@
 import React from 'react';
 import styles from './Cart.module.scss'
-import {useSelector} from "react-redux";
-import {selectCartItems, selectCartTotalAmount, selectCartTotalQuantity} from "../../redux/slice/cartSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {
+    ADD_TO_CART, DECREASE_CART,
+    selectCartItems,
+    selectCartTotalAmount,
+    selectCartTotalQuantity
+} from "../../redux/slice/cartSlice";
 import {Link} from "react-router-dom";
 import {FaTrashAlt} from "react-icons/fa";
 import Card from "../../components/card/Card";
@@ -10,7 +15,16 @@ const Cart = () => {
     const cartItems = useSelector(selectCartItems)
     const cartTotalAmount = useSelector(selectCartTotalAmount)
     const cartTotalQuantity = useSelector(selectCartTotalQuantity)
-    console.log(cartTotalQuantity)
+
+    const dispatch = useDispatch()
+
+    const increaseCart = (cart) => {
+        dispatch(ADD_TO_CART(cart))
+    }
+
+    const decreaseCart = (cart) => {
+        dispatch(DECREASE_CART(cart))
+    }
 
     return (
         <section>
@@ -26,74 +40,73 @@ const Cart = () => {
                     </>
                 ) : (
                     <>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>
-                                №
-                            </th>
-                            <th>
-                                Назва товару
-                            </th>
-                            <th>
-                                Ціна
-                            </th>
-                            <th>
-                                Розмір
-                            </th>
-                            <th>
-                                Розмір подушки / наволочки
-                            </th>
-                            <th>
-                                кількість
-                            </th>
-                            <th>
-                                Загальна ціна
-                            </th>
-                            <th>
-                                Керування
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {cartItems.map((cart, index) => {
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>
+                                    №
+                                </th>
+                                <th>
+                                    Назва товару
+                                </th>
+                                <th>
+                                    Ціна
+                                </th>
+                                <th>
+                                    Розмір
+                                </th>
+                                <th>
+                                    Розмір подушки / наволочки
+                                </th>
+                                <th>
+                                    кількість
+                                </th>
+                                <th>
+                                    Загальна ціна
+                                </th>
+                                <th>
+                                    Керування
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {cartItems.map((cart, index) => {
 
 
-
-                            console.log(cart)
-                            return (
-                                <tr key={cart.product.id}>
-                                    <td>{index + 1}</td>
-                                    <td>
-                                        <p>
-                                            <b>{cart.product.name}</b>
-                                        </p>
-                                        <img src={cart.product.imageURL} alt={cart.product.name} style={{width:'100px'}}/>
-                                    </td>
-                                    <td>{cart.product.price}</td>
-                                    <td>{cart.currentPrice}</td>
-                                    <td>{cart.currentSize}</td>
-                                    <td>
-                                        <div className={styles.count}>
-                                            <button className='--btn'>-</button>
+                                return (
+                                    <tr key={cart.product.id}>
+                                        <td>{index + 1}</td>
+                                        <td>
                                             <p>
-                                                <b>{cart.cartQuantity}</b>
+                                                <b>{cart.product.name}</b>
                                             </p>
-                                            <button className='--btn'>+</button>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        {(cart.product.price * cart.cartQuantity).toFixed(2)}
-                                    </td>
-                                    <td className={styles.icons}>
-                                        <FaTrashAlt size={19} color='red'/>
-                                    </td>
-                                </tr>
-                            )
-                        })}
-                        </tbody>
+                                            <img src={cart.product.imageURL} alt={cart.product.name}
+                                                 style={{width: '100px'}}/>
+                                        </td>
+                                        <td>{cart.product.price}</td>
+                                        <td>{cart.currentPrice}</td>
+                                        <td>{cart.currentSize}</td>
+                                        <td>
+                                            <div className={styles.count}>
+                                                <button className='--btn' onClick={() => decreaseCart(cart)}>-</button>
+                                                <p>
+                                                    <b>{cart.cartQuantity}</b>
+                                                </p>
+                                                <button className='--btn' onClick={() => increaseCart(cart)}>+</button>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {(cart.product.price * cart.cartQuantity).toFixed(2)}
+                                        </td>
+                                        <td className={styles.icons}>
+                                            <FaTrashAlt size={19} color='red'/>
+                                        </td>
+                                    </tr>
+                                )
+                            })}
+                            </tbody>
 
-                    </table>
+                        </table>
                         <div className={styles.summary}>
                             <button className='--btn --btn-danger'>
                                 Очистити кошик
