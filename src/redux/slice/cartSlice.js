@@ -1,6 +1,7 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {toast} from "react-toastify";
 
+
 const initialState = {
     cartItems: localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [],
     cartTotalQuantity: 0,
@@ -13,12 +14,12 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         ADD_TO_CART(state, action) {
-            console.log(action.payload.product)
-            const productIndex = state.cartItems.findIndex((item) => item.product.id === action.payload.product.id)
+
             const productSize = state.cartItems.findIndex((item) => item.currentPrice === action.payload.currentPrice)
             const productPillowSize = state.cartItems.findIndex((item) => item.currentSize === action.payload.currentSize)
-            console.log(productIndex)
-            console.log(productSize)
+            const productIndex = state.cartItems.findIndex((item) => item.product.id === action.payload.product.id)
+
+            console.log(action.payload)
 
 
             if (productIndex >= 0 && productSize >= 0 && productPillowSize >= 0) {
@@ -39,39 +40,79 @@ const cartSlice = createSlice({
         },
 
         INCREASE_CART(state, action) {
-            const productIndex = state.cartItems.findIndex((item) => item.product.id === action.payload.product.id)
+            const productIndex = state.cartItems.findIndex((item) => item.id === action.payload.id)
+            console.log(action.payload)
+            state.cartItems[productIndex].cartQuantity += 1
+            toast.success(`Ще 1 ${action.payload.product.name} добавлено в ваш кошик`)
 
-            if (state.cartItems[productIndex].product.id === action.payload.product.id && state.cartItems[productIndex].currentSize === action.payload.currentSize && state.cartItems[productIndex].currentPrice === action.payload.currentPrice){
-                state.cartItems[productIndex].cartQuantity += 1
-                console.log(action.payload)
-                console.log('ok')
-
-            } else {
-                console.log('not ok')
-                console.log(state.cartItems[productIndex].currentPrice)
-                console.log(state.cartItems[productIndex].currentSize)
-                console.log(state.cartItems[productIndex].product.id)
-                console.log(action.payload.product.id)
-                console.log(action.payload.currentPrice)
-                console.log(action.payload.currentSize)
-            }
 
         },
         DECREASE_CART(state, action) {
-            const productIndex = state.cartItems.findIndex((item) => item.product.id === action.payload.product.id)
+            const productIndex = state.cartItems.findIndex((item) => item.id === action.payload.id)
             if (state.cartItems[productIndex].cartQuantity > 1) {
                 state.cartItems[productIndex].cartQuantity -= 1
+                toast.success(`1 ${action.payload.product.name} видалено з вашого кошика`)
             } else if (state.cartItems[productIndex].cartQuantity === 1) {
-                const newCartItem = state.cartItems.filter((item) => item.product.id !== action.payload.product.id)
+                const newCartItem = state.cartItems.filter((item) => item.id !== action.payload.id)
                 state.cartItems = newCartItem
+                toast.info(` ${action.payload.product.name} видалено з вашого кошика`)
             }
+            localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
         },
+        REMOVE_FROM_CART(state, action) {
+            const newCartItem = state.cartItems.filter((item) => item.id !== action.payload.id)
+            state.cartItems = newCartItem
+            toast.info(` ${action.payload.product.name} видалено з вашого кошика`)
+            localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
+        },
+        CLEAR_CART(state, action) {
+            state.cartItems = []
+            toast.info(`кошик очищено`)
+            localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
+        },
+        CALC_SUBTOTAL(state, action) {
+            const array =[];
+            // Вибираєм ціну і кількість товару
+            state.cartItems.map((item)=>{
+                const cartItemAmount=item.product.price * item.cartQuantity
+                return array.push(cartItemAmount)
+            })
+            //розраховуєм загальну вартість
+            const totalAmount = array.reduce((a,b)=> {
+                return a + b
+            },0)
+
+            state.cartTotalAmount = totalAmount
+        },
+        CALC_TOTAL_QUANTITY(state,action){
+            const array =[];
+            // Вибираєм ціну і кількість товару
+            state.cartItems.map((item)=>{
+                const quantity=item.cartQuantity
+                return array.push(quantity)
+            })
+            //розраховуєм загальну вартість
+            const totalQuantity = array.reduce((a,b)=> {
+                return a + b
+            },0)
+
+            state.cartTotalQuantity = totalQuantity
+        }
+
 
     }
 })
 
 
-export const {ADD_TO_CART, DECREASE_CART, INCREASE_CART} = cartSlice.actions
+export const {
+    ADD_TO_CART,
+    DECREASE_CART,
+    INCREASE_CART,
+    REMOVE_FROM_CART,
+    CLEAR_CART,
+    CALC_SUBTOTAL,
+    CALC_TOTAL_QUANTITY
+} = cartSlice.actions
 
 export const selectCartItems = (state) => state.cart.cartItems;
 export const selectCartTotalQuantity = (state) => state.cart.cartTotalQuantity;

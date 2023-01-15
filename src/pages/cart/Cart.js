@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styles from './Cart.module.scss'
 import {useDispatch, useSelector} from "react-redux";
 import {
-    ADD_TO_CART, DECREASE_CART, INCREASE_CART,
+    CALC_SUBTOTAL, CALC_TOTAL_QUANTITY,
+    CLEAR_CART,
+    DECREASE_CART, INCREASE_CART, REMOVE_FROM_CART,
     selectCartItems,
     selectCartTotalAmount,
     selectCartTotalQuantity
@@ -26,6 +28,18 @@ const Cart = () => {
         dispatch(DECREASE_CART(cart))
     }
 
+    const removeFromCart = (cart) => {
+      dispatch(REMOVE_FROM_CART(cart))
+    }
+
+    const clearCart = () => {
+      dispatch(CLEAR_CART())
+    }
+
+    useEffect(() => {
+        dispatch(CALC_SUBTOTAL())
+        dispatch(CALC_TOTAL_QUANTITY())
+    }, [dispatch,cartItems]);
 
 
     return (
@@ -101,7 +115,7 @@ const Cart = () => {
                                             {(cart.product.price * cart.cartQuantity).toFixed(2)}
                                         </td>
                                         <td className={styles.icons}>
-                                            <FaTrashAlt size={19} color='red'/>
+                                            <FaTrashAlt size={19} color='red' onClick={()=>removeFromCart(cart)}/>
                                         </td>
                                     </tr>
                                 )
@@ -110,7 +124,7 @@ const Cart = () => {
 
                         </table>
                         <div className={styles.summary}>
-                            <button className='--btn --btn-danger'>
+                            <button className='--btn --btn-danger' onClick={clearCart}>
                                 Очистити кошик
                             </button>
                             <div className={styles.checkout}>
