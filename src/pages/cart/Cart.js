@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Cart.module.scss'
 import {useDispatch, useSelector} from "react-redux";
 import {
-    ADD_TO_CART, DECREASE_CART,
+    ADD_TO_CART, DECREASE_CART, INCREASE_CART,
     selectCartItems,
     selectCartTotalAmount,
     selectCartTotalQuantity
@@ -19,12 +19,14 @@ const Cart = () => {
     const dispatch = useDispatch()
 
     const increaseCart = (cart) => {
-        dispatch(ADD_TO_CART(cart))
+        dispatch(INCREASE_CART(cart))
     }
 
     const decreaseCart = (cart) => {
         dispatch(DECREASE_CART(cart))
     }
+
+
 
     return (
         <section>

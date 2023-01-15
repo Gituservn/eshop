@@ -7,6 +7,8 @@ const initialState = {
     cartTotalAmount: 0,
 }
 
+
+
 const cartSlice = createSlice({
     name: "cart",
     initialState,
@@ -18,6 +20,7 @@ const cartSlice = createSlice({
             const productPillowSize = state.cartItems.findIndex((item) => item.currentSize === action.payload.currentSize)
             console.log(productIndex)
             console.log(productSize)
+
 
             if (productIndex >= 0 && productSize >= 0 && productPillowSize >= 0) {
                 //якщо товар уже існує в кошику
@@ -35,6 +38,24 @@ const cartSlice = createSlice({
             //зберігаєм в LS
             localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
         },
+
+        INCREASE_CART(state,action){
+            const productIndex = state.cartItems.findIndex((item) => item.product.id === action.payload.product.id)
+            if (state.cartItems[productIndex].product.id === action.payload.product.id && state.cartItems[productIndex].currentSize ===action.payload.currentSize && state.cartItems[productIndex].currentPrice ===action.payload.currentPrice){
+                state.cartItems[productIndex].cartQuantity += 1
+                console.log(action.payload)
+                console.log('ok')
+
+            } else {console.log('not ok')
+                console.log(state.cartItems[productIndex].currentPrice)
+                console.log(state.cartItems[productIndex].currentSize)
+                console.log(state.cartItems[productIndex].product.id)
+                console.log(action.payload.product.id)
+                console.log(action.payload.currentPrice)
+                console.log(action.payload.currentSize)
+            }
+
+        },
         DECREASE_CART(state, action) {
             const productIndex = state.cartItems.findIndex((item) => item.product.id === action.payload.product.id)
             if (state.cartItems[productIndex].cartQuantity > 1) {
@@ -43,12 +64,13 @@ const cartSlice = createSlice({
                 const newCartItem = state.cartItems.filter((item) => item.product.id !== action.payload.product.id)
                 state.cartItems = newCartItem
             }
-        }
+        },
+
     }
 })
 
 
-export const {ADD_TO_CART, DECREASE_CART} = cartSlice.actions
+export const {ADD_TO_CART, DECREASE_CART,INCREASE_CART } = cartSlice.actions
 
 export const selectCartItems = (state) => state.cart.cartItems;
 export const selectCartTotalQuantity = (state) => state.cart.cartTotalQuantity;

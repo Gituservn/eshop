@@ -26,6 +26,7 @@ const ProductDetails = () => {
     const [count, setCount] = useState(1);
     const [currentPrice, setCurrentPrice] = useState(null);
     const [currentSize, setCurrentSize] = useState(null);
+
     const dispatch = useDispatch()
     useEffect(() => {
         getProduct()
@@ -123,14 +124,9 @@ const ProductDetails = () => {
                                             {product.pillowSize70 ?
                                                 <option  name={`70/70`} value={`70/70`}>70/70</option> : null}
                                             {product.pillowSize40plus ?
-                                                <option name={`40/60+(борт
-                                                    5см)`} value={`40/60+(борт
-                                                    5см)`}>40/60+(борт
-                                                    5см)</option> : null}
+                                                <option name={`40/60+(борт 5см)`} value={`40/60+(борт 5см)`}>40/60+(борт 5см)</option> : null}
                                             {product.pillowSize50plus ?
-                                                <option name={`50/70+(борт
-                                                    5см)`} value={`50/70+(борт
-                                                    5см)`}>50/70+(борт
+                                                <option name={`50/70+(борт 5см)`} value={`50/70+(борт 5см)`}>50/70+(борт
                                                     5см)</option> : null}
                                         </select>
                                     </>) : null}
