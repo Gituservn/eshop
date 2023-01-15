@@ -7,6 +7,8 @@ import Spinner from '../../../assets/spinner.jpg';
 import styles from './ProductDetails.module.scss'
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
+import uuid from 'react-uuid';
+
 
 import {
     Accordion,
@@ -26,6 +28,8 @@ const ProductDetails = () => {
     const [count, setCount] = useState(1);
     const [currentPrice, setCurrentPrice] = useState(null);
     const [currentSize, setCurrentSize] = useState(null);
+    const [currentId, setCurrentId] = useState(null);
+
 
     const dispatch = useDispatch()
     useEffect(() => {
@@ -59,7 +63,7 @@ const ProductDetails = () => {
 
     const addToCart = (product) => {
         dispatch(
-            ADD_TO_CART({product, currentPrice, currentSize})
+            ADD_TO_CART({product, currentPrice, currentSize, id: uuid()})
         )
     }
     return (

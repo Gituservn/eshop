@@ -8,7 +8,6 @@ const initialState = {
 }
 
 
-
 const cartSlice = createSlice({
     name: "cart",
     initialState,
@@ -39,14 +38,16 @@ const cartSlice = createSlice({
             localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
         },
 
-        INCREASE_CART(state,action){
+        INCREASE_CART(state, action) {
             const productIndex = state.cartItems.findIndex((item) => item.product.id === action.payload.product.id)
-            if (state.cartItems[productIndex].product.id === action.payload.product.id && state.cartItems[productIndex].currentSize ===action.payload.currentSize && state.cartItems[productIndex].currentPrice ===action.payload.currentPrice){
+
+            if (state.cartItems[productIndex].product.id === action.payload.product.id && state.cartItems[productIndex].currentSize === action.payload.currentSize && state.cartItems[productIndex].currentPrice === action.payload.currentPrice){
                 state.cartItems[productIndex].cartQuantity += 1
                 console.log(action.payload)
                 console.log('ok')
 
-            } else {console.log('not ok')
+            } else {
+                console.log('not ok')
                 console.log(state.cartItems[productIndex].currentPrice)
                 console.log(state.cartItems[productIndex].currentSize)
                 console.log(state.cartItems[productIndex].product.id)
@@ -70,7 +71,7 @@ const cartSlice = createSlice({
 })
 
 
-export const {ADD_TO_CART, DECREASE_CART,INCREASE_CART } = cartSlice.actions
+export const {ADD_TO_CART, DECREASE_CART, INCREASE_CART} = cartSlice.actions
 
 export const selectCartItems = (state) => state.cart.cartItems;
 export const selectCartTotalQuantity = (state) => state.cart.cartTotalQuantity;

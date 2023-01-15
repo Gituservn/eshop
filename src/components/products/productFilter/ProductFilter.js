@@ -1,92 +1,39 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import styles from './ProductFilter.module.scss'
-
-import {useDispatch, useSelector} from "react-redux";
-import {selectMaxPrice, selectMinPrice, selectProducts} from "../../../redux/slice/productSlice";
-import {FILTER_BY_CATEGORY, FILTER_BY_BRAND, FILTER_BY_PRICE} from "../../../redux/slice/filterSlice";
+import {brands} from "../../admin/addProduct/consts";
 
 const ProductFilter = () => {
-    const minPrice = useSelector(selectMinPrice)
-    const maxPrice = useSelector(selectMaxPrice)
-    const [category, setCategory] = useState('Всі');
-    const [price, setPrice] = useState(maxPrice);
-    const [brand, setBrand] = useState('Всі');
-
-    const dispatch = useDispatch()
-
-    const products = useSelector(selectProducts)
-
-    const allCategories = [
-        "Всі",
-        ...new Set(products.map((products) => products.category))
-    ]
-
-    const allBrands = [
-        'Всі',
-        ...new Set(products.map((products) => products.brand))
-    ]
-    useEffect(() => {
-        dispatch(FILTER_BY_BRAND({products, brand}))
-    }, [dispatch, products, brand]);
-
-    useEffect(() => {
-        dispatch(FILTER_BY_PRICE({products, price}))
-    }, [dispatch, products, price]);
-
-
-    const filterProduct = (cat) => {
-        setCategory(cat)
-        dispatch(
-            FILTER_BY_CATEGORY({products, category: cat}))
-    }
-
-    const clearFilters = () => {
-        setCategory('Всі')
-        setBrand('Всі')
-        setPrice(maxPrice)
-    }
+    const [priceRange, setPriceRange] = useState(100);
+    const [selectedBrand, setSelectedBrand] = useState(false);
 
     return (
         <div className={styles.filter}>
             <h4>Категорії</h4>
             <div className={styles.category}>
-                {allCategories.map((cat, index) => {
-                    return (
-                        <button
-                            key={index}
-                            type='button'
-                            className={`${category}` === cat ? `${styles.active}` : null}
-                            onClick={() => filterProduct(cat)}
-                        >&#8250;{cat}</button>
-                    )
-                })}
-
+                <button>Всі</button>
             </div>
             <h4 className={styles.brand}>Виробник</h4>
             <div className={styles.brand}>
-                <select value={brand} onChange={(e) => setBrand(e.target.value)}>
-                    {allBrands.map((brand, index) => {
-                        return (
-                            <option
-                                value={brand}
-                                key={index}>
+                <select name="brand">
+                    <option>All</option>
+                    {brands.map((brand) => {
+                        return (<>
 
-                                {brand}
-                            </option>
+                                <option value={brand.name} key={brand.id}>{brand.name}</option>
+                            </>
                         )
                     })}
-
                 </select>
 
             </div>
             <h4>Ціна</h4>
-            <p>{`₴${price}`}</p>
+            <p>{priceRange}</p>
             <div className={styles.price}>
-                <input type="range" value={price} min={minPrice} max={maxPrice}
-                       onChange={(e) => setPrice(e.target.value)}/>
+                <input type="range" name='price' min='100' max='10000'
+                       onChange={(event) => setPriceRange(event.target.value)}/>
             </div>
             <br/>
-            <button className='--btn --btn-danger' onClick={clearFilters}>Скинути фільтри</button>
+            <button className='--btn --btn-danger'>Скинути фільтри</button>
         </div>
     );
 }
