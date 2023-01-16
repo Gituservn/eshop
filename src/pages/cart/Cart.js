@@ -88,7 +88,7 @@ const Cart = () => {
                             <tbody>
                             {cartItems.map((cart, index) => {
 
-
+                                console.log(cart)
                                 return (
                                     <tr key={cart.product.id}>
                                         <td>{index + 1}</td>
@@ -99,9 +99,9 @@ const Cart = () => {
                                             <img src={cart.product.imageURL} alt={cart.product.name}
                                                  style={{width: '100px'}}/>
                                         </td>
-                                        <td>{cart.product.price}</td>
                                         <td>{cart.currentPrice}</td>
                                         <td>{cart.currentSize}</td>
+                                        <td>{cart.currentSizePillow}</td>
                                         <td>
                                             <div className={styles.count}>
                                                 <button className='--btn' onClick={() => decreaseCart(cart)}>-</button>
@@ -112,7 +112,8 @@ const Cart = () => {
                                             </div>
                                         </td>
                                         <td>
-                                            {(cart.product.price * cart.cartQuantity).toFixed(2)}
+                                            {(cart.currentPrice
+                                                * cart.cartQuantity).toFixed(2)}
                                         </td>
                                         <td className={styles.icons}>
                                             <FaTrashAlt size={19} color='red' onClick={()=>removeFromCart(cart)}/>

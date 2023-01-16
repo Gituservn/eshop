@@ -15,8 +15,8 @@ const cartSlice = createSlice({
     reducers: {
         ADD_TO_CART(state, action) {
 
-            const productSize = state.cartItems.findIndex((item) => item.currentPrice === action.payload.currentPrice)
-            const productPillowSize = state.cartItems.findIndex((item) => item.currentSize === action.payload.currentSize)
+            const productSize = state.cartItems.findIndex((item) => item.currentSize === action.payload.currentSize)
+            const productPillowSize = state.cartItems.findIndex((item) => item.currentSizePillow === action.payload.currentSizePillow)
             const productIndex = state.cartItems.findIndex((item) => item.product.id === action.payload.product.id)
 
             console.log(action.payload)
@@ -74,7 +74,8 @@ const cartSlice = createSlice({
             const array =[];
             // Вибираєм ціну і кількість товару
             state.cartItems.map((item)=>{
-                const cartItemAmount=item.product.price * item.cartQuantity
+                const cartItemAmount=item.currentPrice
+                    * item.cartQuantity
                 return array.push(cartItemAmount)
             })
             //розраховуєм загальну вартість

@@ -29,7 +29,6 @@ const AddProduct = () => {
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate()
 
-    console.log(Math.floor(uploadProgress))
     //детектор форми для додавання або редагування продуксту
     function detectForm(id, addProduct, editProduct) {
         if (id === "ADD") {
@@ -80,7 +79,9 @@ const AddProduct = () => {
             const docRef = addDoc(collection(db, "products"), {
                 name: product.name,
                 imageURL: product.imageURL,
-                price: Number(product.price),
+                priceOne: Number(product.priceOne),
+                priceTwo: Number(product.priceTwo),
+                priceEuro: Number(product.priceEuro),
                 category: product.category,
                 brand: product.brand,
                 one: Boolean(product.sizeOne),
@@ -120,7 +121,9 @@ const AddProduct = () => {
             setDoc(doc(db, "products", id), {
                 name: product.name,
                 imageURL: product.imageURL,
-                price: Number(product.price),
+                priceOne: Number(product.priceOne),
+                priceTwo: Number(product.priceTwo),
+                priceEuro: Number(product.priceEuro),
                 category: product.category,
                 brand: product.brand,
                 one: Boolean(product.sizeOne),
@@ -191,13 +194,31 @@ const AddProduct = () => {
                             />)}
 
                         </Card>
-                        <label>Ціна продукту</label>
+                        <label>Ціна півтораспального комплекту</label>
                         <input
                             type="number"
-                            placeholder="Ціна продукту"
-                            name="price"
+                            placeholder="Ціна півтораспального комплекту"
+                            name="priceOne"
                             required
-                            value={product.price}
+                            value={product.priceOne}
+                            onChange={(e) => handleInputChange(e)}
+                        />
+                        <label>Ціна двоспального комплекту</label>
+                        <input
+                            type="number"
+                            placeholder="Ціна двоспального комплекту"
+                            name="priceTwo"
+                            required
+                            value={product.priceTwo}
+                            onChange={(e) => handleInputChange(e)}
+                        />
+                        <label>Ціна євро комплекту</label>
+                        <input
+                            type="number"
+                            placeholder="Ціна євро комплекту"
+                            name="priceEuro"
+                            required
+                            value={product.priceEuro}
                             onChange={(e) => handleInputChange(e)}
                         />
 

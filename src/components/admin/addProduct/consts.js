@@ -19,6 +19,7 @@ export const material = [
     {id: 4, name: 'Страйп сатин люкс'},
     {id: 5, name: 'Страйп сатин еліт'},
     {id: 6, name: 'Multi stripe'},
+    {id: 7, name: 'Фланель'},
 ];
 
 export const statusSizes = [
@@ -30,7 +31,9 @@ export const statusSizes = [
 export const initialState = {
     name: '',
     imageURL: '',
-    price: 0,
+    priceOne: 0,
+    priceTwo: 0,
+    priceEuro: 0,
     category: '',
     brand: '',
     pillowSize40: 0,

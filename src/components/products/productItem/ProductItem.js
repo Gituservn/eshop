@@ -3,7 +3,7 @@ import Card from "../../card/Card";
 import styles from './ProductItem.module.scss'
 import {Link} from "react-router-dom";
 
-const ProductItem = ({grid, products, id, name, price, desc, imageURL, brand}) => {
+const ProductItem = ({grid, products, id, name, priceOne,priceEuro, desc, imageURL, brand}) => {
 
     const shortenText = (text, n) => {
       if (text.length > n){
@@ -21,7 +21,7 @@ const ProductItem = ({grid, products, id, name, price, desc, imageURL, brand}) =
             </Link>
             <div className={styles.content}>
                 <div className={styles.details}>
-                    <p>{`₴${price}`}</p>
+                    <p>{`₴${priceOne} -₴${priceEuro}`}</p>
                     <h4 title={name}>{shortenText(name,218)}</h4>
                 </div>
                 {!grid && <p className={styles.desc}>{shortenText(desc,300)}</p>}

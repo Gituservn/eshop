@@ -26,15 +26,24 @@ const ProductDetails = () => {
     const {id} = useParams()
     const [product, setProduct] = useState(null);
     const [count, setCount] = useState(1);
-    const [currentPrice, setCurrentPrice] = useState(null);
     const [currentSize, setCurrentSize] = useState(null);
-    const [currentId, setCurrentId] = useState(null);
+    const [currentSizePillow, setCurrentSizePillow] = useState(null);
+    const [currentPrice, setCurrentPrice] = useState('');
+
+    console.log(currentSizePillow)
+    console.log(currentSize)
+    console.log(currentPrice)
+
 
 
     const dispatch = useDispatch()
     useEffect(() => {
         getProduct()
+
     }, [])
+
+
+    console.log(product)
 
     //https://firebase.google.com/docs/firestore/query-data/get-data
     const getProduct = async () => {
@@ -53,19 +62,36 @@ const ProductDetails = () => {
         }
     }
 
+
+
+
     function handleChangePillow(event) {
-        setCurrentSize(event.target.value);
+        setCurrentSizePillow(event.target.value)
+
+
     }
 
     function handleChangeSize(event) {
-        setCurrentPrice(event.target.value);
+        setCurrentSize(event.target.value);
+        if (event.target.value ==='Євро'){
+            setCurrentPrice(product.priceEuro)
+        } else if (event.target.value=== 'Двоспальний'){
+            setCurrentPrice(product.priceTwo)
+        } else if (event.target.value=== 'Півтораспальний'){
+            setCurrentPrice(product.priceOne)
+        }
+
+
+
     }
 
     const addToCart = (product) => {
         dispatch(
-            ADD_TO_CART({product, currentPrice, currentSize, id: uuid()})
+            ADD_TO_CART({product, currentSize,currentPrice: currentPrice, currentSizePillow, id: uuid()})
         )
     }
+
+    console.log(product)
     return (
         <section>
             <div className={`container ${styles.product}`}>
@@ -81,10 +107,10 @@ const ProductDetails = () => {
                             </div>
                             <div className={styles.content}>
                                 <h3>{product.name}</h3>
-                                <p className={styles.price}>{`₴${product.price}`}</p>
+                                <p className={styles.price}>{`₴${currentPrice}`}</p>
 
                                 <p>
-                                    <b>SKU:</b>{product.id}
+                                    <b>Категорія:</b>{product.category}
                                 </p>
                                 <p>
                                     <b>Виробник:</b>{product.brand}
@@ -92,11 +118,20 @@ const ProductDetails = () => {
                                 <p>
                                     <b>Тканина:</b>{product.material}
                                 </p>
+                                <p>
+                                    <b>Ціна півтораспального комплекта:</b> <b>{product.priceOne}</b>
+                                </p>
+                                <p>
+                                    <b>Ціна двоспального комплекта:</b> <b>{product.priceTwo}</b>
+                                </p>
+                                <p>
+                                    <b>Ціна євро комплекта:</b> <b>{product.priceEuro}</b>
+                                </p>
 
                                 <form style={{display: 'flex'}}>
                                     {product.euro || product.one || product.two ? (<>
                                         <label htmlFor="">Розмір виробу</label>
-                                        <select name="pillowSize" onChange={handleChangeSize} value={currentPrice}>
+                                        <select name="pillowSize" onChange={handleChangeSize} value={currentSize}>
                                             <option
                                                 value=""
                                                 disabled
@@ -104,8 +139,8 @@ const ProductDetails = () => {
                                             >
                                                 --Виберіть розмір--
                                             </option>
-                                            {product.euro ? <option value={'Євро'}>Євро</option> : null}
-                                            {product.two ? <option value={'Двоспальний'}>Двоспальний</option> : null}
+                                            {product.euro ? <option value2={product.priceEuro}  value={'Євро'}>Євро</option> : null}
+                                            {product.two ? <option  value={'Двоспальний'}>Двоспальний</option> : null}
                                             {product.one ? <option value={'Півтораспальний'}>Півтораспальний</option> : null}
 
                                         </select>
@@ -113,7 +148,7 @@ const ProductDetails = () => {
 
                                     {product.pillowSize40 || product.pillowSize50 || product.pillowSize70 || product.pillowSize40plus || product.pillowSize50plus ? (<>
                                         <label htmlFor="">Розмір наволочок</label>
-                                        <select name="pillowSize" id="" onChange={handleChangePillow} value={currentSize} required>
+                                        <select name="pillowSize" id="" onChange={handleChangePillow} value={currentSizePillow} required>
                                             <option
                                                 value=""
                                                 disabled

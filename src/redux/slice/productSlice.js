@@ -20,7 +20,7 @@ const productSlice = createSlice({
             const {products} = action.payload
             const array = []
             products.map((product) => {
-                const price = product.price
+                const price = product.priceOne
                 return array.push(price)
             })
             const max = Math.max(...array)

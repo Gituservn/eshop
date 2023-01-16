@@ -17,7 +17,7 @@ const ViewProducts = () => {
     const{data,isLoading} = useFetch("products","category")
     const products = useSelector(selectProducts)
     const dispatch = useDispatch()
-
+    console.log(products)
     useEffect(() => {
         dispatch(
                        STORE_PRODUCTS({
@@ -92,7 +92,9 @@ const ViewProducts = () => {
                         const {
                             id,
                             name,
-                            price,
+                            priceOne,
+                            priceTwo,
+                            priceEuro,
                             imageURL,
                             category,
                             brand,
@@ -128,7 +130,7 @@ const ViewProducts = () => {
                                     <div>50/70</div> : null}{pillowSize70 ? <div>70/70</div> : null}{pillowSize40plus ?
                                     <div>40/60+(борт 5 см)</div> : null}{pillowSize50plus ?
                                     <div>50/70+(борт 5 см)</div> : null} </td>
-                                <td>{price} грн</td>
+                                <td>{priceOne} грн <br/> {priceTwo} грн <br/> {priceEuro} грн <br/> </td>
                                 <td className={styles.icons}>
                                     <Link to={`/admin/add-product/${id}`}>
                                         <FaEdit color='green' size={20}/>
