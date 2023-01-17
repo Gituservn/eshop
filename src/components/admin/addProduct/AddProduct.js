@@ -82,6 +82,10 @@ const AddProduct = () => {
                 priceOne: Number(product.priceOne),
                 priceTwo: Number(product.priceTwo),
                 priceEuro: Number(product.priceEuro),
+                pillowPrice40: Number(product.pillowPrice40),
+                pillowPrice50: Number(product.pillowPrice50),
+                pillowPrice70: Number(product.pillowPrice70),
+                pillowPrice60: Number(product.pillowPrice60),
                 category: product.category,
                 brand: product.brand,
                 one: Boolean(product.sizeOne),
@@ -90,6 +94,7 @@ const AddProduct = () => {
                 pillowSize40: Boolean(product.pillowSize40),
                 pillowSize50: Boolean(product.pillowSize50),
                 pillowSize70: Boolean(product.pillowSize70),
+                pillowSize60: Boolean(product.pillowSize60),
                 pillowSize50plus: Boolean(product.pillowSize50plus),
                 pillowSize40plus: Boolean(product.sizeTwo),
                 material: product.material,
@@ -124,6 +129,10 @@ const AddProduct = () => {
                 priceOne: Number(product.priceOne),
                 priceTwo: Number(product.priceTwo),
                 priceEuro: Number(product.priceEuro),
+                pillowPrice40: Number(product.pillowPrice40),
+                pillowPrice50: Number(product.pillowPrice50),
+                pillowPrice70: Number(product.pillowPrice70),
+                pillowPrice60: Number(product.pillowPrice60),
                 category: product.category,
                 brand: product.brand,
                 one: Boolean(product.sizeOne),
@@ -132,6 +141,7 @@ const AddProduct = () => {
                 pillowSize40: Boolean(product.pillowSize40),
                 pillowSize50: Boolean(product.pillowSize50),
                 pillowSize70: Boolean(product.pillowSize70),
+                pillowSize60: Boolean(product.pillowSize60),
                 pillowSize50plus: Boolean(product.pillowSize50plus),
                 pillowSize40plus: Boolean(product.sizeTwo),
                 material: product.material,
@@ -194,34 +204,6 @@ const AddProduct = () => {
                             />)}
 
                         </Card>
-                        <label>Ціна півтораспального комплекту</label>
-                        <input
-                            type="number"
-                            placeholder="Ціна півтораспального комплекту"
-                            name="priceOne"
-                            required
-                            value={product.priceOne}
-                            onChange={(e) => handleInputChange(e)}
-                        />
-                        <label>Ціна двоспального комплекту</label>
-                        <input
-                            type="number"
-                            placeholder="Ціна двоспального комплекту"
-                            name="priceTwo"
-                            required
-                            value={product.priceTwo}
-                            onChange={(e) => handleInputChange(e)}
-                        />
-                        <label>Ціна євро комплекту</label>
-                        <input
-                            type="number"
-                            placeholder="Ціна євро комплекту"
-                            name="priceEuro"
-                            required
-                            value={product.priceEuro}
-                            onChange={(e) => handleInputChange(e)}
-                        />
-
                         <label>Категорія</label>
                         <select
                             required
@@ -264,6 +246,77 @@ const AddProduct = () => {
                             })}
 
                         </select>
+                        {linens ? <div>
+                            <label>Ціна півтораспального комплекту</label>
+                            <input
+                                type="number"
+                                placeholder="Ціна півтораспального комплекту"
+                                name="priceOne"
+                                required
+                                value={product.priceOne}
+                                onChange={(e) => handleInputChange(e)}
+                            />
+                            <label>Ціна двоспального комплекту</label>
+                            <input
+                                type="number"
+                                placeholder="Ціна двоспального комплекту"
+                                name="priceTwo"
+                                required
+                                value={product.priceTwo}
+                                onChange={(e) => handleInputChange(e)}
+                            />
+                            <label>Ціна євро комплекту</label>
+                            <input
+                                type="number"
+                                placeholder="Ціна євро комплекту"
+                                name="priceEuro"
+                                required
+                                value={product.priceEuro}
+                                onChange={(e) => handleInputChange(e)}
+                            />
+                        </div> :null}
+                        {pillows ? <div>
+                            <label>Ціна ціна подушки 40/60</label>
+                            <input
+                                type="number"
+                                placeholder="Ціна ціна подушки 40/70"
+                                name="pillowPrice40"
+
+                                value={product.pillowPrice40}
+                                onChange={(e) => handleInputChange(e)}
+                            />
+
+                            <label>Ціна ціна подушки 50/70</label>
+                            <input
+                                type="number"
+                                placeholder="Ціна півтораспального комплекту"
+                                name="pillowPrice50"
+
+                                value={product.pillowPrice50}
+                                onChange={(e) => handleInputChange(e)}
+                            />
+                            <label>Ціна ціна подушки 60/60</label>
+                            <input
+                                type="number"
+                                placeholder="Ціна двоспального комплекту"
+                                name="pillowPrice60"
+
+                                value={product.pillowPrice60}
+                                onChange={(e) => handleInputChange(e)}
+                            />
+                            <label>Ціна ціна подушки 70/70</label>
+                            <input
+                                type="number"
+                                placeholder="Ціна євро комплекту"
+                                name="pillowPrice70"
+
+                                value={product.pillowPrice70}
+                                onChange={(e) => handleInputChange(e)}
+                            />
+                        </div> : null}
+
+
+
                         {linens ? <>
                             <label>Матеріл</label>
                             <select
@@ -333,6 +386,14 @@ const AddProduct = () => {
                                 type={'checkbox'}
                                 name="pillowSize50"
                                 value={product.pillowSize50}
+                                onChange={(e => handleInputChange(e))}/>
+
+                            <label>60/60</label>
+                            <input
+                                // required
+                                type={'checkbox'}
+                                name="pillowSize50"
+                                value={product.pillowSize60}
                                 onChange={(e => handleInputChange(e))}/>
 
 

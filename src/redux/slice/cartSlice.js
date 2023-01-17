@@ -22,9 +22,11 @@ const cartSlice = createSlice({
             console.log(action.payload)
 
 
-            if (productIndex >= 0 && productSize >= 0 && productPillowSize >= 0) {
+            if (productIndex >= 0 && productSize >= 0 && productPillowSize >= 0 ) {
                 //якщо товар уже існує в кошику
                 //Збільшити кількість товару в кошику
+                console.log(productPillowSize
+                )
 
                 state.cartItems[productIndex].cartQuantity += 1
             } else {

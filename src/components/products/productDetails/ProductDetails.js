@@ -28,7 +28,8 @@ const ProductDetails = () => {
     const [count, setCount] = useState(1);
     const [currentSize, setCurrentSize] = useState(null);
     const [currentSizePillow, setCurrentSizePillow] = useState(null);
-    const [currentPrice, setCurrentPrice] = useState('');
+    const [currentPrice, setCurrentPrice] = useState(null);
+    const [currentPillowPrice, setCurrentPillowPrice] = useState(null);
 
     console.log(currentSizePillow)
     console.log(currentSize)
@@ -67,12 +68,21 @@ const ProductDetails = () => {
 
     function handleChangePillow(event) {
         setCurrentSizePillow(event.target.value)
-
+        if (event.target.value ==='40/60'){
+            setCurrentPillowPrice(product.pillowPrice40)
+        } else if (event.target.value=== '50/70'){
+            setCurrentPillowPrice(product.pillowPrice50)
+        } else if (event.target.value=== '60/60'){
+            setCurrentPillowPrice(product.pillowPrice60)
+        } else if (event.target.value=== '70/70'){
+            setCurrentPillowPrice(product.pillowPrice70)
+        }
 
     }
 
     function handleChangeSize(event) {
         setCurrentSize(event.target.value);
+
         if (event.target.value ==='Євро'){
             setCurrentPrice(product.priceEuro)
         } else if (event.target.value=== 'Двоспальний'){
@@ -80,14 +90,11 @@ const ProductDetails = () => {
         } else if (event.target.value=== 'Півтораспальний'){
             setCurrentPrice(product.priceOne)
         }
-
-
-
     }
 
     const addToCart = (product) => {
         dispatch(
-            ADD_TO_CART({product, currentSize,currentPrice: currentPrice, currentSizePillow, id: uuid()})
+            ADD_TO_CART({product, currentSize,currentPrice: currentPrice,currentPillowPrice, currentSizePillow, id: uuid()})
         )
     }
 
@@ -107,7 +114,7 @@ const ProductDetails = () => {
                             </div>
                             <div className={styles.content}>
                                 <h3>{product.name}</h3>
-                                <p className={styles.price}>{`₴${currentPrice}`}</p>
+                                <p className={styles.price}>{`₴${currentPrice}` || `₴${currentPillowPrice}` }</p>
 
                                 <p>
                                     <b>Категорія:</b>{product.category}
@@ -139,7 +146,7 @@ const ProductDetails = () => {
                                             >
                                                 --Виберіть розмір--
                                             </option>
-                                            {product.euro ? <option value2={product.priceEuro}  value={'Євро'}>Євро</option> : null}
+                                            {product.euro ? <option  value={'Євро'}>Євро</option> : null}
                                             {product.two ? <option  value={'Двоспальний'}>Двоспальний</option> : null}
                                             {product.one ? <option value={'Півтораспальний'}>Півтораспальний</option> : null}
 
@@ -160,6 +167,8 @@ const ProductDetails = () => {
                                                 <option name={`40/60`} value={`40/60`}>40/60</option> : null}
                                             {product.pillowSize50 ?
                                                 <option name={`50/70`} value={`50/70`}>50/70</option> : null}
+                                            {product.pillowSize60 ?
+                                                <option  name={`60/60`} value={`60/60`}>60/60</option> : null}
                                             {product.pillowSize70 ?
                                                 <option  name={`70/70`} value={`70/70`}>70/70</option> : null}
                                             {product.pillowSize40plus ?

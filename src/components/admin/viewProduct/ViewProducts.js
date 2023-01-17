@@ -95,6 +95,10 @@ const ViewProducts = () => {
                             priceOne,
                             priceTwo,
                             priceEuro,
+                            pillowPrice40,
+                            pillowPrice50,
+                            pillowPrice60,
+                            pillowPrice70,
                             imageURL,
                             category,
                             brand,
@@ -104,6 +108,7 @@ const ViewProducts = () => {
                             pillowSize40,
                             pillowSize50,
                             pillowSize70,
+                            pillowSize60,
                             pillowSize50plus,
                             pillowSize40plus,
                         } = product;
@@ -127,10 +132,10 @@ const ViewProducts = () => {
                                     <div>півтораспальний</div> : null}
                                 </td>
                                 <td>{pillowSize40 ? <div>40/60</div> : null}{pillowSize50 ?
-                                    <div>50/70</div> : null}{pillowSize70 ? <div>70/70</div> : null}{pillowSize40plus ?
+                                    <div>50/70</div> : null}{pillowSize70 ? <div>70/70</div> : null} <br/>{pillowSize60 ? <div>60/60</div> : null}{pillowSize40plus ?
                                     <div>40/60+(борт 5 см)</div> : null}{pillowSize50plus ?
                                     <div>50/70+(борт 5 см)</div> : null} </td>
-                                <td>{priceOne} грн <br/> {priceTwo} грн <br/> {priceEuro} грн <br/> </td>
+                                <td>{priceOne || pillowPrice40} грн <br/> {`${priceTwo || pillowPrice50} грн`}  <br/> {`${priceEuro || pillowPrice70} грн`}  {`${pillowPrice60 || null} грн` } <br/> </td>
                                 <td className={styles.icons}>
                                     <Link to={`/admin/add-product/${id}`}>
                                         <FaEdit color='green' size={20}/>

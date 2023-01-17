@@ -99,7 +99,7 @@ const Cart = () => {
                                             <img src={cart.product.imageURL} alt={cart.product.name}
                                                  style={{width: '100px'}}/>
                                         </td>
-                                        <td>{cart.currentPrice}</td>
+                                        <td>{cart.currentPrice || cart.currentPillowPrice}</td>
                                         <td>{cart.currentSize}</td>
                                         <td>{cart.currentSizePillow}</td>
                                         <td>
