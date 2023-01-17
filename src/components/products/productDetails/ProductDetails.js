@@ -114,7 +114,7 @@ const ProductDetails = () => {
                             </div>
                             <div className={styles.content}>
                                 <h3>{product.name}</h3>
-                                <p className={styles.price}>{`₴${currentPrice}` || `₴${currentPillowPrice}` }</p>
+                                <p className={styles.price}>{currentPrice===null ? currentPillowPrice: currentPrice }</p>
 
                                 <p>
                                     <b>Категорія:</b>{product.category}
@@ -191,6 +191,7 @@ const ProductDetails = () => {
                                     </p>
                                     <button onClick={() => count > 9 ? null : setCount(count + 1)} className="--btn">+</button>
                                 </div>
+
                                 <button className='--btn - --btn-danger' onClick={()=>addToCart(product)}> добавити в корзину</button>
 
                                 <Accordion allowZeroExpanded>

@@ -25,8 +25,7 @@ const cartSlice = createSlice({
             if (productIndex >= 0 && productSize >= 0 && productPillowSize >= 0 ) {
                 //якщо товар уже існує в кошику
                 //Збільшити кількість товару в кошику
-                console.log(productPillowSize
-                )
+                console.log(productPillowSize)
 
                 state.cartItems[productIndex].cartQuantity += 1
             } else {
@@ -76,7 +75,7 @@ const cartSlice = createSlice({
             const array =[];
             // Вибираєм ціну і кількість товару
             state.cartItems.map((item)=>{
-                const cartItemAmount=item.currentPrice
+                const cartItemAmount=(item.currentPrice || item.currentPillowPrice)
                     * item.cartQuantity
                 return array.push(cartItemAmount)
             })

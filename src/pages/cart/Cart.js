@@ -99,7 +99,7 @@ const Cart = () => {
                                             <img src={cart.product.imageURL} alt={cart.product.name}
                                                  style={{width: '100px'}}/>
                                         </td>
-                                        <td>{cart.currentPrice || cart.currentPillowPrice}</td>
+                                        <td>{cart.currentPrice===null ? cart.currentPillowPrice : cart.currentPrice}</td>
                                         <td>{cart.currentSize}</td>
                                         <td>{cart.currentSizePillow}</td>
                                         <td>
@@ -112,7 +112,7 @@ const Cart = () => {
                                             </div>
                                         </td>
                                         <td>
-                                            {(cart.currentPrice
+                                            {((cart.currentPrice===null? cart.currentPillowPrice:cart.currentPrice)
                                                 * cart.cartQuantity).toFixed(2)}
                                         </td>
                                         <td className={styles.icons}>
