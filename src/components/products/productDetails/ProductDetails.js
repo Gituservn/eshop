@@ -18,33 +18,38 @@ import {
     AccordionItemPanel
 } from "react-accessible-accordion";
 import 'react-accessible-accordion/dist/fancy-example.css';
-import {ADD_TO_CART} from "../../../redux/slice/cartSlice";
-import {useDispatch} from "react-redux";
+import {
+    ADD_TO_CART,
+    CALC_TOTAL_QUANTITY,
+    DECREASE_CART,
+    INCREASE_CART,
+    selectCartItems
+} from "../../../redux/slice/cartSlice";
+import {useDispatch, useSelector} from "react-redux";
 
 
 const ProductDetails = () => {
     const {id} = useParams()
     const [product, setProduct] = useState(null);
-    const [count, setCount] = useState(1);
     const [currentSize, setCurrentSize] = useState(null);
     const [currentSizePillow, setCurrentSizePillow] = useState(null);
     const [currentPrice, setCurrentPrice] = useState(null);
     const [currentPillowPrice, setCurrentPillowPrice] = useState(null);
-
-    console.log(currentSizePillow)
-    console.log(currentSize)
-    console.log(currentPrice)
-
-
-
     const dispatch = useDispatch()
+    const cartItem = useSelector(selectCartItems)
+    const cart = cartItem.find((cart)=>cart.product.id===id)
+
+    const isCartAdded = cartItem.findIndex((cart)=>{
+        return cart.product.id ===id
+    })
+
+    console.log(cart)
     useEffect(() => {
         getProduct()
 
     }, [])
 
 
-    console.log(product)
 
     //https://firebase.google.com/docs/firestore/query-data/get-data
     const getProduct = async () => {
@@ -96,9 +101,21 @@ const ProductDetails = () => {
         dispatch(
             ADD_TO_CART({product, currentSize,currentPrice: currentPrice,currentPillowPrice, currentSizePillow, id: uuid()})
         )
+        dispatch(CALC_TOTAL_QUANTITY())
     }
 
-    console.log(product)
+    const increaseCart = (cart)=>{
+        dispatch(INCREASE_CART(cart))
+        dispatch(CALC_TOTAL_QUANTITY)
+    }
+    const decreaseCart = (cart) => {
+        dispatch(
+            DECREASE_CART(cart)
+        )
+        dispatch(CALC_TOTAL_QUANTITY)
+    }
+
+
     return (
         <section>
             <div className={`container ${styles.product}`}>
@@ -125,15 +142,17 @@ const ProductDetails = () => {
                                 <p>
                                     <b>Тканина:</b>{product.material}
                                 </p>
-                                <p>
+                                {product.category==="Постільна білизна"? <> <p>
+
                                     <b>Ціна півтораспального комплекта:</b> <b>{product.priceOne}</b>
                                 </p>
-                                <p>
-                                    <b>Ціна двоспального комплекта:</b> <b>{product.priceTwo}</b>
-                                </p>
-                                <p>
-                                    <b>Ціна євро комплекта:</b> <b>{product.priceEuro}</b>
-                                </p>
+                                    <p>
+                                        <b>Ціна двоспального комплекта:</b> <b>{product.priceTwo}</b>
+                                    </p>
+                                    <p>
+                                        <b>Ціна євро комплекта:</b> <b>{product.priceEuro}</b>
+                                    </p></> : null}
+
 
                                 <form style={{display: 'flex'}}>
                                     {product.euro || product.one || product.two ? (<>
@@ -182,14 +201,19 @@ const ProductDetails = () => {
                                 </form>
 
                                 <div className={styles.count}>
-                                    <button onClick={() => count < 1 ? null : setCount(count - 1)}
-                                    className="--btn">-</button>
-                                    <p>
-                                        <b>
-                                            {count}
-                                        </b>
-                                    </p>
-                                    <button onClick={() => count > 9 ? null : setCount(count + 1)} className="--btn">+</button>
+                                    {isCartAdded <0? null: (
+                                        <>
+                                            <button onClick={() => decreaseCart(cart)}
+                                                    className="--btn">-</button>
+                                            <p>
+                                                <b>
+                                                    {cart?.cartQuantity}
+                                                </b>
+                                            </p>
+                                            <button onClick={()=>increaseCart(cart)} className="--btn">+</button>
+                                        </>
+                                    )}
+
                                 </div>
 
                                 <button className='--btn - --btn-danger' onClick={()=>addToCart(product)}> добавити в корзину</button>

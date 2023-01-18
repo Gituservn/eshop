@@ -88,7 +88,6 @@ const Cart = () => {
                             <tbody>
                             {cartItems.map((cart, index) => {
 
-                                console.log(cart)
                                 return (
                                     <tr key={cart.product.id}>
                                         <td>{index + 1}</td>

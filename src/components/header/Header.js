@@ -9,12 +9,13 @@ import {signOut, onAuthStateChanged} from 'firebase/auth';
 import {auth} from "../../firebase/Config";
 import {toast,} from "react-toastify";
 import Loader from "../loader/Loader";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {SET_ACTIVE_USER,} from "../../redux/slice/authSlice";
 import {REMOVE_ACTIVE_USER} from '../../redux/slice/authSlice';
 import ShowOnLogin from "../hiddenLink/hiddenLink";
 import {ShowOnLogout} from "../hiddenLink/hiddenLink";
 import AdminOnlyRoute, {AdminOnlyLink} from "../adminOnlyRoute/adminOnlyRoute";
+import {CALC_TOTAL_QUANTITY, selectCartTotalQuantity} from "../../redux/slice/cartSlice";
 
 const spanStyle = {
     color: 'orangered'
@@ -37,24 +38,13 @@ const logo = (
 
 const activeLink = (({isActive}) => (isActive ? `${styles.active}` : ''));
 
-const cart = (
-    <ShowOnLogin>
-        <span className={styles.cart}>
-            <NavLink
-                to="/cart"
-                className={activeLink}>Кошик <FaShoppingCart
-                size={20}/> <p>0</p> </NavLink>
-
-        </span>
-    </ShowOnLogin>
-);
-
 
 const Header = () => {
     const [showMenu, setShowMenu] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [displayName, setDisplayName] = useState('');
-
+    const [scrollPage, setScrollPage] = useState(false);
+    const cartTotalQuantity = useSelector(selectCartTotalQuantity)
     const dispatch = useDispatch();
 
     const toggleMenu = () => {
@@ -105,12 +95,36 @@ const Header = () => {
         });
     }, [dispatch, displayName]);
 
+    useEffect(() => {
+    dispatch(CALC_TOTAL_QUANTITY())
+    }, []);
 
+    const fixNavbar = () => {
+      if (window.scrollY > 50){
+          setScrollPage(true)
+      } else {setScrollPage(false)}
+
+    }
+
+    window.addEventListener('scroll',fixNavbar)
+
+    const cart = (
+
+        <ShowOnLogin>
+        <span className={styles.cart}>
+            <NavLink
+                to="/cart"
+                className={activeLink}>Кошик <FaShoppingCart
+                size={20}/> <p>{cartTotalQuantity}</p> </NavLink>
+
+        </span>
+        </ShowOnLogin>
+    );
     return (
         <>
             {isLoading && <Loader/>}
 
-            <header>
+            <header className={scrollPage ? `${styles.fixed}` : null}>
                 <div className={styles.header}>
                     {logo}
                     <nav

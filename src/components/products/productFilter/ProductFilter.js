@@ -1,16 +1,32 @@
 import React, {useState} from 'react';
 import styles from './ProductFilter.module.scss'
 import {brands} from "../../admin/addProduct/consts";
+import {useDispatch, useSelector} from "react-redux";
+import {selectProducts} from "../../../redux/slice/productSlice";
+import {FILTER_BY_CATEGORY} from "../../../redux/slice/filterSlice";
 
 const ProductFilter = () => {
     const [priceRange, setPriceRange] = useState(100);
-    const [selectedBrand, setSelectedBrand] = useState(false);
+    const [category, setCategory] = useState('Всі');
+    const products = useSelector(selectProducts)
+const dispatch = useDispatch()
+    const allCategories = [
+        "Всі",
+        ...new Set(products.map((products)=>products.category))
+    ]
+   const filterProducts = (cat) => {
+        setCategory(cat)
+       dispatch(FILTER_BY_CATEGORY({products, category: cat}))
+   }
 
     return (
         <div className={styles.filter}>
             <h4>Категорії</h4>
             <div className={styles.category}>
-                <button>Всі</button>
+                {allCategories.map((cat,index)=>{
+                    return <button key={index} type='button' className={`${category}`===cat ? `${styles.active}`: null} onClick={()=>filterProducts(cat)}>&#8250;{cat}</button>
+                })}
+
             </div>
             <h4 className={styles.brand}>Виробник</h4>
             <div className={styles.brand}>

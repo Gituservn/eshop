@@ -24,13 +24,20 @@ const filterSlice = createSlice({
             }
             if (sort === 'lowest') {
                 tempProducts = products.slice().sort((a, b) => {
-                    return a.price - b.price
+                    let hightPrices =[a.priceEuro || a.priceOne || a.priceTwo || a.pillowPrice40 || a.pillowPrice50 || a.pillowPrice60 || a.pillowPrice70]
+                    let lowPrices = [b.priceEuro || b.priceOne || b.priceTwo || b.pillowPrice40 || b.pillowPrice50 || b.pillowPrice60 || b.pillowPrice70]
+
+                    return hightPrices   - lowPrices;
                 });
             }
             if (sort === 'highest') {
                 tempProducts = products.slice().sort((a, b) => {
-                    return b.price - a.price
+                    let hightPrices =[b.priceEuro || b.priceOne || b.priceTwo || b.pillowPrice40 || b.pillowPrice50 || b.pillowPrice60 || b.pillowPrice70]
+                    let lowPrices = [a.priceEuro || a.priceOne || a.priceTwo || a.pillowPrice40 || a.pillowPrice50 || a.pillowPrice60 || a.pillowPrice70]
+
+                    return hightPrices   - lowPrices;
                 })
+
             }
             state.filteredProducts = tempProducts
         },

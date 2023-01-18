@@ -1,14 +1,22 @@
-import React from 'react';
-import {useSelector} from 'react-redux'
+import React, {useEffect} from 'react';
+import {useSelector,useDispatch} from 'react-redux'
 import {NavLink} from "react-router-dom";
 import {selectUserName} from "../../../redux/slice/authSlice";
 import {FaUserCircle} from "react-icons/fa";
 import styles from './Navbar.module.scss';
+import {
+    CALC_SUBTOTAL,
+    CALC_TOTAL_QUANTITY,
+    selectCartItems,
+    selectCartTotalQuantity
+} from "../../../redux/slice/cartSlice";
 
 const activeLink = (({isActive}) => (isActive ? `${styles.active}` : ''));
 
 
 const Navbar = () => {
+    
+
     const userName = useSelector(selectUserName)
     return (
         <div className={styles.navbar}>

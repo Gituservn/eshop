@@ -25,7 +25,6 @@ const cartSlice = createSlice({
             if (productIndex >= 0 && productSize >= 0 && productPillowSize >= 0 ) {
                 //якщо товар уже існує в кошику
                 //Збільшити кількість товару в кошику
-                console.log(productPillowSize)
 
                 state.cartItems[productIndex].cartQuantity += 1
             } else {
@@ -42,9 +41,9 @@ const cartSlice = createSlice({
 
         INCREASE_CART(state, action) {
             const productIndex = state.cartItems.findIndex((item) => item.id === action.payload.id)
-            console.log(action.payload)
+
             state.cartItems[productIndex].cartQuantity += 1
-            toast.success(`Ще 1 ${action.payload.product.name} добавлено в ваш кошик`)
+
 
 
         },
@@ -56,7 +55,6 @@ const cartSlice = createSlice({
             } else if (state.cartItems[productIndex].cartQuantity === 1) {
                 const newCartItem = state.cartItems.filter((item) => item.id !== action.payload.id)
                 state.cartItems = newCartItem
-                toast.info(` ${action.payload.product.name} видалено з вашого кошика`)
             }
             localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
         },
