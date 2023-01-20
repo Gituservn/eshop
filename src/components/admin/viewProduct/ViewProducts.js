@@ -17,7 +17,6 @@ const ViewProducts = () => {
     const{data,isLoading} = useFetch("products","category")
     const products = useSelector(selectProducts)
     const dispatch = useDispatch()
-    console.log(products)
     useEffect(() => {
         dispatch(
                        STORE_PRODUCTS({

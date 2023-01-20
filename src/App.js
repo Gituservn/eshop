@@ -7,6 +7,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AdminOnlyRoute from "./components/adminOnlyRoute/adminOnlyRoute";
 import ProductDetails from "./components/products/productDetails/ProductDetails";
+import CheckoutDetails from "./pages/checkout/CheckoutDetails";
+import CheckoutSuccess from "./pages/checkout/CheckoutSuccess";
 
 
 
@@ -44,6 +46,9 @@ function App() {
 
                     <Route path="/product-details/:id" element={<ProductDetails/>}/>
                     <Route path="/cart" element={<Cart/>}/>
+                    <Route path="/checkout-details" element={<CheckoutDetails/>}/>
+                    <Route path="/checkout-success" element={<CheckoutSuccess/>}/>
+
                 </Routes>
                 <Footer/>
             </BrowserRouter>

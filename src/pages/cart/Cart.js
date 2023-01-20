@@ -4,21 +4,24 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     CALC_SUBTOTAL, CALC_TOTAL_QUANTITY,
     CLEAR_CART,
-    DECREASE_CART, INCREASE_CART, REMOVE_FROM_CART,
+    DECREASE_CART, INCREASE_CART, REMOVE_FROM_CART, SAVE_URL,
     selectCartItems,
     selectCartTotalAmount,
     selectCartTotalQuantity
 } from "../../redux/slice/cartSlice";
-import {Link} from "react-router-dom";
+import {Link, useNavigate,} from "react-router-dom";
 import {FaTrashAlt} from "react-icons/fa";
 import Card from "../../components/card/Card";
+import {selectIsLoggedIn} from "../../redux/slice/authSlice";
 
 const Cart = () => {
     const cartItems = useSelector(selectCartItems)
     const cartTotalAmount = useSelector(selectCartTotalAmount)
     const cartTotalQuantity = useSelector(selectCartTotalQuantity)
-
+    const isLoggedIn = useSelector(selectIsLoggedIn)
     const dispatch = useDispatch()
+
+    const navigate = useNavigate()
 
     const increaseCart = (cart) => {
         dispatch(INCREASE_CART(cart))
@@ -29,18 +32,28 @@ const Cart = () => {
     }
 
     const removeFromCart = (cart) => {
-      dispatch(REMOVE_FROM_CART(cart))
+        dispatch(REMOVE_FROM_CART(cart))
     }
 
     const clearCart = () => {
-      dispatch(CLEAR_CART())
+        dispatch(CLEAR_CART())
     }
 
     useEffect(() => {
         dispatch(CALC_SUBTOTAL())
         dispatch(CALC_TOTAL_QUANTITY())
-    }, [dispatch,cartItems]);
+        dispatch(SAVE_URL(''))
+    }, [dispatch, cartItems]);
 
+    const url = window.location.href
+    const checkout = () => {
+        if (isLoggedIn) {
+            navigate('/checkout-details')
+        } else{
+            dispatch(SAVE_URL(url))
+            navigate('/login')
+        }
+    }
 
     return (
         <section>
@@ -98,7 +111,7 @@ const Cart = () => {
                                             <img src={cart.product.imageURL} alt={cart.product.name}
                                                  style={{width: '100px'}}/>
                                         </td>
-                                        <td>{cart.currentPrice===null ? cart.currentPillowPrice : cart.currentPrice}</td>
+                                        <td>{cart.currentPrice === null ? cart.currentPillowPrice : cart.currentPrice}</td>
                                         <td>{cart.currentSize}</td>
                                         <td>{cart.currentSizePillow}</td>
                                         <td>
@@ -111,11 +124,11 @@ const Cart = () => {
                                             </div>
                                         </td>
                                         <td>
-                                            {((cart.currentPrice===null? cart.currentPillowPrice:cart.currentPrice)
+                                            {((cart.currentPrice === null ? cart.currentPillowPrice : cart.currentPrice)
                                                 * cart.cartQuantity).toFixed(2)}
                                         </td>
                                         <td className={styles.icons}>
-                                            <FaTrashAlt size={19} color='red' onClick={()=>removeFromCart(cart)}/>
+                                            <FaTrashAlt size={19} color='red' onClick={() => removeFromCart(cart)}/>
                                         </td>
                                     </tr>
                                 )
@@ -140,7 +153,7 @@ const Cart = () => {
                                             <h3>{`₴${cartTotalAmount.toFixed(2)}`}</h3>
                                         </div>
                                         <p>Вартість доставки розраховується під час оформлення замовлення</p>
-                                        <button className='--btn --btn-primary'>Розрахувати</button>
+                                        <button className='--btn --btn-primary' onClick={checkout}>Замовити</button>
                                     </Card>
                                 </div>
                             </div>

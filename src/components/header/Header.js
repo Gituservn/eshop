@@ -97,7 +97,7 @@ const Header = () => {
 
     useEffect(() => {
     dispatch(CALC_TOTAL_QUANTITY())
-    }, []);
+    }, [dispatch]);
 
     const fixNavbar = () => {
       if (window.scrollY > 50){
@@ -110,7 +110,7 @@ const Header = () => {
 
     const cart = (
 
-        <ShowOnLogin>
+        // <ShowOnLogin>
         <span className={styles.cart}>
             <NavLink
                 to="/cart"
@@ -118,7 +118,7 @@ const Header = () => {
                 size={20}/> <p>{cartTotalQuantity}</p> </NavLink>
 
         </span>
-        </ShowOnLogin>
+        // </ShowOnLogin>
     );
     return (
         <>
