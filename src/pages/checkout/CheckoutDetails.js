@@ -8,7 +8,7 @@ import 'react-phone-input-2/lib/semantic-ui.css'
 
 const initialAddressState = {
     name: '',
-    phone: null,
+    phone: '',
     delivery_service: '',
     region: '',
     city: '',
@@ -25,6 +25,7 @@ const CheckoutDetails = () => {
     });
     const [regionList, setRegionList] = useState([]);
     const [citiesList, setCitiesList] = useState([]);
+    const [warehouses, setWarehouses] = useState([]);
 
     const getRegionList = useCallback(() => {
         api.address
@@ -34,16 +35,26 @@ const CheckoutDetails = () => {
 
     const getCitiesList = useCallback(() => {
         api.address
-            .getCities({AreaRef: '150812a-9b87-11de-822f-000c2965ae0e'})
+            .getCities()
             .then(({data}) => setCitiesList(data))
     }, [api.address])
 
-    console.log(regionList)
-    console.log(citiesList)
+    const getWarehouses = useCallback(() => {
+        api.address
+            .getWarehouses()
+            .then(({data}) => setWarehouses(data))
+    }, [api.address])
+
+    let citiesOfTheRegion = citiesList.filter(city => city.AreaDescription.includes(shippingAddress.region)
+    )
+    let warehousesOfTheCity = warehouses.filter(warehouse => warehouse.CityDescription.includes(shippingAddress.city)
+    )
+
 
     useEffect(() => {
         getRegionList()
         getCitiesList()
+        getWarehouses()
     }, [])
     const handleShipping = (e) => {
         const {name, value} = e.target
@@ -72,13 +83,14 @@ const CheckoutDetails = () => {
                                 required
                             />
                             <label>Номер телефону</label>
-                            <div className={styles.phoneInput}>
                                 <PhoneInput
-
+                                    name='phone'
+                                    value={shippingAddress.phone}
                                     country={'ua'}
                                     onlyCountries={['ua']}
-                                    onChange={(e) => handleShipping(e)}/>
-                            </div>
+                                    // onChange={(e) => handleShipping(e)}
+                                />
+
                             <label>Виберіть службу доставки</label>
                             <select
                                 required
@@ -96,13 +108,38 @@ const CheckoutDetails = () => {
                                 value={shippingAddress.region}
                                 onChange={(e) => handleShipping(e)}
                             >
+                                <option
+                                    value=""
+                                    disabled>
+                                    --Виберіть область--
+                                </option>
                                 {regionList.map((areas) => {
                                     return (<option value={areas.Description}>
                                         {areas.Description}
                                     </option>)
                                 })}
                             </select>
+                            <label >Виберіть населений пунк</label>
+                            <input type="text" list='cities' name='city' value={shippingAddress.city} onChange={(e) => handleShipping(e)}/>
+                            <datalist id='cities'>
 
+                                {citiesOfTheRegion.map((city) => {
+                                    return (<option value={city.Description}>
+                                        {city.Description}
+                                    </option>)
+                                })}
+                            </datalist>
+
+                            <label >Виберіть відділення / поштомат</label>
+                            <input type="text" list='warehouse' name='warehouses' value={shippingAddress.warehouses} onChange={(e) => handleShipping(e)}/>
+                            <datalist id='warehouse'>
+
+                                {warehousesOfTheCity.map((warehouse) => {
+                                    return (<option value={warehouse.Description}>
+                                        {warehouse.Description}
+                                    </option>)
+                                })}
+                            </datalist>
                         </Card>
                     </div>
                 </form>
