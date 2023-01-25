@@ -9,6 +9,7 @@ import AdminOnlyRoute from "./components/adminOnlyRoute/adminOnlyRoute";
 import ProductDetails from "./components/products/productDetails/ProductDetails";
 import CheckoutDetails from "./pages/checkout/CheckoutDetails";
 import CheckoutSuccess from "./pages/checkout/CheckoutSuccess";
+import Checkout from "./pages/checkout/Checkout";
 
 
 
@@ -48,6 +49,7 @@ function App() {
                     <Route path="/cart" element={<Cart/>}/>
                     <Route path="/checkout-details" element={<CheckoutDetails/>}/>
                     <Route path="/checkout-success" element={<CheckoutSuccess/>}/>
+                    <Route path="/checkout" element={<Checkout/>}/>
 
                 </Routes>
                 <Footer/>
