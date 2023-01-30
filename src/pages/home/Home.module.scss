@@ -7,6 +7,15 @@
   }
 }
 
+.product_items{
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+
+
 @media screen and (max-width: 700px) {
   .section_images{
     display: flex;
@@ -17,5 +26,16 @@
       display: block;
       width: 350%;
     }
+  }
+  .infoWrapper{
+    flex-direction: column;
+    align-items: center;
+  }
+  .product_items{
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 30px;
+    flex-direction: column;
+    align-items: center;
   }
 }
