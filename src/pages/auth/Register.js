@@ -10,6 +10,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import {auth} from "../../firebase/Config";
 import Loader from "../../components/loader/Loader";
 import {useNavigate} from "react-router-dom";
+import {motion} from "framer-motion";
 
 const Register = () => {
     const [email, setEmail] = useState('');
@@ -56,7 +57,10 @@ const Register = () => {
         <>
 
             {isLoading && <Loader/>}
-        <section className={`container ${styles.auth}`}>
+        <motion.section className={`container ${styles.auth}`}
+                        initial={{opacity:0}}
+                        animate={{opacity:1}}
+                        exit={{opacity:0,transition:{duration:0.3}}}>>
             <div className={styles.img}>
                 <img src={registerImg} alt="register" width="400"/>
             </div>
@@ -107,7 +111,7 @@ const Register = () => {
                 </div>
             </Card>
 
-        </section>
+        </motion.section>
         </>
     );
 };

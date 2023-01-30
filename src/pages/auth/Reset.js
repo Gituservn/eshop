@@ -3,10 +3,14 @@ import styles from "./auth.module.scss";
 import forgot from '../../assets/forgot.png'
 import {Link} from "react-router-dom";
 import Card from "../../components/card/Card";
+import {motion} from "framer-motion";
 
 function Reset() {
     return (
-        <section className={`container ${styles.auth}`}>
+        <motion.section className={`container ${styles.auth}`}
+                        initial={{opacity:0}}
+                        animate={{opacity:1}}
+                        exit={{opacity:0,transition:{duration:0.3}}}>>
             <div className={styles.img}>
                 <img src={forgot} alt="reset" width="400"/>
             </div>
@@ -27,7 +31,7 @@ function Reset() {
                 </div>
             </Card>
 
-        </section>
+        </motion.section>
     );
 }
 

@@ -13,6 +13,7 @@ import {Link, useNavigate,} from "react-router-dom";
 import {FaTrashAlt} from "react-icons/fa";
 import Card from "../../components/card/Card";
 import {selectIsLoggedIn} from "../../redux/slice/authSlice";
+import {motion} from "framer-motion";
 
 const Cart = () => {
     const cartItems = useSelector(selectCartItems)
@@ -56,7 +57,10 @@ const Cart = () => {
     }
 
     return (
-        <section>
+        <motion.section
+            initial={{opacity:0}}
+            animate={{opacity:1}}
+            exit={{opacity:0,transition:{duration:0.1}}}>>
             <div className={`container ${styles.table}`}>
                 <h2>Кошик</h2>
                 {cartItems.length === 0 ? (
@@ -161,7 +165,7 @@ const Cart = () => {
                     </>
                 )}
             </div>
-        </section>
+        </motion.section>
     );
 };
 

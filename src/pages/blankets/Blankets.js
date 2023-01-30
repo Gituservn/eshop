@@ -1,14 +1,14 @@
 import React from 'react';
 import {motion} from "framer-motion";
 
-const CheckoutSuccess = () => {
+const Blankets = () => {
     return (
         <motion.div
             initial={{opacity:0}}
             animate={{opacity:1}}
-            exit={{opacity:0,transition:{duration:0.1}}}>>
-            CheckoutSuccess</motion.div>
+            exit={{opacity:0,transition:{duration:0.3}}}>>
+            >Blankets</motion.div>
     );
-}
+};
 
-export default CheckoutSuccess;
+export default Blankets;

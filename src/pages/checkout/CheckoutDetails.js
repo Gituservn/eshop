@@ -3,13 +3,12 @@ import {useState} from "react";
 import NovaPoshta from 'novaposhta';
 import Card from "../../components/card/Card";
 import styles from './CheckoutDetails.module.scss';
-import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/semantic-ui.css';
 import {useDispatch} from "react-redux";
 import {SAVE_SHIPPING_ADDRESS} from "../../redux/slice/checkoutSlice";
 import {useNavigate, useNavigation} from "react-router-dom";
 import CheckoutSummary from "../../components/checkoutSummary/CheckoutSummary";
-
+import {motion} from "framer-motion";
 
 const initialAddressState = {
     name: '',
@@ -80,7 +79,10 @@ const CheckoutDetails = () => {
 
     };
     return (
-        <section>
+        <motion.section
+            initial={{opacity:0}}
+            animate={{opacity:1}}
+            exit={{opacity:0,transition:{duration:0.1}}}>>
             <div className={`container ${styles.checkout}`}>
                 <h2>Оформлення замовлення</h2>
                 <form onSubmit={handleSubmit}>
@@ -182,7 +184,7 @@ const CheckoutDetails = () => {
 
             </div>
 
-        </section>);
+        </motion.section>);
 };
 
 export default CheckoutDetails;
