@@ -15,23 +15,18 @@ import {REMOVE_ACTIVE_USER} from '../../redux/slice/authSlice';
 import ShowOnLogin from "../hiddenLink/hiddenLink";
 import {ShowOnLogout} from "../hiddenLink/hiddenLink";
 import AdminOnlyRoute, {AdminOnlyLink} from "../adminOnlyRoute/adminOnlyRoute";
-import {CALC_TOTAL_QUANTITY, selectCartTotalQuantity} from "../../redux/slice/cartSlice";
-
-const spanStyle = {
-    color: 'orangered'
-};
-const logoStyle = {
-    color: 'white'
-};
+import {
+    CALC_TOTAL_QUANTITY,
+    selectCartTotalQuantity
+} from "../../redux/slice/cartSlice";
+import Logo from '../../assets/logo.png';
+import {BsFillHandbagFill} from "react-icons/bs";
 
 
 const logo = (
     <div className="logo">
         <Link to="/">
-            <h2 style={logoStyle}>
-                <span style={spanStyle}>W</span>illow<span
-                style={spanStyle}>.</span>
-            </h2>
+            <img className={styles.logo} src={Logo} alt="logo"/>
         </Link>
     </div>
 );
@@ -44,7 +39,7 @@ const Header = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [displayName, setDisplayName] = useState('');
     const [scrollPage, setScrollPage] = useState(false);
-    const cartTotalQuantity = useSelector(selectCartTotalQuantity)
+    const cartTotalQuantity = useSelector(selectCartTotalQuantity);
     const dispatch = useDispatch();
 
     const toggleMenu = () => {
@@ -96,29 +91,30 @@ const Header = () => {
     }, [dispatch, displayName]);
 
     useEffect(() => {
-    dispatch(CALC_TOTAL_QUANTITY())
+        dispatch(CALC_TOTAL_QUANTITY());
     }, [dispatch]);
 
-    const fixNavbar = () => {
-      if (window.scrollY > 50){
-          setScrollPage(true)
-      } else {setScrollPage(false)}
+    // const fixNavbar = () => {
+    //   if (window.scrollY > 50){
+    //       setScrollPage(true)
+    //   } else {setScrollPage(false)}
+    //
+    // }
 
-    }
-
-    window.addEventListener('scroll',fixNavbar)
+    // window.addEventListener('scroll',fixNavbar)
 
     const cart = (
 
-        // <ShowOnLogin>
+        <ShowOnLogin>
         <span className={styles.cart}>
             <NavLink
                 to="/cart"
-                className={activeLink}>Кошик <FaShoppingCart
-                size={20}/> <p>{cartTotalQuantity}</p> </NavLink>
+                className={activeLink}>Кошик <BsFillHandbagFill
+                size={20}
+                color="#A78C70"/> <p>{cartTotalQuantity}</p> </NavLink>
 
         </span>
-        // </ShowOnLogin>
+        </ShowOnLogin>
     );
     return (
         <>
@@ -130,37 +126,56 @@ const Header = () => {
                     <nav
                         className={showMenu ? `${styles["show-nav"]}` : `${styles["hide-menu"]}`}>
                         <div
-                            className={showMenu ? `${styles["nav-wrapper"]} ${styles['show-nav-wrapper']}` : `${styles["nav-wrapper"]}`}
-                            onClick={hideMenu}
-                        >
-                        </div>
-                        <ul onClick={hideMenu}>
-                            <li className={styles['logo-mobile']}>
-                                {logo}
-                                <FaTimes size={22} color={'white'}
-                                         onClick={hideMenu}/>
-                            </li>
-                            <AdminOnlyLink>
-                                <li>
-                                    <Link to="/admin/home">
-                                        <button
-                                            className="--btn --btn-primary">Адміністратор
-                                        </button>
-                                    </Link>
-
+                            /*className={showMenu ? `${styles["nav-wrapper"]} ${styles['show-nav-wrapper']}` : `${styles["nav-wrapper"]}`}*/
+                            onClick={hideMenu}>
+                            <ul onClick={hideMenu}>
+                                <li className={styles['logo-mobile']}>
+                                    {logo}
+                                    <FaTimes size={22} color={'white'}
+                                             onClick={hideMenu}/>
                                 </li>
-                            </AdminOnlyLink>
+                                <AdminOnlyLink>
+                                    <li>
+                                        <Link to="/admin/home">
+                                            <button
+                                                className="--btn --btn-primary">Адміністратор
+                                            </button>
+                                        </Link>
+
+                                    </li>
+                                </AdminOnlyLink>
 
 
-                            <li>
-                                <NavLink to="/"
-                                         className={activeLink}>Головна</NavLink>
-                            </li>
-                            <li>
-                                <NavLink to="/contact" className={activeLink}>зв'яжіться
-                                    з нами</NavLink>
-                            </li>
-                        </ul>
+                                <li>
+                                    <NavLink to="/"
+                                             className={activeLink}>Головна</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/linens"
+                                             className={activeLink}>Постільні
+                                        набори</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/pillow"
+                                             className={activeLink}>Подушки</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/blankets"
+                                             className={activeLink}>Ковдри</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/toppers"
+                                             className={activeLink}>Наматрацники</NavLink>
+                                </li>
+
+
+                                <li>
+                                    <NavLink to="/contact"
+                                             className={activeLink}>зв'яжіться
+                                        з нами</NavLink>
+                                </li>
+                            </ul>
+                        </div>
                         <div className={styles["header-right"]}
                              onClick={hideMenu}>
                         <span className={styles.links}>
@@ -172,15 +187,15 @@ const Header = () => {
                             </ShowOnLogout>
 
 
-                            <ShowOnLogin>
-                                <a href="#">
-                            <FaUserCircle
-                                className={styles.userCircle}
-                                size={16}
-                            />
-                                Вітаємо,{displayName}
-                            </a>
-                            </ShowOnLogin>
+                            {/*<ShowOnLogin>*/}
+                            {/*    <a href="#">*/}
+                            {/*<FaUserCircle*/}
+                            {/*    className={styles.userCircle}*/}
+                            {/*    size={16}*/}
+                            {/*/>*/}
+                            {/*    Вітаємо,{displayName}*/}
+                            {/*</a>*/}
+                            {/*</ShowOnLogin>*/}
 
                             <ShowOnLogin>
                                 <NavLink
@@ -196,12 +211,11 @@ const Header = () => {
                         </span>
                             {cart}
                         </div>
-
-
                     </nav>
+
                     <div className={styles['menu-icon']}>
                         {cart}
-                        <HiMenuAlt3 size={40} onClick={toggleMenu}/>
+                        <HiMenuAlt3 color='#5C473D' size={40} onClick={toggleMenu}/>
                     </div>
                 </div>
             </header>

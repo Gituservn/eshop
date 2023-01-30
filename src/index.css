@@ -3,6 +3,7 @@
 :root {
   --font-family: "Poppins", sans-serif;
   --dark-blue: #0a1930;
+  --brown: #b69d91;
   --light-blue: #1f93ff;
 
   --color-white: #fff;
@@ -308,7 +309,7 @@ p {
 }
 .--btn-danger {
   color: #fff;
-  background: orangered;
+  background: #A78C70;
 }
 
 .--btn-success {
@@ -429,5 +430,21 @@ a {
 
 a:hover {
   color: var(--color-dark);
-  font-size: 1.5rem;
+  /*font-size: 1.5rem;*/
+}
+
+.swiper-container {
+  width: 480px;
+}
+
+@media screen and (min-width: 640px) {
+  .swiper-container {
+    width: 640px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .swiper-container {
+    width: 768px;
+  }
 }

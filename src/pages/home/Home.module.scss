@@ -1,0 +1,21 @@
+.section_images{
+  display: flex;
+  width: 100%;
+  img{
+    display: block;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .section_images{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    overflow-x:hidden ;
+    img{
+      display: block;
+      width: 350%;
+    }
+  }
+}

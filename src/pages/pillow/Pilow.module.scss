@@ -1,0 +1,12 @@
+.pillow_items{
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 30px;
+}
+
+@media screen and (max-width: 700px) {
+  .infoWrapper{
+    flex-direction: column;
+    align-items: center;
+  }
+}

@@ -29,7 +29,7 @@ const Product = () => {
     }
     return (
        <section>
-           <div className={`container ${styles.product}`}>
+          {/* <div className={`container ${styles.product}`}>
                <aside className={showFilter ? `${styles.filter} ${styles.show}` :`${styles.filter}`}>
                    {isLoading ? null : <ProductFilter/>}
 
@@ -44,7 +44,7 @@ const Product = () => {
                    </div>
 
                </div>
-           </div>
+           </div>*/}
        </section>
     );
 }
