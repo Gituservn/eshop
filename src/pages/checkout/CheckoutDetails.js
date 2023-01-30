@@ -35,23 +35,24 @@ const CheckoutDetails = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+
     const getRegionList = useCallback(() => {
         api.address
             .getAreas()
             .then(({data}) => setRegionList(data));
-    }, [api.address]);
+    }, []);
 
     const getCitiesList = useCallback(() => {
         api.address
             .getCities()
             .then(({data}) => setCitiesList(data));
-    }, [api.address]);
+    }, []);
 
     const getWarehouses = useCallback(() => {
         api.address
             .getWarehouses()
             .then(({data}) => setWarehouses(data));
-    }, [api.address]);
+    }, []);
 
     let citiesOfTheRegion = citiesList.filter(city => city.AreaDescription.includes(shippingAddress.region)
     );

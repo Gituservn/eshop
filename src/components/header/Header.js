@@ -16,25 +16,26 @@ import ShowOnLogin from "../hiddenLink/hiddenLink";
 import {ShowOnLogout} from "../hiddenLink/hiddenLink";
 import AdminOnlyRoute, {AdminOnlyLink} from "../adminOnlyRoute/adminOnlyRoute";
 import {
-    CALC_TOTAL_QUANTITY,
-    selectCartTotalQuantity
+    CALC_TOTAL_QUANTITY, selectCartTotalQuantity
 } from "../../redux/slice/cartSlice";
 import Logo from '../../assets/logo.png';
 import {BsFillHandbagFill} from "react-icons/bs";
+import Search from "../search/Search";
+import products from "../products/Product";
+import useFetch from "../../customHook/useFetch";
 
 
-const logo = (
-    <div className="logo">
-        <Link to="/">
-            <img className={styles.logo} src={Logo} alt="logo"/>
-        </Link>
-    </div>
-);
+const logo = (<div className="logo">
+    <Link to="/">
+        <img className={styles.logo} src={Logo} alt="logo"/>
+    </Link>
+</div>);
 
 const activeLink = (({isActive}) => (isActive ? `${styles.active}` : ''));
 
 
 const Header = () => {
+    const {data} = useFetch("products", "category")
     const [showMenu, setShowMenu] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [displayName, setDisplayName] = useState('');
@@ -42,6 +43,18 @@ const Header = () => {
     const cartTotalQuantity = useSelector(selectCartTotalQuantity);
     const dispatch = useDispatch();
 
+// search
+    const [results, setResults] = useState('');
+    const [selectedProfile, setSelectedProfile] = useState('');
+
+    const handleChange = (e) => {
+        const {target} = e;
+        if (!target.value.trim()) return setResults([]);
+
+        const filteredValue = data.filter((profile) => profile.name.toLowerCase().startsWith(target.value));
+        setResults(filteredValue);
+    };
+    //
     const toggleMenu = () => {
         setShowMenu(!showMenu);
     };
@@ -78,9 +91,7 @@ const Header = () => {
 
 
                 dispatch(SET_ACTIVE_USER({
-                    email: user.email,
-                    userName: user.displayName ? user.displayName : displayName,
-                    userId: user.uid,
+                    email: user.email, userName: user.displayName ? user.displayName : displayName, userId: user.uid,
 
                 }));
             } else {
@@ -114,70 +125,71 @@ const Header = () => {
                 color="#A78C70"/> <p>{cartTotalQuantity}</p> </NavLink>
 
         </span>
-        </ShowOnLogin>
-    );
-    return (
-        <>
-            {isLoading && <Loader/>}
+        </ShowOnLogin>);
+    return (<>
+        {isLoading && <Loader/>}
 
-            <header className={scrollPage ? `${styles.fixed}` : null}>
-                <div className={styles.header}>
-                    {logo}
-                    <nav
-                        className={showMenu ? `${styles["show-nav"]}` : `${styles["hide-menu"]}`}>
-                        <div
-                            /*className={showMenu ? `${styles["nav-wrapper"]} ${styles['show-nav-wrapper']}` : `${styles["nav-wrapper"]}`}*/
-                            onClick={hideMenu}>
-                            <ul onClick={hideMenu}>
-                                <li className={styles['logo-mobile']}>
-                                    {logo}
-                                    <FaTimes size={22} color={'white'}
-                                             onClick={hideMenu}/>
+        <header className={scrollPage ? `${styles.fixed}` : null}>
+            <div className={styles.header}>
+                {logo}
+                <nav
+                    className={showMenu ? `${styles["show-nav"]}` : `${styles["hide-menu"]}`}>
+                    <div
+                        /*className={showMenu ? `${styles["nav-wrapper"]} ${styles['show-nav-wrapper']}` : `${styles["nav-wrapper"]}`}*/
+                        onClick={hideMenu}>
+                        <ul onClick={hideMenu}>
+                            <li className={styles['logo-mobile']}>
+                                {logo}
+                                <FaTimes size={22} color={'white'}
+                                         onClick={hideMenu}/>
+                            </li>
+                            <AdminOnlyLink>
+                                <li>
+                                    <Link to="/admin/home">
+                                        <button
+                                            className="--btn --btn-primary">Адміністратор
+                                        </button>
+                                    </Link>
+
                                 </li>
-                                <AdminOnlyLink>
-                                    <li>
-                                        <Link to="/admin/home">
-                                            <button
-                                                className="--btn --btn-primary">Адміністратор
-                                            </button>
-                                        </Link>
-
-                                    </li>
-                                </AdminOnlyLink>
+                            </AdminOnlyLink>
 
 
-                                <li>
-                                    <NavLink to="/"
-                                             className={activeLink}>Головна</NavLink>
-                                </li>
-                                <li>
-                                    <NavLink to="/linens"
-                                             className={activeLink}>Постільні
-                                        набори</NavLink>
-                                </li>
-                                <li>
-                                    <NavLink to="/pillow"
-                                             className={activeLink}>Подушки</NavLink>
-                                </li>
-                                <li>
-                                    <NavLink to="/blankets"
-                                             className={activeLink}>Ковдри</NavLink>
-                                </li>
-                                <li>
-                                    <NavLink to="/toppers"
-                                             className={activeLink}>Наматрацники</NavLink>
-                                </li>
+                            <li>
+                                <NavLink to="/"
+                                         className={activeLink}>Головна</NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/linens"
+                                         className={activeLink}>Постільні
+                                    набори</NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/pillow"
+                                         className={activeLink}>Подушки</NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/blankets"
+                                         className={activeLink}>Ковдри</NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/toppers"
+                                         className={activeLink}>Наматрацники</NavLink>
+                            </li>
 
 
-                                <li>
-                                    <NavLink to="/contact"
-                                             className={activeLink}>зв'яжіться
-                                        з нами</NavLink>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className={styles["header-right"]}
-                             onClick={hideMenu}>
+                            <li>
+                                <NavLink to="/contact"
+                                         className={activeLink}>зв'яжіться
+                                    з нами</NavLink>
+                            </li>
+
+                        </ul>
+                        {/*Створив компонент передав пропси сюди*/}
+
+                    </div>
+                    <div className={styles["header-right"]}
+                         onClick={hideMenu}>
                         <span className={styles.links}>
                             <ShowOnLogout>
                                 <NavLink to="/login"
@@ -207,20 +219,23 @@ const Header = () => {
                                 <NavLink to="/"
                                          onClick={logoutUser}>Вийти</NavLink>
                             </ShowOnLogin>
-
                         </span>
-                            {cart}
-                        </div>
-                    </nav>
-
-                    <div className={styles['menu-icon']}>
                         {cart}
-                        <HiMenuAlt3 color='#5C473D' size={40} onClick={toggleMenu}/>
                     </div>
+                </nav>
+                <div className={styles['menu-icon']}>
+                    {cart}
+                    <HiMenuAlt3 color='#5C473D' size={40} onClick={toggleMenu}/>
                 </div>
-            </header>
-        </>
-    );
+                <Search
+                    results={data}
+                    value={selectedProfile?.name}
+                    renderItem={(item) => <p>{item.name}</p>}
+                    onChange={handleChange}
+                    onSelect={(item) => setSelectedProfile(item)}/>
+            </div>
+        </header>
+    </>);
 };
 
 export default Header;
