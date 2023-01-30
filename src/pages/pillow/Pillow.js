@@ -2,7 +2,6 @@ import React, {useEffect} from 'react';
 import pillows from '../../assets/Pillow.png'
 import styles from "../home/Home.module.scss";
 import {useDispatch, useSelector} from "react-redux";
-import stylesPillow from './Pilow.module.scss'
 import {
     GET_PRICE_RANGE,
     selectProducts,
@@ -10,6 +9,8 @@ import {
 } from "../../redux/slice/productSlice";
 import useFetch from "../../customHook/useFetch";
 import ProductItem from "../../components/products/productItem/ProductItem";
+import {motion} from "framer-motion";
+
 const Pillow = () => {
     const{data,isLoading} = useFetch("products","category")
 
@@ -31,12 +32,15 @@ const Pillow = () => {
     const pillow =products.filter(item=>item.category.includes('Подушки'))
     console.log(pillow);
     return (
-        <>
+        <motion.div
+            initial={{opacity:0}}
+            animate={{opacity:1}}
+            exit={{opacity:0,transition:{duration:0.3}}}>>
             <div className={styles.section_images}>
                 <img  src={pillows} alt=""/>
 
             </div>
-            <div className={stylesPillow.pillow_items}>
+            <div className={styles.product_items}>
                 {pillow.map((product)=>{
                     return(
                         <div key={product.id}>
@@ -45,8 +49,7 @@ const Pillow = () => {
                     )
                 })}
             </div>
-           </>
-
+        </motion.div>
     );
 };
 
