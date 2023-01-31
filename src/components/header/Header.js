@@ -221,16 +221,18 @@ const Header = () => {
                             </ShowOnLogin>
                             
                         </span>
-                        <Search
+                        
+                        {cart}
+                    </div>
+                </nav>
+                <Search
                     results={data}
                     value={selectedProfile?.name}
                     renderItem={(item) => <p>{item.name}</p>}
                     onChange={handleChange}
                     onSelect={(item) => setSelectedProfile(item)}/>
-                        {cart}
-                    </div>
-                </nav>
                 <div className={styles['menu-icon']}>
+                    
                     {cart}
                     <HiMenuAlt3 color='#5C473D' size={40} onClick={toggleMenu}/>
                 </div>
