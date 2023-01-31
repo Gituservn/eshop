@@ -219,6 +219,12 @@ const Header = () => {
                                 <NavLink to="/"
                                          onClick={logoutUser}>Вийти</NavLink>
                             </ShowOnLogin>
+                            <Search
+                    results={data}
+                    value={selectedProfile?.name}
+                    renderItem={(item) => <p>{item.name}</p>}
+                    onChange={handleChange}
+                    onSelect={(item) => setSelectedProfile(item)}/>
                         </span>
                         {cart}
                     </div>
@@ -227,12 +233,7 @@ const Header = () => {
                     {cart}
                     <HiMenuAlt3 color='#5C473D' size={40} onClick={toggleMenu}/>
                 </div>
-                <Search
-                    results={data}
-                    value={selectedProfile?.name}
-                    renderItem={(item) => <p>{item.name}</p>}
-                    onChange={handleChange}
-                    onSelect={(item) => setSelectedProfile(item)}/>
+                
             </div>
         </header>
     </>);
