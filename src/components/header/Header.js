@@ -219,13 +219,14 @@ const Header = () => {
                                 <NavLink to="/"
                                          onClick={logoutUser}>Вийти</NavLink>
                             </ShowOnLogin>
-                            <Search
+                            
+                        </span>
+                        <Search
                     results={data}
                     value={selectedProfile?.name}
                     renderItem={(item) => <p>{item.name}</p>}
                     onChange={handleChange}
                     onSelect={(item) => setSelectedProfile(item)}/>
-                        </span>
                         {cart}
                     </div>
                 </nav>
