@@ -225,12 +225,12 @@ const Header = () => {
                         {cart}
                     </div>
                 </nav>
-                <Search
+                {/*<Search
                     results={data}
                     value={selectedProfile?.name}
                     renderItem={(item) => <p>{item.name}</p>}
                     onChange={handleChange}
-                    onSelect={(item) => setSelectedProfile(item)}/>
+                    onSelect={(item) => setSelectedProfile(item)}/>*/}
                 <div className={styles['menu-icon']}>
                     
                     {cart}

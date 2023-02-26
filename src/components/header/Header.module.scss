@@ -17,15 +17,16 @@ header {
   color: #fff;
 
   .header {
-    width: 100%;
+
     max-height: 150px;
     max-width: 1920px;
     padding: 10rem 5rem 5rem;
     margin: 5px;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     position: relative;
+    margin-bottom: 30px;
   }
 
   .logo {
@@ -50,6 +51,7 @@ header {
     //justify-content: space-between;
     padding-bottom: 10px;
 
+
     ul {
       display: flex;
       justify-content: space-between;
@@ -65,6 +67,8 @@ header {
         a {
           //text-transform: uppercase;
           color: #3C2B23;
+          font-size: 16px;
+          text-transform: uppercase;
 
           &:hover {
             color: #A78C70;
@@ -81,6 +85,7 @@ header {
       display: flex;
       color: #3C2B23;
       position: relative;
+
 
       &:hover {
         color: #A78C70;
@@ -110,6 +115,8 @@ header {
     .links a {
       margin: 0 5px;
       color: #3C2B23;
+      font-size: 16px;
+      text-transform: uppercase;
 
       &:hover {
         color: #A78C70;

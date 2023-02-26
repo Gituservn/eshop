@@ -1,0 +1,118 @@
+.brandSlogan{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &__wrapper{
+    width: 70%;
+    margin-top: 30px;
+    padding-top: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgb(207,177,137);
+    background: linear-gradient(90deg, rgba(207,177,137,1) 0%, rgba(212,183,144,0.5383403361344538) 51%, rgba(207,177,137,1) 100%);
+    &_title{
+      text-transform: uppercase;
+      font-size: 42px;
+    }
+    &_desc{
+      margin-bottom: 70px;
+      font-size: 25px;
+    }
+    &_list{
+      width: 100%;
+     ul{
+       display: flex;
+       margin-bottom: 105px;
+       justify-content: space-evenly;
+       li{
+         flex-direction: column;
+         display: flex;
+         align-items: center;
+         list-style: none;
+         p{
+           font-size: 20px;
+         }
+       }
+     }
+
+
+    }
+
+  }
+  &:before{
+    content: '';
+    width: 345px;
+    height: 232px;
+    background-image: url("../../assets/logoBrandSlogan.png");
+  }
+  &:after{
+    content: '';
+    width: 345px;
+    height: 232px;
+    background-image: url("../../assets/logoBrandSlogan.png");
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .brandSlogan{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &__wrapper{
+      width: 90%;
+      padding-top: 30px;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+      background: rgb(207,177,137);
+      background: linear-gradient(90deg, rgba(207,177,137,1) 0%, rgba(212,183,144,0.5383403361344538) 51%, rgba(207,177,137,1) 100%);
+      &_title{
+        text-transform: uppercase;
+        font-size: 32px;
+      }
+      &_desc{
+        margin-bottom: 30px;
+        font-size: 25px;
+      }
+      &_list{
+        width: 100%;
+        ul{
+          display: flex;
+          margin-bottom: 15px;
+          justify-content: space-evenly;
+          flex-direction: column;
+          li{
+            flex-direction: column;
+            display: flex;
+            align-items: center;
+            list-style: none;
+            p{
+              font-size: 20px;
+            }
+          }
+        }
+
+
+      }
+
+    }
+    &:before{
+      display: none;
+      content: '';
+      width: 345px;
+      height: 232px;
+      background-image: url("../../assets/logoBrandSlogan.png");
+    }
+    &:after{
+      content: '';
+      width: 345px;
+      height: 232px;
+      background-image: url("../../assets/logoBrandSlogan.png");
+      display: none;
+    }
+  }
+}

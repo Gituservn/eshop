@@ -93,7 +93,7 @@ const Search = ({results = [], renderItem, value, onChange, onSelect,}) => {
                         onMouseDown={() => handleSelection(index)}
                         ref={index === focusedIndex ? resultContainer : null}
                         style={{
-                            backgroundColor: index === focusedIndex ? "rgba(0,0,0,0.1)" : "",
+                            backgroundColor: index === focusedIndex ? "rgb(255,255,255)" : "",
                         }}
                         className={styles.selectSearchOption}
                     >
