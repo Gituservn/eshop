@@ -1,80 +1,70 @@
-import React from 'react';
-import {useState,useEffect} from "react";
-import './Slider.scss';
-import {AiOutlineArrowLeft, AiOutlineArrowRight} from "react-icons/ai";
-import {sliderData} from "./slider-data";
-import {useSwipeable} from "react-swipeable";
+import React, {useEffect} from "react";
+import {useKeenSlider} from "keen-slider/react";
+import "keen-slider/keen-slider.min.css";
+import useFetch from "../../customHook/useFetch";
+import {useDispatch, useSelector} from "react-redux";
+import {selectProducts, STORE_PRODUCTS} from "../../redux/slice/productSlice";
+import styles from './slider.module.scss';
 
-const Slider = () => {
+export default () => {
+    const {data, isLoading} = useFetch("products", "category");
 
-
-    const [currentSlide, setCurrentSlide] = useState(1);
-    const slideLength = sliderData.length
-
-    const autoScroll = true
-    let slideInterval;
-    let intervalTime = 5000;
-
-    const nextSlide = ()=>{
-        setCurrentSlide(currentSlide===slideLength -1 ? 0 : currentSlide +1)
-    }
-
-    const prevSlide = ()=>{
-        setCurrentSlide(currentSlide=== 0 ? slideLength -1 : currentSlide -1)
-    }
-
-    // function auto() {
-    //         slideInterval = setInterval(nextSlide,intervalTime)
-    // }
+    const products = useSelector(selectProducts);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        setCurrentSlide(0)
+        dispatch(
+            STORE_PRODUCTS({
+                products: data
+            })
+        );
+    }, [dispatch, data]);
 
-    }, []);
-
-    useEffect(() => {
-       if(autoScroll){
-           const auto =()=> {
-               slideInterval = setInterval(nextSlide,intervalTime)
-           }
-           auto()
-       }
-       return ()=>clearInterval(slideInterval)
-    }, [currentSlide,slideInterval,autoScroll]);
-
-    const handlers =useSwipeable({
-        onSwipedLeft:()=>nextSlide(),
-        onSwipedRight:()=>prevSlide(),
-    })
-
+    const [sliderRef] = useKeenSlider({
+        breakpoints: {
+            "(min-width: 400px)": {
+                slides: {perView: 2, spacing: 5},
+            },
+            "(min-width: 1000px)": {
+                slides: {perView: 3, spacing: 10},
+            },
+        },
+        slides: {perView: 1},
+    });
 
     return (
-        <div className="slider"{...handlers}>
+        <div ref={sliderRef} className="keen-slider">
+            {products.map((item) => {
+                console.log(item);
+                const {
+                    id,
+                    imageURL,
+                    priceOne,
+                    priceTwo,
+                    priceEuro,
+                    pillowPrice40,
+                    pillowPrice50,
+                    pillowPrice70,
+                    pillowPrice60
+                } = item;
+                const prices = [
+                    priceOne, priceTwo, priceEuro, pillowPrice40, pillowPrice50, pillowPrice70, pillowPrice60
+                ];
 
-            <AiOutlineArrowLeft className="arrow prev" onClick={prevSlide}/>
-            <AiOutlineArrowRight className="arrow next" onClick={nextSlide}/>
+                const nonZeroPrice = prices.filter(num=>typeof num ==='number' && num !== 0 && !isNaN(num))
 
-            {sliderData.map((slide, index) => {
-                const {image,heading,descr} = slide;
+                const minPrice = Math.min(...nonZeroPrice)
+                console.log(minPrice);
+
                 return (
-                    <div key={index}
-                         className={index === currentSlide ? 'slide current' : 'slide'}>
-                        {index === currentSlide && (
-                            <>
-                                <img src={image} alt="slide"/>
-                                <div className="content">
-                                    <h2>{heading}</h2>
-                                    <p>{descr}</p>
-                                    <hr/>
-                                    <a href="#product" className='--btn --btn-primary'> За покупками</a>
-                                </div>
-                            </>
-                        )}
+                    <div key={id} className="keen-slider__slide">
+                        <p>Ціна від {minPrice} грн </p>
+                        <img
+                            src={imageURL} alt=""/>
                     </div>
                 );
             })}
+
         </div>
     );
-};
-
-export default Slider;
+}

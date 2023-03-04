@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "firebase": "^9.14.0",
     "framer-motion": "^8.5.5",
+    "keen-slider": "^6.8.5",
     "normalizr": "^3.6.2",
     "notiflix": "^3.2.5",
     "novaposhta": "^1.1.1",

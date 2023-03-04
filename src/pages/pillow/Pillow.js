@@ -36,7 +36,7 @@ const Pillow = () => {
             initial={{opacity:0}}
             animate={{opacity:1}}
             exit={{opacity:0,transition:{duration:0.3}}}>>
-            <div className={styles.section_images}>
+            <div className={styles.subheader}>
                 <img  src={pillows} alt=""/>
 
             </div>

@@ -43,15 +43,17 @@
   }
   &:before{
     content: '';
-    width: 345px;
+    width: auto;
     height: 232px;
     background-image: url("../../assets/logoBrandSlogan.png");
+    background-size: 100%;
   }
   &:after{
     content: '';
-    width: 345px;
+    width: auto;
     height: 232px;
     background-image: url("../../assets/logoBrandSlogan.png");
+
   }
 }
 
@@ -103,15 +105,16 @@
     &:before{
       display: none;
       content: '';
-      width: 345px;
+      width: 250px;
       height: 232px;
       background-image: url("../../assets/logoBrandSlogan.png");
     }
     &:after{
       content: '';
-      width: 345px;
+      width: 250px;
       height: 232px;
       background-image: url("../../assets/logoBrandSlogan.png");
+      background-repeat: no-repeat;
       display: none;
     }
   }

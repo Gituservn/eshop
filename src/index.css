@@ -305,8 +305,10 @@ p {
 }
 .--btn-secondary {
   color: #fff;
-  border: 1px solid #fff;
-  background: transparent;
+  width: 90%;
+  height: 60px;
+  text-transform: uppercase;
+  background: #3b2a22;
 }
 .--btn-danger {
   color: #fff;
