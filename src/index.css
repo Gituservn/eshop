@@ -32,7 +32,9 @@ html {
 }
 
 body {
+  background-color: #f1e8de ;
   background-image: url("assets/bgProducts.png");
+
   font-family: var(--font-family);
 }
 
@@ -436,9 +438,11 @@ a:hover {
   /*font-size: 1.5rem;*/
 }
 
-.swiper-container {
-  width: 480px;
+.slider__wrapper{
+  background: #f1e8de;
+  width: 100%;
 }
+
 
 @media screen and (min-width: 640px) {
   .swiper-container {
