@@ -1,4 +1,5 @@
 .product {
+  padding-left: 25px;
   .card {
     padding: 1rem;
     margin-top: 1rem;
@@ -20,7 +21,7 @@
 
     .content {
       width: 55%;
-      padding: 0 15px;
+      margin: 0 15px;
       & > * {
         margin-bottom: 1rem;
       }
@@ -32,17 +33,20 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 150px;
+        width: 310px;
         label {
           display: block;
           font-size: 1.4rem;
           font-weight: 500;
         }
+        select {
+
+          width: 300px;
+          height: 30px;
+        }
       }
 
-      .select {
-        width: 100%;
-      }
+
       .count {
         display: flex;
         align-items: center;

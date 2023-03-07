@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import {Link, useParams} from "react-router-dom";
 import {doc, getDoc} from "firebase/firestore";
 import {db} from "../../../firebase/Config";
@@ -9,7 +9,6 @@ import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 import uuid from 'react-uuid';
 
-import NovaPoshta from 'novaposhta';
 
 import {
     Accordion, AccordionItem, AccordionItemButton, AccordionItemHeading, AccordionItemPanel
@@ -21,6 +20,7 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 
 
+// eslint-disable-next-line no-unused-vars
 const __ApiKey = '421852b3235e42445b33038dadf21808';
 
 const ProductDetails = () => {
@@ -204,8 +204,9 @@ const ProductDetails = () => {
 
                         </div>
 
-                        <button className='--btn - --btn-danger' onClick={() => addToCart(product)}> добавити в
-                            корзину
+                        <button className='--btn - --btn-danger' disabled={currentSize !== null || currentSizePillow!==null ? false : true} onClick={() => addToCart(product)}>
+                            {currentSize !== null || currentSizePillow!==null ?'добавити в кошик' : "Виберіть розмір"}
+
                         </button>
 
                         <Accordion allowZeroExpanded>

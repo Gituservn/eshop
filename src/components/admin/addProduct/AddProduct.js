@@ -76,6 +76,7 @@ const AddProduct = () => {
         setIsLoading(true)
 
         try {
+            // eslint-disable-next-line no-unused-vars
             const docRef = addDoc(collection(db, "products"), {
                 name: product.name,
                 imageURL: product.imageURL,
@@ -246,8 +247,10 @@ const AddProduct = () => {
                             })}
 
                         </select>
-                        {linens ? <div>
-                            <label>Ціна півтораспального комплекту</label>
+                        {linens || blankets ? <div>
+                            <label>{linens ? 'Ціна півтораспального' +
+                                ' комплекту' : 'Ціна ковдри 140/210'}
+                                </label>
                             <input
                                 type="number"
                                 placeholder="Ціна півтораспального комплекту"
@@ -256,7 +259,8 @@ const AddProduct = () => {
                                 value={product.priceOne}
                                 onChange={(e) => handleInputChange(e)}
                             />
-                            <label>Ціна двоспального комплекту</label>
+                            <label>{linens ? 'Ціна двоспального' +
+                                ' комплекту' : 'Ціна ковдри 175/210'}</label>
                             <input
                                 type="number"
                                 placeholder="Ціна двоспального комплекту"
@@ -265,7 +269,8 @@ const AddProduct = () => {
                                 value={product.priceTwo}
                                 onChange={(e) => handleInputChange(e)}
                             />
-                            <label>Ціна євро комплекту</label>
+                            <label>{linens ? 'Ціна євро' +
+                                ' комплекту' : 'Ціна ковдри 200/220'}</label>
                             <input
                                 type="number"
                                 placeholder="Ціна євро комплекту"

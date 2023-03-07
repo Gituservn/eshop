@@ -6,7 +6,7 @@ const BrandSlogan = () => {
         <div className={styles.brandSlogan}>
             <div className={styles.brandSlogan__wrapper}>
                 <GiQueenCrown size={60} color={'#5C473D'}/>
-                <h2 className={styles.brandSlogan__wrapper_title}>Royal therapy</h2>
+                <h2 className={styles.brandSlogan__wrapper_title}>Willow House</h2>
                 <p className={styles.brandSlogan__wrapper_desc}>Створюйте розкішний світ свого сну.</p>
                 <div className={styles.brandSlogan__wrapper_list}>
                     <ul >
