@@ -1,192 +1,35 @@
-@import url('https://rsms.me/inter/inter.css');
-
-/**
- * Main wrapper
- */
-.selectSearchContainer {
-  --selectSearchBackground: #fff;
-  --selectSearchBorder: #dce0e8;
-  --selectSearchSelected: #1e66f5;
-  --selectSearchText: #000;
-  --selectSearchSubtleText: #6c6f85;
-  --select-search-inverted-text: var(--selectSearchBackground);
-  --selectSearchHighlight: #eff1f5;
-  --selectSearchFont: 'Inter', sans-serif;
-
+.search{
   width: 300px;
+  display: flex;
+  flex-direction: column;
   position: relative;
-  font-family: var(--selectSearchFont);
-  color: var(--selectSearchText);
-  box-sizing: border-box;
-}
-
-@supports (font-variation-settings: normal) {
-  .selectSearchContainer {
-    --selectSearchFont: 'Inter var', sans-serif;
+  &__input{
+    width: 280px;
+    height: 30px;
+  }
+  &__result{
+    width: 280px;
+    max-height: 300px;
+    min-height: 50px;
+    position: absolute;
+    background: rgba(241, 232, 222, 0.87);
+    &_item{
+      padding-top: 10px;
+      display: flex;
+      img{
+        width: 60px;
+      }
+    }
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  .selectSearchContainer {
-    --selectSearchBackground: #000;
-    --selectSearchBorder: #313244;
-    --selectSearchSelected: #89b4fa;
-    --selectSearchText: #fff;
-    --selectSearchSubtleText: #a6adc8;
-    --selectSearchHighlight: #1e1e2e;
+@media screen and (max-width: 700px) {
+  .search{
+    &__input{
+      width: 150px;
+    }
+    &__result{
+      width: 150px;
+    }
   }
-}
-
-body.isDark-mode .selectSearchContainer {
-  --selectSearchBackground: #000;
-  --selectSearchBorder: #313244;
-  --selectSearchSelected: #89b4fa;
-  --selectSearchText: #fff;
-  --selectSearchSubtleText: #a6adc8;
-  --selectSearchHighlight: #1e1e2e;
-}
-
-body.isLightMode .selectSearchContainer {
-  --selectSearchBackground: #fff;
-  --selectSearchBorder: #dce0e8;
-  --selectSearchSelected: #1e66f5;
-  --selectSearchText: #000;
-  --selectSearchSubtleText: #6c6f85;
-  --selectSearchHighlight: #eff1f5;
-}
-
-.selectSearchContainer *,
-.selectSearchContainer *::after,
-.selectSearchContainer *::before {
-  box-sizing: inherit;
-}
-
-.selectSearchInput {
-  position: relative;
-  z-index: 1;
-  display: block;
-  width: 100%;
-  padding: 0 40px 0 16px;
-  background: var(--selectSearchBackground);
-  border: 2px solid var(--selectSearchBorder);
-  color: var(--selectSearchText);
-  border-radius: 3px;
-  outline: none;
-  font-family: var(--selectSearchFont);
-  font-size: 16px;
-  text-align: left;
-  text-overflow: ellipsis;
-  line-height: 48px;
-  letter-spacing: 0.01rem;
-  -webkit-appearance: none;
-  -webkit-font-smoothing: antialiased;
-}
-
-.selectSearchIsMultiple .selectSearchInput {
-  margin-bottom: -2px;
-}
-
-.selectSearchIsMultiple .selectSearchInput {
-  border-radius: 3px 3px 0 0;
-}
-
-.selectSearchInput::-webkit-search-decoration,
-.selectSearchInput::-webkit-search-cancel-button,
-.selectSearchInput::-webkit-search-results-button,
-.selectSearchInput::-webkit-search-results-decoration {
-  -webkit-appearance:none;
-}
-
-.selectSearchInput[readonly] {
-  cursor: pointer;
-}
-
-.selectSearchIsDisabled .selectSearchInput {
-  cursor: not-allowed;
-}
-
-.selectSearchContainer:not(.selectSearchIsDisabled).selectSearchHasFocus .selectSearchInput,
-.selectSearchContainer:not(.selectSearchIsDisabled) .selectSearchInput:hover {
-  border-color: var(--selectSearchSelected);
-}
-
-.selectSearchSelect {
-  background: var(--selectSearchBackground);
-  box-shadow: 0 .0625rem .125rem rgba(0, 0, 0, 0.15);
-  border: 2px solid var(--selectSearchBorder);
-  overflow: auto;
-  max-height: 360px;
-}
-
-.selectSearchContainer:not(.selectSearchIsMultiple) .selectSearchSelect {
-  position: absolute;
-  z-index: 2;
-  top: 58px;
-  right: 0;
-  left: 0;
-  border-radius: 3px;
-  display: none;
-}
-
-.selectSearchContainer:not(.selectSearchIsMultiple).selectSearchHasFocus .selectSearchSelect {
-  display: block;
-}
-
-.selectSearchHasFocus .selectSearchSelect {
-  border-color: var(--selectSearchSelected);
-}
-
-.selectSearchOptions {
-  list-style: none;
-}
-
-.selectSearchOption,
-.selectSearchNotFound {
-  display: block;
-  height: 42px;
-  width: 100%;
-  padding: 0 16px;
-  background: var(--selectSearchBackground);
-  border: none;
-  outline: none;
-  font-family: var(--selectSearchFont);
-  color: var(--selectSearchText);
-  font-size: 16px;
-  text-align: left;
-  letter-spacing: 0.01rem;
-  cursor: pointer;
-  -webkit-font-smoothing: antialiased;
-}
-
-.selectSearchOption:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  background: transparent !important;
-}
-
-.selectSearchIsHighlighted,
-.selectSearchOption:not(.selectSearchIsSelected):hover {
-  background: var(--selectSearchHighlight);
-}
-
-.selectSearchIsSelected {
-  font-weight: bold;
-  color: var(--selectSearchSelected);
-}
-
-.selectSearchGroupHeader {
-  font-size: 12px;
-  text-transform: uppercase;
-  background: var(--selectSearchBorder);
-  color: var(--selectSearchSubtleText);
-  letter-spacing: 0.1rem;
-  padding: 10px 16px;
-}
-
-.selectSearchRow:not(:first-child) .selectSearchGroupHeader {
-  margin-top: 10px;
-}
-
-.selectSearchRow:not(:last-child) .selectSearchGroupHeader {
-  margin-bottom: 10px;
 }

@@ -1,114 +1,87 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import styles from './Search.module.scss'
+import React, {useEffect, useState} from 'react';
+import styles from './Search.module.scss';
+import {useDispatch, useSelector} from "react-redux";
+import {
+    FILTER_BY_SEARCH,
+    selectFilteredProduct
+} from "../../redux/slice/filterSlice";
+import {selectProducts} from "../../redux/slice/productSlice";
 import {Link} from "react-router-dom";
-// import {FcSearch} from "react-icons/fc";
 
-const Search = ({results = [], renderItem, value, onChange, onSelect,}) => {
-    const [focusedIndex, setFocusedIndex] = useState(-1);
-    const resultContainer = useRef(null);
-    const [showResults, setShowResults] = useState(false);
-    const [defaultValue, setDefaultValue] = useState("");
+const Search = () => {
+    const [inFocused, setInFocused] = useState(false);
+    const [search, setSearch] = useState('');
+    const [timeoutId, setTimeoutId] = useState(null);
+    const [linkClicked, setLinkClicked] = useState(false);
+    const filteredProducts = useSelector(selectFilteredProduct);
+    const products = useSelector(selectProducts);
+    const dispatch = useDispatch();
 
-    const handleSelection = (selectedIndex) => {
-        const selectedItem = results[selectedIndex];
-        if (!selectedItem) return resetSearchComplete();
-        onSelect && onSelect(selectedItem);
-        resetSearchComplete();
+    const handleFocus = () => {
+        setInFocused(true);
     };
 
-    const resetSearchComplete = useCallback(() => {
-        setFocusedIndex(-1);
-        setShowResults(false);
-    }, []);
-
-    const handleKeyDown = (e) => {
-        const {key} = e;
-        let nextIndexCount = 0;
-
-        // move down
-        if (key === "ArrowDown") nextIndexCount = (focusedIndex + 1) % results.length;
-
-        // move up
-        if (key === "ArrowUp") nextIndexCount = (focusedIndex + results.length - 1) % results.length;
-
-        // hide search results
-        if (key === "Escape") {
-            resetSearchComplete();
+    const handleBlur = () => {
+        if (!linkClicked) {
+            setTimeoutId(setTimeout(()=>{
+                setInFocused(false)
+            },200))
         }
-
-        // select the current item
-        if (key === "Enter") {
-            e.preventDefault();
-            handleSelection(focusedIndex);
-        }
-
-        setFocusedIndex(nextIndexCount);
+        setInFocused(false);
     };
 
-    const handleChange = (e) => {
-        setDefaultValue(e.target.value);
-        onChange && onChange(e);
-    };
+    const handleMouseEnter=()=>{
+        clearTimeout(timeoutId)
+    }
+
+    const handleContainerClick = () => {
+        setLinkClicked(false);
+    }
+
+    const handleLinkClick = () => {
+        setLinkClicked(true);
+    }
 
     useEffect(() => {
-        if (!resultContainer.current) return;
+        dispatch(FILTER_BY_SEARCH({
+            products, search
 
-        resultContainer.current.scrollIntoView({
-            block: "center",
-        });
-    }, [focusedIndex]);
+        }));
+    }, [dispatch, products, search]);
 
-    useEffect(() => {
-        if (results.length > 0 && !showResults) setShowResults(true);
 
-        if (results.length <= 0) setShowResults(false);
-    }, [results]);
-
-    useEffect(() => {
-        if (value) setDefaultValue(value);
-    }, [value]);
-
-    return (<div className={styles.selectSearchContainer}>
-        <div
-            tabIndex={1}
-            onBlur={resetSearchComplete}
-            onKeyDown={handleKeyDown}
-            className={styles.selectSearchIsMultiple}
-        >
+    return (
+        <div onClick={handleContainerClick}
+             onFocus={handleFocus}>
             <input
-                value={defaultValue}
-                onChange={handleChange}
+                className={styles.search__input}
                 type="text"
-                className={styles.selectSearchInput}
-                placeholder="Пошук продуктів..."
-            />
+                placeholder="пошук"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
 
-            {/* Search Results Container */}
-            {showResults && (<div
-                className={styles.selectSearchRow}>
-                {results.map((item, index) => {
-                    return (<Link
-                        to={''}
-                        key={index}
-                        onMouseDown={() => handleSelection(index)}
-                        ref={index === focusedIndex ? resultContainer : null}
-                        style={{
-                            backgroundColor: index === focusedIndex ? "rgb(255,255,255)" : "",
-                        }}
-                        className={styles.selectSearchOption}
-                    >
-                        {renderItem(item)}
-                    </Link>);
+            />
+            {inFocused ? <div className={styles.search__result}
+            onMouseEnter={handleMouseEnter}
+            >
+                {filteredProducts.map((product) => {
+                    const {id,name,imageURL}=product
+                    return (
+                        search.length < 2 ? null : (
+                            <Link to={`/product-details/${id}`}
+                            onClick={handleBlur}>
+                                <div className={styles.search__result_item}
+                                     key={product.id}>
+                                    <img className={styles.img}
+                                         src={imageURL} alt=""/>
+                                    <p className={styles.name}>{name}</p>
+                                </div>
+                            </Link>)
+                    );
                 })}
-            </div>)}
+            </div> : null}
         </div>
-    </div>);
+    );
 };
 
-
 export default Search;
-
-//  <div className={styles.search}>
-//             <FcSearch size={22} className={styles.icon}/>
-//             <input type="text" placeholder='Пошук' value={value} onChange={onChange}/>
-//         </div>
