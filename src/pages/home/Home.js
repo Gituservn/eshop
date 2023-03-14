@@ -7,6 +7,7 @@ import {motion} from 'framer-motion';
 import BrandSlogan from "../../components/brandSlogan/BrandSlogan";
 import DiscountBtn from "../../components/discountBtn/discountBtn";
 import Slider from "../../components/Slider/Slider";
+import Reviews from "../../components/reviews/Reviews";
 
 
 const Home = () => {
@@ -41,8 +42,7 @@ const Home = () => {
             <BrandSlogan/>
 
             <Slider/>
-
-
+            <Reviews/>
         </motion.div>
     );
 };

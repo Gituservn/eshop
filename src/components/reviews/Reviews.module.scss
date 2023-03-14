@@ -1,0 +1,39 @@
+.reviews {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  &__img {
+    width: 300px;
+  }
+
+  &__wrapper {
+align-items: center;
+    display: flex;
+    flex-direction: column;
+
+    img {
+      width: 250px;
+    }
+
+    &_form {
+
+    }
+  }
+  &__btn{
+    margin: 10px 0 10px 0;
+    width: 200px;
+    height: 30px;
+    padding: 8px 24px;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    border-radius: 5px;
+    transition: 0.3s all;
+    cursor: pointer;
+
+    &:hover {
+      background: #cebeaf;
+    }
+  }
+}
