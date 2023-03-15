@@ -10,13 +10,29 @@
   }
 
   &__wrapper {
-align-items: center;
+    align-items: center;
     display: flex;
     flex-direction: column;
-
-    img {
-      width: 250px;
+    &_title{
+      margin-bottom: 30px;
+      font-weight: 400;
+      max-width: 850px;
+      text-align: center;
     }
+    &_container{
+      position: relative;
+      img {
+        width: 310px;
+      }
+      .time{
+        font-family: 'Roboto', sans-serif;
+        font-weight: 600;
+        position: absolute;
+        top: 18px;
+        left: 40px;
+      }
+    }
+
 
     &_form {
 
@@ -34,6 +50,16 @@ align-items: center;
 
     &:hover {
       background: #cebeaf;
+    }
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .reviews{
+    &__wrapper{
+      &_title{
+        font-size: 15px;
+      }
     }
   }
 }

@@ -4,6 +4,8 @@ import './ReviewsModal.scss';
 import {addDoc, collection, Timestamp} from "firebase/firestore";
 import {db} from "../../firebase/Config";
 import {AiOutlineCloseSquare} from "react-icons/ai";
+import ShowOnLogin, {ShowOnLogout} from "../hiddenLink/hiddenLink";
+import {Link, NavLink} from "react-router-dom";
 
 const ReviewsModal = ({openModal, setOpenModal}) => {
     const [review, setReview] = useState({
@@ -56,55 +58,68 @@ const ReviewsModal = ({openModal, setOpenModal}) => {
 
         >
             <div className="modal_main" onClick={stopPropagation}>
-                <form onSubmit={addReview}>
-                    <div className="form__wrapper">
-                        <AiOutlineCloseSquare className='form__wrapper_exit' size={20} onClick={()=>{setOpenModal(false)}}/>
-                        <div className="form__wrapper_section">
-                            <div className="form__wrapper_section_title">
-                                <h2>1</h2>
-                                <p>Особисті данні</p>
+                <ShowOnLogin>
+                    <form onSubmit={addReview}>
+                        <div className="form__wrapper">
+                            <AiOutlineCloseSquare className='form__wrapper_exit' size={20} onClick={()=>{setOpenModal(false)}}/>
+                            <div className="form__wrapper_section">
+                                <div className="form__wrapper_section_title">
+                                    <h2>1</h2>
+                                    <p>Особисті данні</p>
+                                </div>
+                                <input
+                                    type="email"
+                                    placeholder="Ваш email"
+                                    name="email"
+                                    required
+                                    defaultValue={review.email}
+                                    onChange={(e) => handleReviewsChange(e)}
+                                />
+                                <input
+                                    type="text"
+                                    placeholder="Ваше Ім'я"
+                                    name="name"
+                                    required
+                                    defaultValue={review.name}
+                                    onChange={(e) => handleReviewsChange(e)}
+                                />
+                                <input
+                                    type="text"
+                                    placeholder="Ваше місто"
+                                    name="city"
+                                    required
+                                    defaultValue={review.city}
+                                    onChange={(e) => handleReviewsChange(e)}
+                                />
                             </div>
-                            <input
-                                type="email"
-                                placeholder="Ваш email"
-                                name="email"
-                                required
-                                defaultValue={review.email}
-                                onChange={(e) => handleReviewsChange(e)}
-                            />
-                            <input
-                                type="text"
-                                placeholder="Ваше Ім'я"
-                                name="name"
-                                required
-                                defaultValue={review.name}
-                                onChange={(e) => handleReviewsChange(e)}
-                            />
-                            <input
-                                type="text"
-                                placeholder="Ваше місто"
-                                name="city"
-                                required
-                                defaultValue={review.city}
-                                onChange={(e) => handleReviewsChange(e)}
-                            />
-                        </div>
 
-                        <div className="form__wrapper_section">
-                            <div className="form__wrapper_section_title">
-                                <h2>2</h2>
-                                <p>ваш відгух</p>
+                            <div className="form__wrapper_section">
+                                <div className="form__wrapper_section_title">
+                                    <h2>2</h2>
+                                    <p>ваш відгух</p>
+                                </div>
+                                <textarea
+                                    placeholder="Напишіть ваш відгук"
+                                    name="review"
+                                    required
+                                    defaultValue={review.review}
+                                    onChange={(e) => handleReviewsChange(e)}/>
                             </div>
-                            <textarea
-                                placeholder="Напишіть ваш відгук"
-                                name="review"
-                                required
-                                defaultValue={review.review}
-                                onChange={(e) => handleReviewsChange(e)}/>
                         </div>
-                    </div>
-                    <button>Відправити відгук</button>
-                </form>
+                        <button className='--btn-modal'>Відправити відгук</button>
+                    </form>
+                </ShowOnLogin>
+                <ShowOnLogout>
+                   <div className='logout'>
+                       <h3>Тільки авторизовані користувачі можуть залишати відгуки</h3>
+                       <div>
+                           <NavLink className='--btn-modal' to="/login"
+                                    >Увійти</NavLink>
+                           <p>Немає облікового запису? <Link className='--btn-modal'
+                               to="/register">Зареєструватись</Link> </p>
+                       </div>
+                   </div>
+                </ShowOnLogout>
             </div>
         </motion.div>
     );
