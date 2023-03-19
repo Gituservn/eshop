@@ -23,13 +23,15 @@ import {BsFillHandbagFill} from "react-icons/bs";
 import products from "../products/Product";
 import useFetch from "../../customHook/useFetch";
 import Search from "../search/Search";
+import CartModal from "../cartModal/CartModal";
 
 
-const logo = (<div className="logo">
-    <Link to="/">
-        <img className={styles.logo} src={Logo} alt="logo"/>
-    </Link>
-</div>);
+const logo = (
+    <div className="logo">
+        <Link to="/">
+            <img className={styles.logo} src={Logo} alt="logo"/>
+        </Link>
+    </div>);
 
 const activeLink = (({isActive}) => (isActive ? `${styles.active}` : ''));
 
@@ -40,12 +42,12 @@ const Header = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [displayName, setDisplayName] = useState('');
     const [scrollPage, setScrollPage] = useState(false);
+    const [openCartModal, setOpenCartModal] = useState(false);
     const cartTotalQuantity = useSelector(selectCartTotalQuantity);
     const dispatch = useDispatch();
 
 // search
     const [results, setResults] = useState('');
-    const [selectedProfile, setSelectedProfile] = useState('');
 
     const handleChange = (e) => {
         const {target} = e;
@@ -116,16 +118,22 @@ const Header = () => {
 
     // window.addEventListener('scroll',fixNavbar)
 
+
     const cart = (
 
         <ShowOnLogin>
-        <span className={styles.cart}>
-            <NavLink
-                to="/cart"
-                className={activeLink}> <span>Кошик</span> <BsFillHandbagFill
-                size={20}
-                color="#A78C70"/> <p>{cartTotalQuantity}</p> </NavLink>
+        <span className={styles.cart} onClick={() => {
+            setOpenCartModal(true);
+        }}>
+            <div
 
+                className={styles.cart__btn}
+
+            >
+                <BsFillHandbagFill
+                    size={20}
+                    color="#A78C70"/>
+                <p>{cartTotalQuantity}</p> </div>
         </span>
         </ShowOnLogin>);
     return (<>
@@ -133,7 +141,13 @@ const Header = () => {
 
         <header className={scrollPage ? `${styles.fixed}` : null}>
             <div className={styles.header}>
-                {logo}
+                <div>
+                    {logo}
+
+                    <HiMenuAlt3 className={styles.hamburger} color="#5C473D"
+                                size={40} onClick={toggleMenu}/>
+                </div>
+
                 <div className={styles.header__wrapper}>
                     <nav
                         className={showMenu ? `${styles["show-nav"]}` : `${styles["hide-menu"]}`}>
@@ -179,6 +193,11 @@ const Header = () => {
                                     <NavLink to="/toppers"
                                              className={activeLink}>Наматрацники</NavLink>
                                 </li>
+                                <li>
+                                    <ShowOnLogin>
+                                        <NavLink to="/cart">Кошик</NavLink>
+                                    </ShowOnLogin>
+                                </li>
 
 
                                 <li>
@@ -187,45 +206,54 @@ const Header = () => {
                                         з нами</NavLink>
                                 </li>
 
+
                             </ul>
                             {/*Створив компонент передав пропси сюди*/}
 
                         </div>
                         <div className={styles.header_right}
                              onClick={hideMenu}>
+
                             <div className={styles.header_right__wrapper}>
-                            <span className={styles.links}>
-                            <ShowOnLogout>
-                                <NavLink to="/login"
-                                         className={activeLink}>Увійти</NavLink>
-                            <NavLink to="/register"
-                                     className={activeLink}>Реєстрація</NavLink>
-                            </ShowOnLogout>
+                                    <span className={styles.links}>
+                                    <ShowOnLogout>
+                                        <NavLink to="/login"
+                                                 className={activeLink}>Увійти</NavLink>
+                                    <NavLink to="/register"
+                                             className={activeLink}>Реєстрація</NavLink>
+                                    </ShowOnLogout>
 
-                            <ShowOnLogin>
-                                <NavLink
-                                    to="/orderHistory"
-                                    className={activeLink}>Мої замовлення</NavLink>
-                            </ShowOnLogin>
+                                    <ShowOnLogin>
+                                        <NavLink
+                                            to="/orderHistory"
+                                            className={activeLink}>Мої замовлення</NavLink>
+                                    </ShowOnLogin>
 
-                            <ShowOnLogin>
-                                <NavLink to="/"
-                                         onClick={logoutUser}>Вийти</NavLink>
-                            </ShowOnLogin>
+                                    <ShowOnLogin>
+                                        <NavLink to="/"
+                                                 onClick={logoutUser}>Вийти
+                                        </NavLink>
+                                    </ShowOnLogin>
 
-                        </span>
-                                {/*{cart}*/}
+                                </span>
                             </div>
-
                         </div>
+                        <div className={styles.cart__none}>
+                            {cart}
+                        </div>
+
+
                     </nav>
+                    {openCartModal && <CartModal
+                        openCartModal={openCartModal}
+                        setOpenCartModal={setOpenCartModal}/>}
                     <Search/>
                 </div>
 
 
                 <div className={styles['menu-icon']}>
                     {cart}
-                    <HiMenuAlt3 color="#5C473D" size={40} onClick={toggleMenu}/>
+
                 </div>
 
             </div>

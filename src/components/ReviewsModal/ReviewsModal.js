@@ -1,11 +1,14 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import {motion} from "framer-motion";
 import './ReviewsModal.scss';
 import {addDoc, collection, Timestamp} from "firebase/firestore";
-import {db} from "../../firebase/Config";
+import {auth, db} from "../../firebase/Config";
 import {AiOutlineCloseSquare} from "react-icons/ai";
 import ShowOnLogin, {ShowOnLogout} from "../hiddenLink/hiddenLink";
 import {Link, NavLink} from "react-router-dom";
+import {REMOVE_ACTIVE_USER, SET_ACTIVE_USER} from "../../redux/slice/authSlice";
+import {useDispatch} from "react-redux";
+import {onAuthStateChanged} from "firebase/auth";
 
 const ReviewsModal = ({openModal, setOpenModal}) => {
     const [review, setReview] = useState({
@@ -13,8 +16,38 @@ const ReviewsModal = ({openModal, setOpenModal}) => {
         name: '',
         city: '',
         review: '',
-
     });
+    const [displayName, setDisplayName] = useState('');
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+
+                if (user.displayName == null) {
+                    const ul = user.email.slice(0, user.email.indexOf("@"));
+                    const uName = ul.charAt(0).toUpperCase() + ul.slice(1);
+
+                    setDisplayName(uName);
+                } else {
+                    setDisplayName(user.displayName);
+                }
+
+
+                dispatch(SET_ACTIVE_USER({
+                    email: user.email,
+                    userName: user.displayName ? user.displayName : displayName,
+                    userId: user.uid,
+
+                }));
+            } else {
+                setDisplayName('');
+                dispatch(REMOVE_ACTIVE_USER());
+            }
+        });
+    }, [dispatch, displayName]);
+
     const handleReviewsChange = (e) => {
         const {name, value} = e.target;
         setReview({...review, [name]: value});
@@ -28,7 +61,9 @@ const ReviewsModal = ({openModal, setOpenModal}) => {
                 name: review.name,
                 city: review.city,
                 review: review.review,
-                createdAt: Timestamp.now().toDate()
+                createdAt: Timestamp.now().toDate(),
+                displayName:displayName
+
             });
             setReview(review);
 
@@ -52,9 +87,13 @@ const ReviewsModal = ({openModal, setOpenModal}) => {
         <motion.div
             className="modal"
             onClick={closeModal}
-            initial={{opacity: 0, scale: 0.9}}
-            animate={{opacity: 1, scale: 1}}
-            exit={{opacity: 0, scale: 0.9}}
+            initial={{ scale: 0 }}
+            animate={{ rotate: 360, scale: 1 }}
+            transition={{
+                type: "spring",
+                stiffness: 260,
+                damping: 20
+            }}
 
         >
             <div className="modal_main" onClick={stopPropagation}>

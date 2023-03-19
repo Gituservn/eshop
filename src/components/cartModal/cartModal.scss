@@ -1,0 +1,45 @@
+.modalCart {
+
+  position: absolute;
+  z-index: 1;
+  right: 10px;
+  top: 45px;
+
+  &_main {
+
+    background-color: rgba(215, 192, 178, 0.95);
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 5px;
+    width: 501px;
+    height: 649.86px;
+    &_cart{
+      .modalCart__header{
+        display: flex;
+        justify-content: space-between;
+        &_title{
+          font-size: 20px;
+        }
+        &_quantity{
+          font-size: 20px;
+          color: black;
+        }
+
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .modalCart {
+    top: 20px;
+    width: 70%;
+    height: 80vh;
+    &_main {
+      width: 95%;
+      height: 100%;
+    }
+  }
+}
+
+
