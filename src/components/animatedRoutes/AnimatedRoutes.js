@@ -38,7 +38,6 @@ const AnimatedRoutes = () => {
                     <AdminOnlyRoute>
                         <Admin/>
                     </AdminOnlyRoute>}/>
-
                 <Route path="/product-details/:id" element={<ProductDetails/>}/>
                 <Route path="/cart" element={<Cart/>}/>
                 <Route path="/checkout-details" element={<CheckoutDetails/>}/>

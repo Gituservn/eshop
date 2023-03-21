@@ -31,7 +31,6 @@ function App() {
                    <AnimatedRoutes/>
                     <Footer/>
                 </BrowserRouter>
-
         </div>
 
     );

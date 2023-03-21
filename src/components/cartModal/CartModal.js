@@ -55,24 +55,43 @@ const CartModal = ({setOpenCartModal, openCartModal}) => {
     const checkout = () => {
         if (isLoggedIn) {
             navigate('/checkout-details');
+            setOpenCartModal(false)
         } else {
             dispatch(SAVE_URL(url));
             navigate('/login');
         }
     };
-    const closeCartModal = (e) => {
-        if (e.target.className === 'cart__modal') {
-            setOpenCartModal(false);
-        }
-    };
+
 
     const stopPropagation = (e) => {
         e.stopPropagation();
     };
 
+    const container = {
+        hidden: { opacity: 1, scale: 0 },
+        visible: {
+            opacity: 1,
+            scale: 1,
+            transition: {
+                delayChildren: 0.2,
+                staggerChildren: 0.1
+            }
+        }
+    };
+
+    const items = {
+        hidden: { y: 20, opacity: 0 },
+        visible: {
+            y: 0,
+            opacity: 1
+        }
+    };
 
     return (
         <motion.div
+            variants={container}
+            initial="hidden"
+            animate="visible"
             className="modalCart">
             <div className="box"></div>
             <div className="modalCart__header">
@@ -91,9 +110,14 @@ const CartModal = ({setOpenCartModal, openCartModal}) => {
                             </>
                         ) : (<>
                             {cartItems.map((item, index) => {
+
                                 return (
-                                    <div key={index + 1}
-                                         className="modalCart__item">
+
+                                    <motion.div
+                                        key={index + 1}
+                                        className="modalCart__item"
+                                        variants={items}
+                                    >
                                         <div
                                             className="modalCart__item_wrapper">
                                             <div
@@ -104,10 +128,10 @@ const CartModal = ({setOpenCartModal, openCartModal}) => {
 
                                             <div
                                                 className="modalCart__item_wrapper_desc">
-                                                <h3 className="title">{item.product.name}</h3>
-                                                <p>{item.currentSize}</p>
-                                                <p>{item.currentSizePillow}</p>
-                                                <p>{item.currentPrice === null ? item.currentPillowPrice : item.currentPrice} грн.</p>
+                                                <h3 className="title">{item.product.name},{item.currentSize},{item.currentSizePillow}</h3>
+                                                <p>Ціна за одиницю: <b>{item.currentPrice === null ? item.currentPillowPrice : item.currentPrice}</b> грн.</p>
+                                                <p>Загальна ціна: <b>{((item.currentPrice === null ? item.currentPillowPrice : item.currentPrice)
+                                                    * item.cartQuantity).toFixed(2)}</b> грн.</p>
                                                 <div className='btn__group'>
                                                     <div className="count">
                                                         <button
@@ -124,12 +148,10 @@ const CartModal = ({setOpenCartModal, openCartModal}) => {
                                                     </div>
                                                     <FaTrashAlt size={19} color='red' onClick={() => removeFromCart(item)}/>
                                                 </div>
-
-
                                             </div>
                                         </div>
                                         <hr/>
-                                    </div>
+                                    </motion.div>
                                 );
                             })}
                         </>)}
@@ -150,10 +172,8 @@ const CartModal = ({setOpenCartModal, openCartModal}) => {
                     </div>
                 </ShowOnLogout>
             </div>
-            <h3>{`₴${cartTotalAmount.toFixed(2)}`}</h3>
-            <button className='modalCart__btn' onClick={() => {
-                setOpenCartModal(false);
-            }}>продовжити покупки
+            <h3 className='modalCart__total'>Сума до сплати: <span>{`₴${cartTotalAmount.toFixed(2)}`}</span></h3>
+            <button className='modalCart__btn' onClick={checkout} >Оформити замовлення
             </button>
         </motion.div>
     );

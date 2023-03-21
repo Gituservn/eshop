@@ -83,10 +83,10 @@ const CheckoutDetails = () => {
         <motion.section
             initial={{opacity:0}}
             animate={{opacity:1}}
-            exit={{opacity:0,transition:{duration:0.1}}}>>
+            exit={{opacity:0,transition:{duration:0.1}}}>
             <div className={`container ${styles.checkout}`}>
                 <h2>Оформлення замовлення</h2>
-                <form onSubmit={handleSubmit}>
+                <form className={styles.checkout__form} onSubmit={handleSubmit}>
                     <div>
                         <Card cardClass={styles.card}>
                             <label>Прізвище Одержувача</label>

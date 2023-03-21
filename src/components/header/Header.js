@@ -123,7 +123,7 @@ const Header = () => {
 
         <ShowOnLogin>
         <span className={styles.cart} onClick={() => {
-            setOpenCartModal(true);
+            setOpenCartModal(!openCartModal);
         }}>
             <div
 

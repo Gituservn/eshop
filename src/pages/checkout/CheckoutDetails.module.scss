@@ -12,13 +12,11 @@
     }
   }
 
-  form {
+  &__form {
     width: 100%;
     display: flex;
+    justify-content: center;
 
-    div {
-      width: 100%;
-    }
 
     label {
       display: block;
