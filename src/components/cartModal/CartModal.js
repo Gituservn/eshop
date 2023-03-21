@@ -172,9 +172,9 @@ const CartModal = ({setOpenCartModal, openCartModal}) => {
                     </div>
                 </ShowOnLogout>
             </div>
-            <h3 className='modalCart__total'>Сума до сплати: <span>{`₴${cartTotalAmount.toFixed(2)}`}</span></h3>
-            <button className='modalCart__btn' onClick={checkout} >Оформити замовлення
-            </button>
+            {cartItems.length ===0? null: <h3 className='modalCart__total'>Сума до сплати: <span>{`₴${cartTotalAmount.toFixed(2)}`}</span></h3>}
+            {cartItems.length===0?(<button className='modalCart__btn' onClick={()=>setOpenCartModal(false)}>Продовжити покупки</button>):( <button className='modalCart__btn' onClick={checkout} >Оформити замовлення</button>)}
+
         </motion.div>
     );
 };
