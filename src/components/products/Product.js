@@ -10,6 +10,7 @@ import {FaCogs} from "react-icons/fa";
 const Product = () => {
     const{data,isLoading} = useFetch("products","category")
     const [showFilter, setShowFilter] = useState(false);
+
     const products = useSelector(selectProducts)
 
     const dispatch = useDispatch()

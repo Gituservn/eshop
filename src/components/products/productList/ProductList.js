@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {FILTER_BY_SEARCH, selectFilteredProduct,SORT_PRODUCTS} from "../../../redux/slice/filterSlice";
 import Pagination from "../../pagination/Pagination";
 
-const ProductList = ({products}) => {
+const ProductList = ({products,onProductClick}) => {
 
     const [search, setSearch] = useState('');
     const [grid, setGrid] = useState(true)
@@ -80,7 +80,7 @@ const ProductList = ({products}) => {
 
                         return (
                             <div key={product.id}>
-                                <ProductItem {...product} grid={grid} products={products}/>
+                                <ProductItem {...product} grid={grid} products={products} />
                             </div>
                         )
                     })}</>

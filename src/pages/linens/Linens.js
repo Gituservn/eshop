@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from "../home/Home.module.scss";
 import pillows from "../../assets/Pillow.png";
 import ProductItem from "../../components/products/productItem/ProductItem";
@@ -14,8 +14,7 @@ import {motion} from "framer-motion";
 
 const Linens = () => {
     const{data,isLoading} = useFetch("products","category")
-
-
+    const [selectedProduct, setSelectedProduct] = useState(null);
     const products = useSelector(selectProducts)
     const dispatch = useDispatch()
 
@@ -31,8 +30,11 @@ const Linens = () => {
     }, [dispatch,data]);
 
     const linen =products.filter(item=>item.category.includes('Постільна білизна'))
-    console.log(linen);
 
+    const handleSelectedProduct = (selectedProductData) => {
+      setSelectedProduct(selectedProductData)
+    }
+    console.log(selectedProduct);
     return (
         <motion.div
             initial={{opacity:0}}
@@ -46,7 +48,7 @@ const Linens = () => {
                 {linen.map((product)=>{
                     return(
                         <div key={product.id}>
-                            <ProductItem {...product} products={products}/>
+                            <ProductItem {...product} products={products} onSelectedProductData={handleSelectedProduct}/>
                         </div>
                     )
                 })}

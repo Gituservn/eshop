@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import pillows from '../../assets/Pillow.png'
 import styles from "../home/Home.module.scss";
 import {useDispatch, useSelector} from "react-redux";
@@ -10,11 +10,12 @@ import {
 import useFetch from "../../customHook/useFetch";
 import ProductItem from "../../components/products/productItem/ProductItem";
 import {motion} from "framer-motion";
+import ProductModal from "../../components/productModal/ProductModal";
 
 const Pillow = () => {
     const{data,isLoading} = useFetch("products","category")
-
-
+    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [openProductModal, setOpenProductModal] = useState(false);
     const products = useSelector(selectProducts)
     const dispatch = useDispatch()
 
@@ -30,7 +31,13 @@ const Pillow = () => {
     }, [dispatch,data]);
 
     const pillow =products.filter(item=>item.category.includes('Подушки'))
+
+    const handleSelectedProduct = (selectedProductData) => {
+        setSelectedProduct(selectedProductData)
+    }
+
     console.log(pillow);
+    console.log(selectedProduct);
     return (
         <motion.div
             initial={{opacity:0}}
@@ -44,11 +51,12 @@ const Pillow = () => {
                 {pillow.map((product)=>{
                     return(
                         <div key={product.id}>
-                            <ProductItem {...product} products={products}/>
+                            <ProductItem {...product} products={products} onSelectedProductData={handleSelectedProduct} setOpenProductModal={setOpenProductModal} />
                         </div>
                     )
                 })}
             </div>
+            {openProductModal && <ProductModal openProductModal={openProductModal} setOpenProductModal={setOpenProductModal} modalData={selectedProduct}/>}
         </motion.div>
     );
 };

@@ -1,10 +1,13 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Card from "../../card/Card";
 import styles from './ProductItem.module.scss'
 import {Link} from "react-router-dom";
 
-const ProductItem = ({grid, products, id, name, priceOne,priceEuro,pillowPrice40,pillowPrice50,pillowPrice60,pillowPrice70, desc, imageURL, brand}) => {
-
+const ProductItem = ({grid, products, id, name, priceOne,priceEuro,pillowPrice40,pillowPrice50,pillowPrice60,pillowPrice70, desc, imageURL,onSelectedProductData,setOpenProductModal}) => {
+    const product ={
+        id, name, priceOne,priceEuro,pillowPrice40,pillowPrice50,pillowPrice60,pillowPrice70, desc, imageURL
+    }
+    const [selectedProductData, setSelectedProductData] = useState(product);
     const shortenText = (text, n) => {
       if (text.length > n){
           const shortText = text.substring(0,n).concat("...")
@@ -12,6 +15,16 @@ const ProductItem = ({grid, products, id, name, priceOne,priceEuro,pillowPrice40
       }
       return text
     }
+
+
+
+
+    const handleClick = async () => {
+        await setSelectedProductData(product)
+        await onSelectedProductData(selectedProductData)
+        await setOpenProductModal(true)
+    }
+
     return (
         <div className={styles.itemWrapper}>
             <div className={styles.details}>
@@ -27,6 +40,8 @@ const ProductItem = ({grid, products, id, name, priceOne,priceEuro,pillowPrice40
                 <h4 title={name}>{shortenText(name,218)}</h4>
                 {!grid && <p className={styles.desc}>{shortenText(desc,300)}</p>}
                 <Link to={`/product-details/${id}`} className='--btn --btn-danger'>Придбати</Link>
+                <button onClick={handleClick}>askhjfbkajf</button>
+
             </div>
         </div>
 
