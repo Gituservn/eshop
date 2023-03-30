@@ -11,10 +11,12 @@ import {
 } from "../../redux/slice/productSlice";
 
 import {motion} from "framer-motion";
+import ProductModal from "../../components/productModal/ProductModal";
 
 const Linens = () => {
     const{data,isLoading} = useFetch("products","category")
     const [selectedProduct, setSelectedProduct] = useState(null);
+    const [openProductModal, setOpenProductModal] = useState(false);
     const products = useSelector(selectProducts)
     const dispatch = useDispatch()
 
@@ -34,6 +36,7 @@ const Linens = () => {
     const handleSelectedProduct = (selectedProductData) => {
       setSelectedProduct(selectedProductData)
     }
+    console.log(products);
     console.log(selectedProduct);
     return (
         <motion.div
@@ -48,11 +51,14 @@ const Linens = () => {
                 {linen.map((product)=>{
                     return(
                         <div key={product.id}>
-                            <ProductItem {...product} products={products} onSelectedProductData={handleSelectedProduct}/>
+                            <ProductItem {...product} products={products} onSelectedProductData={handleSelectedProduct}
+                                         setOpenProductModal={setOpenProductModal}
+                            />
                         </div>
                     )
                 })}
             </div>
+            {openProductModal && <ProductModal openProductModal={openProductModal} setOpenProductModal={setOpenProductModal} modalData={selectedProduct}/>}
         </motion.div>
     );
 };

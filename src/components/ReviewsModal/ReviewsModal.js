@@ -84,19 +84,22 @@ const ReviewsModal = ({openModal, setOpenModal}) => {
     };
 
     return (
-        <motion.div
+        <div
             className="modal"
             onClick={closeModal}
-            initial={{ scale: 0 }}
-            animate={{ rotate: 360, scale: 1 }}
-            transition={{
-                type: "spring",
-                stiffness: 260,
-                damping: 20
-            }}
+
 
         >
-            <div className="modal_main" onClick={stopPropagation}>
+            <motion.div
+                initial={{ scale: 0 }}
+                animate={{ rotate: 360, scale: 1 }}
+                transition={{
+                    type: "spring",
+                    stiffness: 260,
+                    damping: 20
+                }}
+                className="modal_main"
+                onClick={stopPropagation}>
                 <ShowOnLogin>
                     <form onSubmit={addReview}>
                         <div className="form__wrapper">
@@ -145,7 +148,7 @@ const ReviewsModal = ({openModal, setOpenModal}) => {
                                     onChange={(e) => handleReviewsChange(e)}/>
                             </div>
                         </div>
-                        <button className='--btn-modal'>Відправити відгук</button>
+                        <button className='--btn-modal'>Відправити</button>
                     </form>
                 </ShowOnLogin>
                 <ShowOnLogout>
@@ -159,8 +162,8 @@ const ReviewsModal = ({openModal, setOpenModal}) => {
                        </div>
                    </div>
                 </ShowOnLogout>
-            </div>
-        </motion.div>
+            </motion.div>
+        </div>
     );
 };
 

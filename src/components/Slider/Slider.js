@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import useFetch from "../../customHook/useFetch";
@@ -7,9 +7,12 @@ import {selectProducts, STORE_PRODUCTS} from "../../redux/slice/productSlice";
 import style from './Slider.module.scss';
 import {Link} from "react-router-dom";
 import productImage from '../../assets/image.psd-removebg-preview.png'
+import ProductModal from "../productModal/ProductModal";
+import ProductItem from "../products/productItem/ProductItem";
 const Slider = () => {
     const {data, isLoading} = useFetch("products", "category");
-
+    const [openProductModal, setOpenProductModal] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState(null);
     const products = useSelector(selectProducts);
     const dispatch = useDispatch();
 
@@ -39,6 +42,9 @@ const Slider = () => {
 
         }
     };
+    const handleSelectedProduct = (selectedProductData) => {
+        setSelectedProduct(selectedProductData)
+    }
     return (
         <div className={style.slider}>
             <div className={style.slider__titleImage}>
@@ -51,8 +57,8 @@ const Slider = () => {
                 autoPlaySpeed={4000}
                 responsive={responsive}>
 
-                {products.map((item) => {
-                    console.log(item);
+                {products.map((product) => {
+                    console.log(product);
                     const {
                         id,
                         name,
@@ -64,7 +70,7 @@ const Slider = () => {
                         pillowPrice50,
                         pillowPrice70,
                         pillowPrice60
-                    } = item;
+                    } = product;
                     const prices = [
                         priceOne, priceTwo, priceEuro, pillowPrice40, pillowPrice50, pillowPrice70, pillowPrice60
                     ];
@@ -76,18 +82,15 @@ const Slider = () => {
 
                     return (
                         <div className={style.slide} key={id}>
-                            <p className={style.slide__price}>Ціна
-                                від <span>{minPrice} грн</span></p>
-                            <img
-                                src={imageURL} alt=""/>
-                            <p className={style.slide__name}>{name}</p>
-
-                            <Link to={`/product-details/${id}`}
-                                  className={style.slide__btn}>докладніше</Link>
+                           <ProductItem {...product} products={products} onSelectedProductData={handleSelectedProduct}
+                                         setOpenProductModal={setOpenProductModal}
+                            />
                         </div>
+
                     );
                 })}
             </Carousel>
+            {openProductModal && <ProductModal openProductModal={openProductModal} setOpenProductModal={setOpenProductModal} modalData={selectedProduct}/>}
         </div>
 
     );

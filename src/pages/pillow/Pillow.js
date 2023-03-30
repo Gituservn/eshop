@@ -13,7 +13,7 @@ import {motion} from "framer-motion";
 import ProductModal from "../../components/productModal/ProductModal";
 
 const Pillow = () => {
-    const{data,isLoading} = useFetch("products","category")
+    const{data,isLoading} = useFetch("products","category");
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [openProductModal, setOpenProductModal] = useState(false);
     const products = useSelector(selectProducts)
@@ -35,7 +35,6 @@ const Pillow = () => {
     const handleSelectedProduct = (selectedProductData) => {
         setSelectedProduct(selectedProductData)
     }
-
     console.log(pillow);
     console.log(selectedProduct);
     return (
