@@ -8,28 +8,7 @@
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.25);
 
-  .changeSizeButton {
-    padding: 0 10px;
-    margin: 5px;
-    height: 30px;
-    min-width: 30%;
-    border: 1px solid #A78C70;
-    border-radius: 100px;
-    transition: all 0.3s;
-    cursor: pointer;
-    &__active{
-      padding: 0 10px;
-      margin: 5px;
-      height: 30px;
-      min-width: 30%;
-      border: 1px solid #A78C70;
-      border-radius: 100px;
-      background: #A78C70;
-    }
-    &:hover{
-      background: #A78C70;
-    }
-  }
+
 
 
 
@@ -46,7 +25,8 @@
     &_exit {
       cursor: pointer;
       position: absolute;
-      right: 5px;
+      top: 15px;
+      right: 15px;
       z-index: 999;
     }
 
@@ -72,9 +52,37 @@
           text-align: center;
         }
 
-        &_btnGroup {
+        &__btnGroup {
           display: flex;
+          flex-direction: column;
           justify-content: space-between;
+          text-align: center;
+          .changeSizeButton {
+            padding: 0 10px;
+            margin: 5px;
+            height: 30px;
+            width: auto;
+            border: 1px solid #A78C70;
+            border-radius: 100px;
+            transition: all 0.3s;
+            cursor: pointer;
+            &__active{
+              padding: 0 10px;
+              margin: 5px;
+              height: 30px;
+
+              border: 1px solid #A78C70;
+              border-radius: 100px;
+              background: #A78C70;
+            }
+            &:hover{
+              background: #A78C70;
+            }
+          }
+          &_linensSize{
+            display: flex;
+            justify-content: space-between;
+          }
         }
       }
     }

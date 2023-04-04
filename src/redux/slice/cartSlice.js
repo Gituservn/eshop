@@ -38,6 +38,7 @@ const cartSlice = createSlice({
             }
             //зберігаєм в LS
             localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
+            console.log(action.payload);
         },
 
         INCREASE_CART(state, action) {

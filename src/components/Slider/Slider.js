@@ -5,7 +5,7 @@ import useFetch from "../../customHook/useFetch";
 import {useDispatch, useSelector} from "react-redux";
 import {selectProducts, STORE_PRODUCTS} from "../../redux/slice/productSlice";
 import style from './Slider.module.scss';
-import {Link} from "react-router-dom";
+
 import productImage from '../../assets/image.psd-removebg-preview.png'
 import ProductModal from "../productModal/ProductModal";
 import ProductItem from "../products/productItem/ProductItem";
@@ -58,7 +58,7 @@ const Slider = () => {
                 responsive={responsive}>
 
                 {products.map((product) => {
-                    console.log(product);
+
                     const {
                         id,
                         name,
@@ -78,7 +78,7 @@ const Slider = () => {
                     const nonZeroPrice = prices.filter(num => typeof num === 'number' && num !== 0 && !isNaN(num));
 
                     const minPrice = Math.min(...nonZeroPrice);
-                    console.log(minPrice);
+
 
                     return (
                         <div className={style.slide} key={id}>

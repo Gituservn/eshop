@@ -36,8 +36,7 @@ const Linens = () => {
     const handleSelectedProduct = (selectedProductData) => {
       setSelectedProduct(selectedProductData)
     }
-    console.log(products);
-    console.log(selectedProduct);
+
     return (
         <motion.div
             initial={{opacity:0}}
